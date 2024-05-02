@@ -1,15 +1,16 @@
 "use client";
-
 import Link from "next/link";
+import { useSearchParams, usePathname } from "next/navigation";
 
-const { useSearchParams } = require("next/navigation");
-
-export default function LinkHeader({categoryName}) {
+export default function LinkHeader({ categoryName, className = "" }) {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   return (
     <Link
-      className="border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+      className={`${className} ${
+        pathname.split("/")[2] === categoryName ? "font-bold" : ""
+      }`}
       href={`/home/${categoryName}?${searchParams.toString()}`}
     >
       {categoryName}

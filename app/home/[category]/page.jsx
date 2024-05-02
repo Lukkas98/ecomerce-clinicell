@@ -4,7 +4,9 @@ import { getCategoryName, getProducts } from "@/lib/actions";
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;
 
-  if (category === "all") {
+  // console.log("searchParams: ", searchParams);
+
+  if (category === "todos") {
     const products = await getProducts()
     return (
       <>
