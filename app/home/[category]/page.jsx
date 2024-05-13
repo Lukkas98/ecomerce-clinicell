@@ -1,16 +1,24 @@
 import Category from "@/components/category";
-import { getCategoryName, getProducts } from "@/lib/actions";
+import { getCategoryName, getProducts, searchProducts } from "@/lib/actions";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;
+  const { search } = searchParams
 
-  // console.log("searchParams: ", searchParams);
+  if (search) {
+    const products = await searchProducts(search)
+    return (
+      <>
+        <Category products={products} searchParams={searchParams} />
+      </>
+    );
+  }
 
   if (category === "todos") {
     const products = await getProducts()
     return (
       <>
-        <Category products={products} searchParams={"searchParams"} />
+        <Category products={products} searchParams={searchParams} />
       </>
     );
   }
@@ -19,7 +27,7 @@ export default async function CategoryPage({ params, searchParams }) {
 
   return (
     <>
-      <Category products={categoryObj.products} searchParams={"searchParams"} />
+      <Category products={categoryObj.products} searchParams={searchParams} />
     </>
   );
 }

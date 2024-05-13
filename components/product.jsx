@@ -5,6 +5,8 @@ import Link from "next/link";
 export default async function Product({ product, searchParams }) {
   const { images, name, price, description, stock, _id, category } = product;
 
+  const { search } = searchParams;
+
   const categoryOfProduct = await getCategoryId(category);
   const urlPathname = `/home/${categoryOfProduct.name}/${_id}`;
 

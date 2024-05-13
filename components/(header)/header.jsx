@@ -6,7 +6,7 @@ export default async function Header() {
   const categories = await getCategories();
 
   return (
-    <header className="grid items-center grid-cols-[85%,auto] w-full h-[20vh] lg:h-[14vh] bg-teal-50 shadow-black shadow-md z-50">
+    <header className="grid items-center grid-cols-[1fr,0.2fr] w-full h-fit bg-teal-50 shadow-black shadow-md z-50">
       <div className="flex items-center gap-4 mx-5 my-3">
         <div className="relative h-16 w-16 lg:h-20 lg:w-20 aspect-square rounded-full overflow-hidden">
           <Image
@@ -22,6 +22,10 @@ export default async function Header() {
           <span>Sobre nosotros</span>
         </div>
       </div>
+      {/* componente de buscar, lo voy a poner en Category Page */}
+      {/* <div>
+        <InputSearch />
+      </div> */}
       {/* componenente carrito (cliente) */}
       <div className="">
         <svg
@@ -30,7 +34,7 @@ export default async function Header() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 lg:w-8 lg:h-8"
+          className="w-6 h-6 lg:w-8 lg:h-8 cursor-pointer"
         >
           <path
             strokeLinecap="round"
@@ -39,15 +43,25 @@ export default async function Header() {
           />
         </svg>
       </div>
-      {/* <div className="mx-3 my-2">
-        componente buscar
-        <h4>Lupa</h4>
+      {/* <div className="flex justify-center w-full my-1">
+        <input type="text" placeholder="Buscador" />
       </div> */}
-      <nav className="flex col-span-2 gap-3 px-3 py-4 overflow-hidden overflow-x-auto bg-blue-900 text-teal-50 h-full items-center lg:hidden">
+      <nav className="flex col-span-3 gap-3 px-3 py-1 overflow-hidden overflow-x-auto bg-blue-900 text-teal-50 h-full items-center lg:hidden">
         {/* categorias cargadas del backend */}
-        <LinkHeader categoryName={"todos"} className={"border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"} />
+        <LinkHeader
+          categoryName={"todos"}
+          className={
+            "border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+          }
+        />
         {categories?.map((category) => (
-          <LinkHeader categoryName={category.name} className={"border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"}  key={category._id} />
+          <LinkHeader
+            categoryName={category.name}
+            className={
+              "border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+            }
+            key={category._id}
+          />
         ))}
       </nav>
     </header>

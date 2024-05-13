@@ -11,7 +11,7 @@ export default function LinkHeader({ categoryName, className = "" }) {
       className={`${className} ${
         pathname.split("/")[2] === categoryName ? "font-bold" : ""
       }`}
-      href={`/home/${categoryName}?${searchParams.toString()}`}
+      href={`/home/${categoryName}`}
     >
       {categoryName}
     </Link>
