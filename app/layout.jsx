@@ -1,4 +1,5 @@
 import { Exo_2 } from "next/font/google";
+import "toastify-js/src/toastify.css";
 import "./globals.css";
 
 const font = Exo_2({
