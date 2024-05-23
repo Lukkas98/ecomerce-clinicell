@@ -9,6 +9,11 @@ export function middleware(req) {
   const admin = cookieStore.get("admin");
   const pathname = req.nextUrl.pathname;
 
+  if (!admin && pathname.startsWith("/admin")) {
+    NextResponse.redirect(new URL("/admin", req.url));
+    return NextResponse.next();
+  }
+
   if (pathname === "/admin" && admin.value === AdminTrue) {
     NextResponse.redirect(new URL("/admin/panel", req.url));
     return NextResponse.next();
@@ -19,7 +24,7 @@ export function middleware(req) {
   // }
 
   if (pathname.startsWith("/admin/panel") && admin.value !== AdminTrue) {
-    return NextResponse.redirect(new URL("/home/todos", req.url));
+    return NextResponse.redirect(new URL("/admin", req.url));
   }
 
   if (pathname.startsWith("/admin/panel") && admin.value === AdminTrue) {
