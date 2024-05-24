@@ -1,5 +1,5 @@
 import InputSearch from "./(header)/(search)/inputSearch";
-import Product from "./product";
+import ProductCard from "./productCard";
 
 export default function Category({ products, searchParams }) {
   return (
@@ -20,9 +20,9 @@ export default function Category({ products, searchParams }) {
           </div>
         )}
         {products.length > 0 && (
-          <div className="grid my-4 gap-4 md:grid-cols-2 md:gap-0">
+          <div className="grid my-4 gap-4 md:grid-cols-2">
             {products.map((product) => (
-              <Product
+              <ProductCard
                 key={product._id}
                 product={product}
                 searchParams={searchParams}
