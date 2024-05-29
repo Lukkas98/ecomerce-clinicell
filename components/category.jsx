@@ -23,7 +23,7 @@ export default function Category({ products, searchParams }) {
           </div>
         )}
         {products.length > 0 && (
-          <div className="grid my-4 gap-4 md:grid-cols-2">
+          <div className="grid my-6 gap-4 md:grid-cols-2">
             {products.map((product) => (
               <ProductCard
                 key={product._id}

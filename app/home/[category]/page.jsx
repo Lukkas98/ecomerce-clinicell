@@ -14,7 +14,7 @@ export default async function CategoryPage({ params, searchParams }) {
     );
   }
 
-  if (category === "todos") {
+  if (category === "Todos") {
     const products = await getProducts()
     return (
       <>

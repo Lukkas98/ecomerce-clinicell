@@ -29,21 +29,21 @@ export default async function Header() {
       {/* <div className="flex justify-center w-full my-1">
         <input type="text" placeholder="Buscador" />
       </div> */}
-      <nav className="flex col-span-3 gap-3 px-3 py-1 overflow-hidden overflow-x-auto bg-blue-900 text-teal-50 h-full items-center lg:hidden">
+      <nav className="flex col-span-3 gap-3 px-3 py-1 overflow-hidden overflow-x-auto snap-x bg-blue-900 text-teal-50 h-full items-center lg:hidden">
         {/* categorias cargadas del backend */}
         <LinkHeader
-          categoryName={"todos"}
+          categoryName={"Todos"}
           className={
-            "border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+            "border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
           }
         />
         {categories?.map((category) => (
           <LinkHeader
+            key={category._id}
             categoryName={category.name}
             className={
-              "border px-2 py-1 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+              "border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
             }
-            key={category._id}
           />
         ))}
       </nav>
