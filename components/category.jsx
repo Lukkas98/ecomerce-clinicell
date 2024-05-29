@@ -1,5 +1,5 @@
 import InputSearch from "./(header)/(search)/inputSearch";
-import ProductCard from "./productCard";
+import ProductCard from "./(productCard)/productCard";
 
 export default function Category({ products, searchParams }) {
   const { search } = searchParams;

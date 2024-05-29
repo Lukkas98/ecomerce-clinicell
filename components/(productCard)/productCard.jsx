@@ -1,6 +1,7 @@
 import { getCategoryId } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
+import ActionButton from "./actionButton";
 
 export default async function ProductCard({ product, searchParams }) {
   const { images, name, price, stock, _id, category } = product;
@@ -28,12 +29,7 @@ export default async function ProductCard({ product, searchParams }) {
         <h6 className="font-semibold text-lg">{name}</h6>
         <span className="font-bold text-2xl">{"$ " + price}</span>
         <span className="text-sm">{stock ? "En stock" : "Sin stock"}</span>
-        <button
-          disabled={!stock}
-          className="z-20 bg-blue-600 hover:bg-blue-800 disabled:bg-gray-400 disabled:text-black disabled:opacity-80 disabled:cursor-not-allowed transition-all text-white text-lg px-2 mr-3 py-1 rounded-md shadow-black shadow"
-        >
-          {stock ? "Añadir al carro" : "Sin stock"}
-        </button>
+        <ActionButton product={JSON.parse(JSON.stringify(product))} stock={stock} typeButton="ADD_PRODUCT"   />
       </div>
     </div>
   );
