@@ -166,7 +166,7 @@ export default function FormPage({ categories }) {
           Subir
         </button>
       )}
-      {isLoading && <span>"Subiendo, por favor espere..."</span>}
+      {isLoading && <span>Subiendo, por favor espere...</span>}
     </form>
   );
 }
