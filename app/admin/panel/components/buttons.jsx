@@ -1,5 +1,7 @@
 "use client";
 
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+
 export default function Buttons({ itemId }) {
   const handleEdit = (productId) => {
     // Lógica para editar el producto con el id productId
@@ -13,48 +15,18 @@ export default function Buttons({ itemId }) {
   return (
     <div className="flex space-x-2">
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => handleEdit(itemId)}
+        className="hover:text-red-800 text-red-500 font-bold py-2 px-4 rounded"
+        onClick={() => handleDelete(itemId)}
+        title="Eliminar producto"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 inline-block"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 16v1a2 2 0 01-2 2H7a2 2 0 01-2-2v-1"
-          />
-        </svg>
+        <TrashIcon className="h-5 w-5 inline-block" />
       </button>
       <button
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => handleDelete(itemId)}
+        className="bg-blue-500 hover:bg-blue-700 text-teal-50 font-bold py-2 px-4 rounded"
+        onClick={() => handleEdit(itemId)}
+        title="Editar producto"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 inline-block"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+        <PencilSquareIcon className="h-5 w-5 inline-block" />
       </button>
     </div>
   );

@@ -27,7 +27,7 @@ export default function InputSearch() {
         placeholder="Buscar productos..."
         onChange={(e) => handleOnChange(e.target.value)}
         defaultValue={useParams.get("search")}
-        className="rounded bg-blue-200 w-fit px-2 py-1 focus:outline-1 focus:outline-slate-900  border-none"
+        className="rounded-md placeholder:text-black placeholder:text-opacity-80 bg-blue-200 w-fit px-2 py-1 focus:outline-1 focus:outline-slate-900  border-none"
       />
       <div className="absolute -left-7">
         <Search />

@@ -7,7 +7,7 @@ export default function Search() {
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         stroke="currentColor"
-        className="w-6 h-6 lg:w-8 lg:h-8 cursor-pointer"
+        className="w-6 h-6 lg:w-8 lg:h-8 cursor-default hover:scale-105"
       >
         <path
           strokeLinecap="round"

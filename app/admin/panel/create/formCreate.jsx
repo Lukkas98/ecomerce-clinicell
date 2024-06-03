@@ -59,9 +59,9 @@ export default function FormPage({ categories }) {
         const imageUrls = data.imagesSelected;
         let Urls = await UploadFirebase(imageUrls, data.name, data.category);
 
-        const createProd = createProduct(data, Urls);
+        const createProd = await createProduct(data, Urls);
         Toastify({
-          text: createProd,
+          text: createProd.message,
           className: "success",
           gravity: "top",
           position: "center",
