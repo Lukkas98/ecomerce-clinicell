@@ -11,10 +11,15 @@ import {
 import { XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { CartContext } from "./cartProvider";
 import Image from "next/image";
+import { payMP } from "@/lib/actions";
 
 export default function Example() {
   const { cart, dispatch } = useContext(CartContext);
   const [open, setOpen] = useState(false);
+
+  const handlePay = async (items) => {
+    payMP(items);
+  };
 
   return (
     <div className="w-fit p-3">
@@ -86,7 +91,7 @@ export default function Example() {
                                 <li key={product._id} className="flex py-6">
                                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                     <Image
-                                      quality={80}
+                                      quality={85}
                                       width={96}
                                       height={96}
                                       src={product.images[0]}
@@ -148,12 +153,15 @@ export default function Example() {
                           El botón abrirá una nueva pestaña en Mercado Pago.
                         </p>
                         <div className="mt-6">
-                          <a
-                            href="#"
-                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                          <button
+                            disabled={!cart.items.length}
+                            onClick={() => {
+                              handlePay(cart.items);
+                            }}
+                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-400 disabled:bg-opacity-80 disabled:cursor-not-allowed"
                           >
                             Completar Pago
-                          </a>
+                          </button>
                         </div>
                         <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                           <p>
