@@ -3,10 +3,10 @@ import { getCategoryName, getProducts, searchProducts } from "@/lib/actions";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;
-  const { search } = searchParams
+  const { search } = searchParams;
 
   if (search) {
-    const products = await searchProducts(search)
+    const products = await searchProducts(search);
     return (
       <>
         <Category products={products} searchParams={searchParams} />
@@ -15,7 +15,7 @@ export default async function CategoryPage({ params, searchParams }) {
   }
 
   if (category === "Todos") {
-    const products = await getProducts()
+    const products = await getProducts();
     return (
       <>
         <Category products={products} searchParams={searchParams} />
