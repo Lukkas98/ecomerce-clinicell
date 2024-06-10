@@ -13,6 +13,8 @@ import { CartContext } from "./cartProvider";
 import Image from "next/image";
 import { payMP } from "@/lib/actions";
 
+const TAXES = 1.084; //porcentaje mercado pago 8,4%
+
 export default function Example() {
   const { cart, dispatch } = useContext(CartContext);
   const [open, setOpen] = useState(false);
@@ -140,7 +142,7 @@ export default function Example() {
 
                       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                         <div className="flex justify-between text-base font-medium text-gray-900">
-                          <p>Total</p>
+                          <p>Sub Total</p>
                           <p>
                             ${" "}
                             {cart.items?.reduce(
@@ -150,8 +152,20 @@ export default function Example() {
                           </p>
                         </div>
                         <p className="mt-0.5 text-sm text-gray-500">
-                          El botón abrirá una nueva pestaña en Mercado Pago.
+                          Total con inpuestos aplicados + IVA.
                         </p>
+                        <div className="flex justify-between text-base font-medium text-gray-900">
+                          <p className=" font-bold text-lg">Total</p>
+                          <p className=" text-xl">
+                            ${" "}
+                            {(
+                              cart.items?.reduce(
+                                (acc, obj) => acc + obj.price,
+                                0
+                              ) * TAXES
+                            ).toFixed(2)}
+                          </p>
+                        </div>
                         <div className="mt-6">
                           <button
                             disabled={!cart.items.length}
