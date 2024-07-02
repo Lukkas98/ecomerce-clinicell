@@ -10,7 +10,7 @@ export default async function DesktopMenu({}) {
         <ul className=" mt-10 flex flex-col gap-3 px-5">
           <li className="flex">
             <LinkHeader
-              categoryName={"todos"}
+              categoryName={"Todos"}
               className={"w-full border-b-2 border-blue-600 px-3 py-1 hover:border-black transition-all"}
             />
           </li>

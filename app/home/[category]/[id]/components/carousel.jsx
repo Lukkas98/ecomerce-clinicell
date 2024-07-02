@@ -38,7 +38,7 @@ function Carousel({ images }) {
             data-carousel-item
           >
             <Image
-              src={img}
+              src={img ?? "https://via.placeholder.com/400"}
               className="absolute block w-full"
               alt="..."
               fill={true}
