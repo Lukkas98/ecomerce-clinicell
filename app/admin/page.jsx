@@ -18,14 +18,14 @@ export default function LoginAdmin() {
           className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 flex flex-col gap-4"
         >
           <label className="w-full">
-            Usuario
+            Email
             <input
               onChange={(e) => {
                 setUser(e.target.value);
               }}
               name="user"
               type="text"
-              placeholder="example"
+              placeholder="example@gmail.com"
               className="w-full border-t-blue-400 block focus:border-t-gray-900 px-2 py-1 mt-3"
             />
           </label>

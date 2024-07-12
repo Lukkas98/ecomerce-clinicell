@@ -1,35 +1,23 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-const AdminTrue = process.env.ADMIN_TRUE;
+const AdminID = process.env.ADMIN_UUID;
 
 export function middleware(req) {
-  // console.log("Middleware ejecutándose...");
+  console.log("Middleware ejecutándose...");
   const cookieStore = cookies();
   const admin = cookieStore.get("admin");
   const pathname = req.nextUrl.pathname;
 
-  if (!admin && pathname.startsWith("/admin")) {
-    NextResponse.redirect(new URL("/admin", req.url));
-    return NextResponse.next();
-  }
-
-  if (pathname === "/admin" && admin.value === AdminTrue) {
-    NextResponse.redirect(new URL("/admin/panel", req.url));
-    return NextResponse.next();
-  }
-
-  // if (pathname === "/admin") {
-  //   return NextResponse.next();
-  // }
-
-  if (pathname.startsWith("/admin/panel") && admin.value !== AdminTrue) {
+  if (!admin && pathname.startsWith("/admin/")) {
     return NextResponse.redirect(new URL("/admin", req.url));
   }
 
-  if (pathname.startsWith("/admin/panel") && admin.value === AdminTrue) {
-    NextResponse.redirect(new URL(pathname, req.url));
-    return NextResponse.next();
+  if (admin && admin.value === AdminID && pathname === "/admin") {
+    return NextResponse.redirect(new URL("/admin/panel", req.url));
+  }
+  if (admin && admin.value !== AdminID && pathname.startsWith("/admin/")) {
+    return NextResponse.redirect(new URL("/home/Todos", req.url));
   }
 
   return NextResponse.next();

@@ -1,4 +1,4 @@
-import app from "@/lib/firebaseConfig";
+import { app } from "@/lib/firebaseConfig";
 import { ref, uploadBytes, getStorage, getDownloadURL } from "firebase/storage";
 
 export default async function UploadFirebase(images = [], name, category) {
