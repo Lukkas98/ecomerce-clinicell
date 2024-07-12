@@ -1,7 +1,7 @@
 import InputSearch from "./(header)/(search)/inputSearch";
 import ProductCard from "./(productCard)/productCard";
 
-export default function Category({ products, searchParams }) {
+export default function Category({ products = [], searchParams }) {
   const { search } = searchParams;
   return (
     <section className="min-h-[80vh] max-h-full min-w-screen z-10">
