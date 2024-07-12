@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 const AdminID = process.env.ADMIN_UUID;
 
 export function middleware(req) {
-  console.log("Middleware ejecutándose...");
   const cookieStore = cookies();
   const admin = cookieStore.get("admin");
   const pathname = req.nextUrl.pathname;
