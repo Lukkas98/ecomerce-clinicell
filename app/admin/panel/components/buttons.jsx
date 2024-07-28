@@ -1,17 +1,31 @@
 "use client";
 
+import { deleteProduct } from "@/lib/actions";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import Toastify from "toastify-js";
 
 export default function Buttons({ itemId }) {
   const handleEdit = (productId) => {
-    // Lógica para editar el producto con el id productId
-    console.log(`Editar producto ${productId}`);
+    Toastify({
+      text: "no hace nada, todavia",
+      className: "success",
+      gravity: "top",
+      position: "center",
+      duration: 3000,
+    }).showToast();
   };
 
-  const handleDelete = (productId) => {
-    // Lógica para eliminar el producto con el id productId
-    console.log(`Eliminar producto ${productId}`);
+  const handleDelete = async (productId) => {
+    const response = await deleteProduct(productId);
+    Toastify({
+      text: response.message,
+      className: "success",
+      gravity: "top",
+      position: "center",
+      duration: 3000,
+    }).showToast();
   };
+
   return (
     <div className="flex space-x-2">
       <button
