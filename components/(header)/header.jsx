@@ -1,4 +1,4 @@
-import { getCategories } from "@/lib/actions";
+import { getCategories } from "@/lib/actions/categories";
 import Image from "next/image";
 import LinkHeader from "./linkHeader";
 import Cart from "./(cart)/cart";

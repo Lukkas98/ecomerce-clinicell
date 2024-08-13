@@ -1,6 +1,6 @@
 import ActionButton from "@/components/(productCard)/actionButton";
 import Carousel from "./components/carousel";
-import { getProduct } from "@/lib/actions";
+import { getProduct } from "@/lib/actions/products";
 
 export default async function ProductPage({ params }) {
   const { id } = params;

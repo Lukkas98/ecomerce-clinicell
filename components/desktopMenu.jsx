@@ -1,5 +1,5 @@
 import LinkHeader from "@/components/(header)/linkHeader";
-import { getCategories } from "@/lib/actions";
+import { getCategories } from "@/lib/actions/categories";
 
 export default async function DesktopMenu({}) {
   const categories = await getCategories();
@@ -11,14 +11,18 @@ export default async function DesktopMenu({}) {
           <li className="flex">
             <LinkHeader
               categoryName={"Todos"}
-              className={"w-full border-b-2 border-blue-600 px-3 py-1 hover:border-black transition-all"}
+              className={
+                "w-full border-b-2 border-blue-600 px-3 py-1 hover:border-black transition-all"
+              }
             />
           </li>
           {categories?.map((category) => (
-            <li key={category._id} className="flex flex-col" >
+            <li key={category._id} className="flex flex-col">
               <LinkHeader
                 categoryName={category.name}
-                className={"w-full border-b-2 border-blue-600 px-3 py-1 hover:border-black transition-all"}
+                className={
+                  "w-full border-b-2 border-blue-600 px-3 py-1 hover:border-black transition-all"
+                }
               />
             </li>
           ))}

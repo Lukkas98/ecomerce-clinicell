@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteProduct } from "@/lib/actions";
+import { deleteProduct } from "@/lib/actions/products";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Toastify from "toastify-js";
 

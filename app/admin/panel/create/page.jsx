@@ -1,4 +1,5 @@
-import { getCategories } from "@/lib/actions";
+
+import { getCategories } from "@/lib/actions/categories";
 import FromCreate from "./formCreate";
 import Link from "next/link";
 

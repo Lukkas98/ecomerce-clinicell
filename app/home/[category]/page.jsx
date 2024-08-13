@@ -1,5 +1,6 @@
 import Category from "@/components/category";
-import { getCategoryName, getProducts, searchProducts } from "@/lib/actions";
+import { getProducts, searchProducts } from "@/lib/actions/products";
+import { getCategoryName } from "@/lib/actions/categories";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;

@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import UploadFirebase from "./uploadFirebase";
-import { createProduct } from "@/lib/actions";
+import { createProduct } from "@/lib/actions/products";
 import { productSchema } from "./validation";
 import Toastify from "toastify-js";
 
