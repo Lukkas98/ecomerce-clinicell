@@ -4,9 +4,19 @@ import { useState, useTransition } from "react";
 import UploadFirebase from "./uploadFirebase";
 import { createProduct } from "@/lib/actions/products";
 import { productSchema } from "./validation";
-import Toastify from "toastify-js";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top",
+  timer: 2000,
+  timerProgressBar: true,
+  showConfirmButton: false,
+});
 
 export default function FormPage({ categories }) {
+  const router = useRouter();
   const [isLoading, startTransition] = useTransition();
   const [data, setData] = useState({
     name: "",
@@ -60,13 +70,20 @@ export default function FormPage({ categories }) {
         let Urls = await UploadFirebase(imageUrls, data.name, data.category);
 
         const createProd = await createProduct(data, Urls);
-        Toastify({
-          text: createProd.message,
-          className: "success",
-          gravity: "top",
-          position: "center",
-          duration: 3000,
-        }).showToast();
+
+        if (!createProd.success) {
+          Toast.fire("Ups..", createProd.message, "error");
+          return;
+        }
+
+        Toast.fire({
+          icon: "success",
+          title: createProd.message,
+          text: "Volviendo al panel",
+          didClose: () => {
+            router.push("/admin/panel");
+          },
+        });
 
         setData({
           imagesSelected: "",
@@ -80,15 +97,7 @@ export default function FormPage({ categories }) {
       });
     } catch (error) {
       const errMessage = JSON.parse(error.message);
-      for (const err of errMessage) {
-        Toastify({
-          text: err.message,
-          className: "warning",
-          gravity: "top",
-          position: "center",
-          duration: 3000,
-        }).showToast();
-      }
+      console.error(error.message);
     }
   };
 

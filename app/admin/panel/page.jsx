@@ -22,7 +22,7 @@ export default async function AdminPanel() {
         {products?.map((item, i) => (
           <div
             key={i}
-            className="border border-gray-300 p-4 rounded-lg bg-white flex justify-between items-center"
+            className="border border-gray-300 h-fit p-4 rounded-lg bg-white flex justify-between items-center"
           >
             <div className="w-[50%]">
               <h2 className="text-lg font-semibold mb-2">{item.name}</h2>

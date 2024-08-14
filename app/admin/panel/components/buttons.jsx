@@ -1,29 +1,57 @@
 "use client";
-
 import { deleteProduct } from "@/lib/actions/products";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Toastify from "toastify-js";
+import Swal from "sweetalert2";
+
+const toast = Swal.mixin({
+  showConfirmButton: false,
+  toast: true,
+  position: "top",
+  timer: 3000,
+  timerProgressBar: true,
+});
 
 export default function Buttons({ itemId }) {
-  const handleEdit = (productId) => {
-    Toastify({
-      text: "no hace nada, todavia",
-      className: "success",
-      gravity: "top",
-      position: "center",
-      duration: 3000,
-    }).showToast();
-  };
+  const handleEdit = (productId) => {};
 
   const handleDelete = async (productId) => {
-    const response = await deleteProduct(productId);
-    Toastify({
-      text: response.message,
-      className: "success",
-      gravity: "top",
-      position: "center",
-      duration: 3000,
-    }).showToast();
+    Swal.fire({
+      title: "Quieres eliminar este producto?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Si, Borrar",
+      showLoaderOnConfirm: true,
+      denyButtonText: `No`,
+      preConfirm: async () => {
+        try {
+          const response = await deleteProduct(productId);
+
+          if (!response.success)
+            return Swal.showValidationMessage(response.message);
+
+          return response.message;
+        } catch (error) {
+          return Swal.showValidationMessage(`Error: ${error.message}`);
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      //boton "Si, Borrar"
+      if (result.isConfirmed) {
+        toast.fire({
+          icon: "success",
+          title: "Completado",
+          text: result.value,
+        });
+
+        //boton "No"
+      } else if (result.isDenied) {
+        toast.fire({
+          icon: "info",
+          title: "Acción cancelada",
+        });
+      }
+    });
   };
 
   return (
