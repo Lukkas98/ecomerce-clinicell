@@ -9,7 +9,7 @@ export default async function AdminPanel() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <header className="bg-blue-700 text-white py-4 px-6 flex justify-between">
+      <nav className="bg-blue-700 text-white py-4 px-6 flex justify-between">
         <h2 className="text-xl">Panel de Administrador</h2>
         <Link
           className="py-2 px-3 bg-blue-500 hover:bg-blue-600 rounded-md transition-all"
@@ -17,7 +17,7 @@ export default async function AdminPanel() {
         >
           Create Product
         </Link>
-      </header>
+      </nav>
 
       <main className="flex-1 p-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {products?.map((item, i) => (

@@ -7,7 +7,7 @@ export const productSchema = z.object({
       invalid_type_error: "El nombre debe ser un String",
     })
     .max(200, "El nombre no debe exceder los 200 caracteres")
-    .min(5, "El nombre es muy corto"),
+    .min(5, "El nombre es muy corto (mínimo 5 letras)"),
   price: z
     .number({
       required_error: "El precio es requerido",
@@ -20,7 +20,7 @@ export const productSchema = z.object({
       invalid_type_error: "La descripción debe ser un String",
     })
     .max(1000, "La descripción no debe exceder los 1000 caracteres")
-    .min(5, "La descripción es muy corta"),
+    .min(5, "La descripción es muy corta (mínimo 5 letras)"),
   imagesSelected: z
     .array(z.string(), { invalid_type_error: "Images debe ser un Array" })
     .optional(),

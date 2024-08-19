@@ -27,6 +27,7 @@ export default function Form({
 }) {
   const router = useRouter();
   const [isLoading, startTransition] = useTransition();
+  const [errors, setErrors] = useState({});
   const [data, setData] = useState({
     name: "",
     price: 0,
@@ -100,7 +101,15 @@ export default function Form({
       });
     } catch (error) {
       const errMessage = JSON.parse(error.message);
-      console.error("errMessage: ", errMessage);
+      // console.error("errMessage: ", errMessage);
+      errMessage.forEach((err) => {
+        setErrors((oldValues) => {
+          return {
+            ...oldValues,
+            [err.path[0]]: err.message,
+          };
+        });
+      });
     }
   };
 
@@ -158,32 +167,41 @@ export default function Form({
       onSubmit={handleSubmit}
       className="flex flex-col gap-5 w-[80%] mx-auto px-3 py-2"
     >
-      <input
-        className="w-[90%] border-2 px-2 py-1 border-gray-400 rounded focus:border-blue-600 outline-none"
-        type="text"
-        name="name"
-        placeholder="Nombre"
-        value={data.name}
-        onChange={handleOnChange}
-      />
+      <div className="flex flex-col">
+        <input
+          className="w-[90%] border-2 px-2 py-1 border-gray-400 rounded focus:border-blue-600 outline-none"
+          type="text"
+          name="name"
+          placeholder="Nombre"
+          value={data.name}
+          onChange={handleOnChange}
+        />
+        <span className="text-red-700 text-sm">{errors.name ?? ""}</span>
+      </div>
 
-      <input
-        className="w-[90%] border-2 px-2 py-1 border-gray-400 rounded focus:border-blue-600 outline-none"
-        type="number"
-        name="price"
-        placeholder="Precio"
-        value={data.price || ""}
-        onChange={handleOnChange}
-      />
+      <div className="flex flex-col">
+        <input
+          className="w-[90%] border-2 px-2 py-1 border-gray-400 rounded focus:border-blue-600 outline-none"
+          type="number"
+          name="price"
+          placeholder="Precio"
+          value={data.price || ""}
+          onChange={handleOnChange}
+        />
+        <span className="text-red-700 text-sm">{errors.price ?? ""}</span>
+      </div>
 
-      <textarea
-        className="w-[90%] max-h-60 h-52 border-2 px-2 py-1 border-gray-400 rounded focus:border-blue-600 outline-none"
-        type="text"
-        name="description"
-        placeholder="Descripción"
-        value={data.description}
-        onChange={handleOnChange}
-      />
+      <div className="flex flex-col">
+        <textarea
+          className="w-[90%] max-h-60 h-52 border-2 px-2 py-1 border-gray-400 rounded focus:border-blue-600 outline-none"
+          type="text"
+          name="description"
+          placeholder="Descripción"
+          value={data.description}
+          onChange={handleOnChange}
+        />
+        <span className="text-red-700 text-sm">{errors.description ?? ""}</span>
+      </div>
 
       <div className="flex">
         <label className="w-[90%]">
@@ -200,6 +218,7 @@ export default function Form({
               </option>
             ))}
           </select>
+          <span className="text-red-700 text-sm">{errors.category ?? ""}</span>
         </label>
       </div>
 
