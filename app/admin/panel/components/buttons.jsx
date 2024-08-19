@@ -4,7 +4,7 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
-const toast = Swal.mixin({
+const Toast = Swal.mixin({
   showConfirmButton: false,
   toast: true,
   position: "top",
@@ -23,7 +23,6 @@ export default function Buttons({ itemId }) {
     Swal.fire({
       title: "Quieres eliminar este producto?",
       showDenyButton: true,
-      showCancelButton: true,
       confirmButtonText: "Si, Borrar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
@@ -43,7 +42,7 @@ export default function Buttons({ itemId }) {
     }).then((result) => {
       //boton "Si, Borrar"
       if (result.isConfirmed) {
-        toast.fire({
+        Toast.fire({
           icon: "success",
           title: "Completado",
           text: result.value,
@@ -51,7 +50,7 @@ export default function Buttons({ itemId }) {
 
         //boton "No"
       } else if (result.isDenied) {
-        toast.fire({
+        Toast.fire({
           icon: "info",
           title: "Acción cancelada",
         });

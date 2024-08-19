@@ -2,6 +2,7 @@ import { getProducts } from "@/lib/actions/products";
 import Buttons from "./components/buttons";
 import Link from "next/link";
 import Image from "next/image";
+import defaultImage from "@/public/default.svg";
 
 export default async function AdminPanel() {
   const products = await getProducts();
@@ -26,9 +27,13 @@ export default async function AdminPanel() {
           >
             <div className="w-[50%]">
               <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
-              <div className="relative w-20 aspect-square overflow-hidden rounded-md shadow-black shadow">
+              <div
+                className={`relative w-20 aspect-square overflow-hidden rounded-md ${
+                  item.images[0] ? "shadow-black shadow" : ""
+                }`}
+              >
                 <Image
-                  src={item.images[0]}
+                  src={item.images[0] || defaultImage}
                   fill={true}
                   alt={item.name + "image"}
                   sizes="80px"
