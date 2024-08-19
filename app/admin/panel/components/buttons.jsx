@@ -1,6 +1,7 @@
 "use client";
 import { deleteProduct } from "@/lib/actions/products";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 const toast = Swal.mixin({
@@ -12,7 +13,11 @@ const toast = Swal.mixin({
 });
 
 export default function Buttons({ itemId }) {
-  const handleEdit = (productId) => {};
+  const router = useRouter();
+
+  const handleEdit = (productId) => {
+    router.push(`/admin/panel/edit?id=${productId}`);
+  };
 
   const handleDelete = async (productId) => {
     Swal.fire({

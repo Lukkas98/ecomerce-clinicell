@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import UploadFirebase from "./uploadFirebase";
-import { createProduct } from "@/lib/actions/products";
+import { createProduct, editProduct } from "@/lib/actions/products";
 import { productSchema } from "./validation";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -15,7 +16,11 @@ const Toast = Swal.mixin({
   showConfirmButton: false,
 });
 
-export default function FormPage({ categories }) {
+export default function Form({
+  categories,
+  mode = "create",
+  initialData = {},
+}) {
   const router = useRouter();
   const [isLoading, startTransition] = useTransition();
   const [data, setData] = useState({
@@ -28,8 +33,17 @@ export default function FormPage({ categories }) {
     imagesSelected: [], //para subirlas a firebase
   });
 
+  useEffect(() => {
+    if (mode === "edit" && initialData) {
+      setData({
+        ...initialData,
+        imagesSelected: initialData.images || [], // asume que tienes URLs de imágenes en initialData
+      });
+    }
+  }, [mode, initialData]);
+
   const handleOnChange = (e) => {
-    if (["imagesForUpload", "images"].includes(e.target.name)) {
+    if (["imagesForUpload"].includes(e.target.name)) {
       const files = [];
 
       for (let i = 0; i < e.target.files.length; i++) {
@@ -67,37 +81,34 @@ export default function FormPage({ categories }) {
 
       startTransition(async () => {
         const imageUrls = data.imagesSelected;
-        let Urls = await UploadFirebase(imageUrls, data.name, data.category);
+        let Urls = !imageUrls[0].includes("https://firebasestorage")
+          ? await UploadFirebase(imageUrls, data.name, data.category)
+          : imageUrls;
 
-        const createProd = await createProduct(data, Urls);
+        let result;
+        if (mode === "create") {
+          result = await createProduct(data, Urls);
+        } else if (mode === "edit") {
+          result = await editProduct(data); // asume que tienes un ID en initialData
+        }
 
-        if (!createProd.success) {
-          Toast.fire("Ups..", createProd.message, "error");
+        if (!result.success) {
+          Toast.fire("Ups..", result.message, "error");
           return;
         }
 
         Toast.fire({
           icon: "success",
-          title: createProd.message,
+          title: result.message,
           text: "Volviendo al panel",
           didClose: () => {
             router.push("/admin/panel");
           },
         });
-
-        setData({
-          imagesSelected: "",
-          imagesForUpload: "",
-          category: "",
-          description: "",
-          price: "",
-          name: "",
-          stock: true,
-        });
       });
     } catch (error) {
       const errMessage = JSON.parse(error.message);
-      console.error(error.message);
+      console.error(errMessage);
     }
   };
 
@@ -155,27 +166,49 @@ export default function FormPage({ categories }) {
             ))}
           </select>
         </label>
-        {/* <span>Nueva categoria</span> */}
       </div>
 
-      <input
-        type="file"
-        name="imagesForUpload"
-        onChange={handleOnChange}
-        placeholder="imagenes"
-        value={data.imagesForUpload}
-        accept="image/*"
-        multiple
-      />
+      <div className="max-w-md mx-auto">
+        <input
+          type="file"
+          name="imagesForUpload"
+          onChange={handleOnChange}
+          accept="image/*"
+          multiple
+          className="block w-full text-sm text-gray-500 transition-all
+                   file:mr-4 file:py-2 file:px-4
+                   file:rounded-full file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-violet-200 file:text-violet-800
+                   hover:file:bg-violet-500 hover:file:text-violet-200"
+        />
+
+        <div className="mt-4 flex flex-wrap gap-4">
+          {data.imagesSelected.map((image, index) => (
+            <div
+              key={index}
+              className="relative w-20 aspect-square rounded-lg overflow-hidden shadow-black shadow"
+            >
+              <Image
+                src={image}
+                alt={`Selected preview ${index}`}
+                className="object-cover"
+                fill={true}
+                sizes="80px"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
       {!isLoading && (
         <button
           type="submit"
           className=" bg-blue-600 hover:bg-blue-700 font-bold text-blue-50 px-2 py-1 rounded-md w-full self-center"
         >
-          Subir
+          {mode === "create" ? "Crear" : "Actualizar"}
         </button>
       )}
-      {isLoading && <span>Subiendo, por favor espere...</span>}
+      {isLoading && <span>Procesando, por favor espere...</span>}
     </form>
   );
 }

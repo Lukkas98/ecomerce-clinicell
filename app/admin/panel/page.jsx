@@ -22,16 +22,16 @@ export default async function AdminPanel() {
         {products?.map((item, i) => (
           <div
             key={i}
-            className="border border-gray-300 h-fit p-4 rounded-lg bg-white flex justify-between items-center"
+            className="border border-gray-300 h-fit p-4 rounded-lg bg-teal-50 flex justify-between items-center shadow-black shadow-md"
           >
             <div className="w-[50%]">
               <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
-              <div className="relative w-10 aspect-square overflow-hidden rounded-md">
+              <div className="relative w-20 aspect-square overflow-hidden rounded-md shadow-black shadow">
                 <Image
                   src={item.images[0]}
                   fill={true}
                   alt={item.name + "image"}
-                  sizes="40px"
+                  sizes="80px"
                 />
               </div>
               <div className="flex w-full justify-between pt-4">
