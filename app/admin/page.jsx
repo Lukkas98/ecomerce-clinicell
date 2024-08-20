@@ -25,7 +25,7 @@ export default function LoginAdmin() {
               }}
               name="user"
               type="text"
-              placeholder="example@gmail.com"
+              placeholder="admin user"
               className="w-full border-t-blue-400 block focus:border-t-gray-900 px-2 py-1 mt-3"
             />
           </label>
