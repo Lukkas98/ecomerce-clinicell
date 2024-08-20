@@ -1,30 +1,24 @@
 import { app } from "@/lib/firebaseConfig/firebaseConfig";
 import { ref, uploadBytes, getStorage, getDownloadURL } from "firebase/storage";
 
-export default async function UploadFirebase(images = [], name, category) {
+export default async function UploadFirebase(
+  imageUrl = "",
+  index,
+  name,
+  category
+) {
   const storage = getStorage(app, `${process.env.NEXT_PUBLIC_URL_FIREBASE}`);
 
-  let URLs = [];
-  // Iterar sobre las URLs de las imágenes y subirlas a Firebase Storage
-  for (let i = 0; i < images.length; i++) {
-    const imageUrl = images[i];
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
+  const response = await fetch(imageUrl);
+  const blob = await response.blob();
 
-    // Generar un nombre único para el archivo
-    const fileName = `${name}-${i}`;
+  // Generar un nombre único para el archivo
+  const fileName = `${name}-${index}`;
 
-    // Subir el archivo a Firebase Storage
-    const storageRef = ref(
-      storage,
-      `productos/${category}/${name}/${fileName}`
-    );
-    await uploadBytes(storageRef, blob);
+  // Subir el archivo a Firebase Storage
+  const storageRef = ref(storage, `productos/${category}/${name}/${fileName}`);
+  await uploadBytes(storageRef, blob);
 
-    const downloadURL = await getDownloadURL(storageRef);
-    // console.log("URL de la imagen:", downloadURL);
-    URLs.push(downloadURL);
-  }
-
-  return URLs;
+  const URL = await getDownloadURL(storageRef);
+  return URL;
 }
