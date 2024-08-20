@@ -57,6 +57,8 @@ export default function Form({
         updatedValue = Array.from(files).map((file) =>
           URL.createObjectURL(file)
         );
+        // Combinar con las imágenes ya seleccionadas
+        updatedValue = [...(oldValues.imagesSelected || []), ...updatedValue];
       } else if (name === "price") {
         updatedValue = Number(value);
       }
@@ -76,17 +78,21 @@ export default function Form({
 
       startTransition(async () => {
         const imageUrls = data.imagesSelected;
-        let Urls = !imageUrls[0].includes("https://firebasestorage")
-          ? await UploadFirebase(imageUrls, data.name, data.category)
-          : imageUrls;
+        const PromisesUrls = imageUrls.map(async (url, i) => {
+          if (url.includes("https://firebasestorage")) return url;
+
+          return await UploadFirebase(url, i, data.name, data.category);
+        });
+        const Urls = await Promise.all(PromisesUrls);
 
         const result =
           mode === "create"
             ? await createProduct(data, Urls)
-            : await editProduct(data);
+            : await editProduct(data, Urls);
 
         if (!result.success) {
-          Toast.fire("Ups..", result.message, "error");
+          Toast.fire("Ups..", "No pudo subise el producto", "error");
+          console.error(result.message);
           return;
         }
 
