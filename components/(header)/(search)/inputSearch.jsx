@@ -21,16 +21,18 @@ export default function InputSearch() {
   }, 400);
 
   return (
-    <div className="flex items-center relative mt-2">
-      <input
-        type="text"
-        placeholder="Buscar productos..."
-        onChange={(e) => handleOnChange(e.target.value)}
-        defaultValue={useParams.get("search")}
-        className="rounded-md placeholder:text-black placeholder:text-opacity-80 bg-blue-200 w-fit px-2 py-1 focus:outline-1 focus:outline-slate-900  border-none"
-      />
-      <div className="absolute -left-7">
-        <Search />
+    <div className="relative w-[60%] max-w-lg">
+      <div className="flex items-center w-full">
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          onChange={(e) => handleOnChange(e.target.value)}
+          defaultValue={useParams.get("search")}
+          className="rounded-md w-full placeholder:text-black placeholder:text-opacity-80 bg-blue-200 px-2 py-1 focus:outline-1 focus:outline-slate-900 border-none mr-2"
+        />
+        <div className="absolute -left-10">
+          <Search />
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 export default function Loading() {
   return (
-    <section className="min-h-[80vh] max-h-full min-w-screen z-10">
+    <section className="min-h-[80vh] max-h-full min-w-screen">
       <div className="h-full overflow-hidden overflow-y-auto scrollbar-thin lg:grid animate-pulse">
-        <div className="grid my-6 gap-4 md:grid-cols-2">
+        <div className="grid my-6 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {Array(4)
             .fill("")
             .map((_, i) => (

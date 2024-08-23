@@ -4,7 +4,7 @@ import { getCategories } from "@/lib/actions/categories";
 export default async function DesktopMenu({}) {
   const categories = await getCategories();
   return (
-    <aside className=" hidden lg:inline-block border-r-2 border-blue-100">
+    <aside className=" hidden lg:inline-block w-[full] max-w-md border-r-2 border-blue-100">
       <nav>
         {/* <p className="mt-4 px-5">Filtros</p> */}
         <ul className=" mt-10 flex flex-col gap-3 px-5">

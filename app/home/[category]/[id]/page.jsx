@@ -23,7 +23,7 @@ export default async function ProductPage({ params }) {
             stock={product.stock}
             typeButton={"ADD_PRODUCT"}
           />
-          <p className="text-base text-gray-700 mb-4 md:mt-5">
+          <p className="text-base text-gray-700 mb-4 mt-5 whitespace-pre-line">
             {product.description}
           </p>
         </div>

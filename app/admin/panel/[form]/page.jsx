@@ -22,7 +22,7 @@ export default async function FormPage({ params, searchParams }) {
   return (
     <div className="border border-gray-300 p-4 rounded-lg bg-white m-5 max-w-5xl mx-3 lg:mx-auto">
       <Link href={"/admin/panel"}>Volver al panel</Link>
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-lg font-semibold mb-4 text-center">
         {form === "edit" ? "Actualizar Producto" : "Subir Producto"}
       </h2>
       <Form

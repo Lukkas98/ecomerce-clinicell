@@ -25,19 +25,19 @@ export default function Example() {
 
   return (
     <div className="w-fit p-3">
-      <div className="flex flex-row-reverse">
+      <div className="flex flex-row-reverse justify-center relative">
         <ShoppingCartIcon
           className="h-6 w-6 cursor-pointer hover:opacity-70 transition-all"
           onClick={() => {
             setOpen(true);
           }}
         />
-        <p className="px-2 mr-1 bg-blue-500 text-white rounded-lg">
+        <p className="px-2 absolute right-7 bg-blue-500 text-white rounded-lg">
           {cart.total}
         </p>
       </div>
       <Transition show={open}>
-        <Dialog className="relative z-10" onClose={setOpen}>
+        <Dialog className="relative z-50" onClose={setOpen}>
           <TransitionChild
             enter="ease-in-out duration-500"
             enterFrom="opacity-0"
@@ -126,7 +126,7 @@ export default function Example() {
                                             });
                                           }}
                                           type="button"
-                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                          className="font-medium text-red-600 hover:text-red-400"
                                         >
                                           Quitar
                                         </button>

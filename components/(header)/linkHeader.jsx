@@ -9,7 +9,9 @@ export default function LinkHeader({ categoryName, className = "" }) {
   return (
     <Link
       className={`${className} ${
-        pathname.split("/")[2] === categoryName ? "font-semibold" : ""
+        pathname.split("/")[2] === categoryName
+          ? "font-semibold bg-teal-50 text-blue-700 lg:bg-blue-700 lg:text-teal-50 rounded hover:bg-teal-100 lg:hover:bg-blue-500"
+          : ""
       }`}
       href={`/home/${categoryName}`}
     >
