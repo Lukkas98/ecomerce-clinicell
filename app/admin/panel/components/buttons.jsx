@@ -1,17 +1,63 @@
 "use client";
-
+import { deleteProduct } from "@/lib/actions/products";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+
+const Toast = Swal.mixin({
+  showConfirmButton: false,
+  toast: true,
+  position: "top",
+  timer: 3000,
+  timerProgressBar: true,
+});
 
 export default function Buttons({ itemId }) {
+  const router = useRouter();
+
   const handleEdit = (productId) => {
-    // Lógica para editar el producto con el id productId
-    console.log(`Editar producto ${productId}`);
+    router.push(`/admin/panel/edit?id=${productId}`);
   };
 
-  const handleDelete = (productId) => {
-    // Lógica para eliminar el producto con el id productId
-    console.log(`Eliminar producto ${productId}`);
+  const handleDelete = async (productId) => {
+    Swal.fire({
+      title: "Quieres eliminar este producto?",
+      showDenyButton: true,
+      confirmButtonText: "Si, Borrar",
+      showLoaderOnConfirm: true,
+      denyButtonText: `No`,
+      preConfirm: async () => {
+        try {
+          const response = await deleteProduct(productId);
+
+          if (!response.success)
+            return Swal.showValidationMessage(response.message);
+
+          return response.message;
+        } catch (error) {
+          return Swal.showValidationMessage(`Error: ${error.message}`);
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      //boton "Si, Borrar"
+      if (result.isConfirmed) {
+        Toast.fire({
+          icon: "success",
+          title: "Completado",
+          text: result.value,
+        });
+
+        //boton "No"
+      } else if (result.isDenied) {
+        Toast.fire({
+          icon: "info",
+          title: "Acción cancelada",
+        });
+      }
+    });
   };
+
   return (
     <div className="flex space-x-2">
       <button

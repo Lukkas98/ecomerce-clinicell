@@ -10,7 +10,7 @@ export async function POST(req = NextRequest) {
 
   const payment = await new Payment(client).get({ id: body.data.id });
 
-  console.log("payment: ", payment);
+  // console.log("payment: ", payment);
 
   const messageW = {
     id: payment.id,
@@ -18,7 +18,7 @@ export async function POST(req = NextRequest) {
     date: payment.date_approved,
     message: payment.description,
     items: payment.additional_info.items,
-    payer: payment.payer.first_name,
+    payer: payment.payer,
   };
 
   console.log("messageW: ", messageW);

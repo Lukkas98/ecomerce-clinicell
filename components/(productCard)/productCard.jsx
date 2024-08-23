@@ -1,4 +1,4 @@
-import { getCategoryId } from "@/lib/actions";
+import { getCategoryId } from "@/lib/actions/categories";
 import Image from "next/image";
 import Link from "next/link";
 import ActionButton from "./actionButton";
@@ -29,7 +29,11 @@ export default async function ProductCard({ product, searchParams }) {
         <h6 className="font-semibold text-lg">{name}</h6>
         <span className="font-bold text-2xl">{"$ " + price}</span>
         <span className="text-sm">{stock ? "En stock" : "Sin stock"}</span>
-        <ActionButton product={JSON.parse(JSON.stringify(product))} stock={stock} typeButton="ADD_PRODUCT"   />
+        <ActionButton
+          product={JSON.parse(JSON.stringify(product))}
+          stock={stock}
+          typeButton="ADD_PRODUCT"
+        />
       </div>
     </div>
   );

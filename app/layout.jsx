@@ -1,5 +1,4 @@
 import { Exo_2 } from "next/font/google";
-import "toastify-js/src/toastify.css";
 import "./globals.css";
 import CartProvider from "@/components/(header)/(cart)/cartProvider";
 
