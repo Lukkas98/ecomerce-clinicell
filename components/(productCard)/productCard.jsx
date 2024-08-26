@@ -2,6 +2,7 @@ import { getCategoryId } from "@/lib/actions/categories";
 import Image from "next/image";
 import Link from "next/link";
 import ActionButton from "./actionButton";
+import defaultImage from "@/public/default.svg";
 
 export default async function ProductCard({ product, searchParams }) {
   const { images, name, price, stock, _id, category } = product;
@@ -18,7 +19,7 @@ export default async function ProductCard({ product, searchParams }) {
         className="relative transition-all duration-500"
       >
         <Image
-          src={images[0]}
+          src={images[0] || defaultImage}
           fill={true}
           alt="imgProduct"
           sizes="50vw"

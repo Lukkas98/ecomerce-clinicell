@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import defaultImage from "@/public/default.svg";
 
 import a_left from "../assets/left.svg";
 import a_rigth from "../assets/rigth.svg";
@@ -47,6 +48,15 @@ function Carousel({ images }) {
             />
           </div>
         ))}
+        {!images.length && (
+          <Image
+            src={defaultImage}
+            height={100}
+            width={100}
+            alt="no image"
+            className="mx-auto"
+          />
+        )}
       </div>
       <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
         {images?.map((_, i) => (
@@ -63,22 +73,26 @@ function Carousel({ images }) {
           ></button>
         ))}
       </div>
-      <button
-        type="button"
-        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
-        data-carousel-prev
-        onClick={prevSlide}
-      >
-        <Image src={a_left} width={30} height={30} alt="pagination" />
-      </button>
-      <button
-        type="button"
-        className="absolute top-0 end-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
-        data-carousel-next
-        onClick={nextSlide}
-      >
-        <Image src={a_rigth} width={30} height={30} alt="pagination" />
-      </button>
+      {currentSlide > 1 && (
+        <button
+          type="button"
+          className="absolute top-0 start-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
+          data-carousel-prev
+          onClick={prevSlide}
+        >
+          <Image src={a_left} width={20} height={20} alt="pagination" />
+        </button>
+      )}
+      {currentSlide > 0 && currentSlide < images.length && (
+        <button
+          type="button"
+          className="absolute top-0 end-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
+          data-carousel-next
+          onClick={nextSlide}
+        >
+          <Image src={a_rigth} width={20} height={20} alt="pagination" />
+        </button>
+      )}
     </div>
   );
 }

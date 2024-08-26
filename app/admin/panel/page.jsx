@@ -15,7 +15,7 @@ export default async function AdminPanel() {
           className="py-2 px-3 bg-blue-500 hover:bg-blue-600 rounded-md transition-all"
           href={"/admin/panel/create"}
         >
-          Create Product
+          Crear Producto
         </Link>
       </nav>
 
