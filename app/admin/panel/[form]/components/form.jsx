@@ -7,11 +7,11 @@ import {
   deleteImageByUrl,
   editProduct,
 } from "@/lib/actions/products";
-import { productSchema } from "./validation";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { createCategory } from "@/lib/actions/categories";
+import { productSchema } from "./validation";
 
 const Toast = Swal.mixin({
   toast: true,

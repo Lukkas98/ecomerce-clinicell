@@ -1,7 +1,7 @@
 import { getCategories, getCategoryId } from "@/lib/actions/categories";
-import Form from "./form";
 import Link from "next/link";
 import { getProduct } from "@/lib/actions/products";
+import Form from "./components/form";
 
 export default async function FormPage({ params, searchParams }) {
   const categories = await getCategories(true);
