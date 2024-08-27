@@ -13,7 +13,11 @@ export default async function ProductCard({ product, searchParams }) {
   const urlPathname = `/home/${categoryOfProduct.name}/${name}`;
 
   return (
-    <div className="z-0 w-[90%] grid grid-cols-2 h-40 mx-auto rounded-xl outline outline-1 outline-black hover:bg-blue-100 transition-all shadow-[black] shadow-md overflow-hidden">
+    <div
+      className={`${
+        !stock ? "opacity-60 text-gray-500 outline-gray-500" : "outline-black"
+      } z-0 w-[90%] grid grid-cols-2 h-40 mx-auto rounded-xl outline outline-1 hover:bg-blue-100 transition-all shadow-[black] shadow-md overflow-hidden`}
+    >
       <Link
         href={`${urlPathname}`}
         className="relative transition-all duration-500"

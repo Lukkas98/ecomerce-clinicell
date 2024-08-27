@@ -3,6 +3,7 @@ import Buttons from "./components/buttons";
 import Link from "next/link";
 import Image from "next/image";
 import defaultImage from "@/public/default.svg";
+import CheckboxStock from "./components/checkboxStock";
 
 export default async function AdminPanel() {
   const products = await getProducts();
@@ -41,9 +42,9 @@ export default async function AdminPanel() {
               </div>
               <div className="flex w-full justify-between pt-4">
                 <p className="text-gray-600">$ {item.price}</p>
-                <p className="text-gray-600">
-                  {item.stock ? "en stock" : "sin stock"}
-                </p>
+                <div className="flex gap-3 items-center">
+                  <CheckboxStock item={JSON.parse(JSON.stringify(item))} />
+                </div>
               </div>
             </div>
             <Buttons itemId={item._id.toString()} />
