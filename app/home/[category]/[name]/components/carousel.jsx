@@ -26,14 +26,14 @@ function Carousel({ images }) {
   return (
     <div
       id="default-carousel"
-      className="relative w-full h-full"
+      className="relative w-full max-w-lg h-full"
       data-carousel="slide"
     >
       <div className="relative overflow-hidden rounded-lg">
         {images?.map((img, i) => (
           <div
             key={i}
-            className={`duration-700 relative aspect-square w-full ease-in-out ${
+            className={`duration-700 relative max-w-lg aspect-square w-full ease-in-out ${
               currentSlide === i + 1 ? "" : "hidden"
             }`}
             data-carousel-item
@@ -43,7 +43,7 @@ function Carousel({ images }) {
               className="absolute block w-full"
               alt="..."
               fill={true}
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 512px"
               quality={100}
             />
           </div>
