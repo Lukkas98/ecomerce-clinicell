@@ -1,7 +1,7 @@
 import { getCategories, getCategoryId } from "@/lib/actions/categories";
-import Form from "./form";
 import Link from "next/link";
 import { getProduct } from "@/lib/actions/products";
+import Form from "./components/form";
 
 export default async function FormPage({ params, searchParams }) {
   const categories = await getCategories(true);
@@ -21,8 +21,13 @@ export default async function FormPage({ params, searchParams }) {
 
   return (
     <div className="border border-gray-300 p-4 rounded-lg bg-white m-5 max-w-5xl mx-3 lg:mx-auto">
-      <Link href={"/admin/panel"}>Volver al panel</Link>
-      <h2 className="text-lg font-semibold mb-4 text-center">
+      <Link
+        className="px-2 py-1 bg-red-400 text-sm rounded text-white font-semibold hover:bg-red-600 transition-all"
+        href={"/admin/panel"}
+      >
+        Volver
+      </Link>
+      <h2 className="text-lg font-semibold my-4 text-center">
         {form === "edit" ? "Actualizar Producto" : "Subir Producto"}
       </h2>
       <Form

@@ -7,10 +7,11 @@ import {
   deleteImageByUrl,
   editProduct,
 } from "@/lib/actions/products";
-import { productSchema } from "./validation";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import { createCategory } from "@/lib/actions/categories";
+import { productSchema } from "./validation";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -46,6 +47,31 @@ export default function Form({
       });
     }
   }, [mode, initialData]);
+
+  const handleOnClick = async () => {
+    const { value: categoryName } = await Swal.fire({
+      title: "Crear Categoría",
+      input: "text",
+      inputLabel: "Ingresa el nombre de la Categoría nueva",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "No puede estar vacio";
+        }
+      },
+    });
+    if (categoryName) {
+      try {
+        const response = await createCategory(categoryName);
+
+        if (!response.success) throw new Error(response.message);
+
+        Swal.fire("Categoría Creada", response.message, "success");
+      } catch (error) {
+        Swal.fire("Ups..", error.message, "error");
+      }
+    }
+  };
 
   const handleOnChange = (e) => {
     const { name, value, files } = e.target;
@@ -209,23 +235,29 @@ export default function Form({
         <span className="text-red-700 text-sm">{errors.description ?? ""}</span>
       </div>
 
-      <div className="flex">
-        <label className="w-[90%]">
+      <div className="flex flex-col w-11/12">
+        <div className="flex justify-between">
           <p>Selecciona la categoria</p>
-          <select
-            name="category"
-            onChange={handleOnChange}
-            value={data.category}
-            className="w-full mx-auto px-2 py-1 mt-2"
+          <span
+            onClick={handleOnClick}
+            className="bg-blue-500 py-1 px-2 rounded text-sm text-white cursor-pointer"
           >
-            {categories.map((category) => (
-              <option key={category._id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <span className="text-red-700 text-sm">{errors.category ?? ""}</span>
-        </label>
+            Crear Categoría
+          </span>
+        </div>
+        <select
+          name="category"
+          onChange={handleOnChange}
+          value={data.category}
+          className="w-full mx-auto px-2 py-1 mt-2"
+        >
+          {categories.map((category) => (
+            <option key={category._id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <span className="text-red-700 text-sm">{errors.category ?? ""}</span>
       </div>
 
       <div className="mx-auto">

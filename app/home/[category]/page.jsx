@@ -24,7 +24,7 @@ export default async function CategoryPage({ params, searchParams }) {
     );
   }
 
-  const categoryObj = await getCategoryName(category);
+  const categoryObj = await getCategoryName(decodeURIComponent(category));
 
   return (
     <>

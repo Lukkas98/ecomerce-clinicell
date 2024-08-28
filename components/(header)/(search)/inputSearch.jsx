@@ -30,7 +30,7 @@ export default function InputSearch() {
           defaultValue={useParams.get("search")}
           className="rounded-md w-full placeholder:text-black placeholder:text-opacity-80 bg-blue-200 px-2 py-1 focus:outline-1 focus:outline-slate-900 border-none mr-2"
         />
-        <div className="absolute -left-10">
+        <div className="absolute -left-10 text-white">
           <Search />
         </div>
       </div>

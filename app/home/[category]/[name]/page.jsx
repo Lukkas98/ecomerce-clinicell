@@ -1,10 +1,10 @@
 import ActionButton from "@/components/(productCard)/actionButton";
 import Carousel from "./components/carousel";
-import { getProduct } from "@/lib/actions/products";
+import { searchProducts } from "@/lib/actions/products";
 
 export default async function ProductPage({ params }) {
-  const { id } = params;
-  const product = await getProduct(id);
+  const { name } = params;
+  const product = await searchProducts(decodeURIComponent(name), true);
 
   return (
     <section className="container mx-auto p-4">
