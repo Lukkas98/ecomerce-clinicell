@@ -10,7 +10,7 @@ export default async function CategoryLayout({ children }) {
         <DesktopMenu />
         {children}
       </section>
-      <div className="sticky max-h-20 bottom-0 py-5 w-full flex justify-center items-center border-t border-black z-30 bg-gradient-to-t from-slate-800 to-teal-50">
+      <div className="sticky bg-slate-800 max-h-20 bottom-0 py-5 w-full flex justify-center items-center border-t border-black z-30">
         <InputSearch />
       </div>
       <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5">
