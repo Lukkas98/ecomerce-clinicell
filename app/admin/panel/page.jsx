@@ -3,9 +3,11 @@ import { getCategories } from "@/lib/actions/categories";
 import Buttons from "./components/buttons";
 import Link from "next/link";
 import Image from "next/image";
-import defaultImage from "@/public/default.svg";
 import CheckboxStock from "./components/checkboxStock";
 import Button from "./components/button";
+
+const noImage =
+  "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function AdminPanel({ searchParams }) {
   const { tab } = searchParams;
@@ -48,15 +50,16 @@ export default async function AdminPanel({ searchParams }) {
               <div className="w-[50%]">
                 <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
                 <div
-                  className={`relative w-20 aspect-square overflow-hidden rounded-md ${
+                  className={`aspect-square relative w-24 overflow-hidden rounded-md ${
                     item.images[0] ? "shadow-black shadow" : ""
                   }`}
                 >
                   <Image
-                    src={item.images[0] || defaultImage}
-                    fill={true}
+                    src={item.images[0] || noImage}
                     alt={item.name + "image"}
-                    sizes="80px"
+                    fill={true}
+                    sizes="96px"
+                    quality={80}
                   />
                 </div>
                 <div className="flex w-full justify-between pt-4">
@@ -76,7 +79,7 @@ export default async function AdminPanel({ searchParams }) {
         <main className="grid gap-4 my-4 md:grid-cols-2 lg:grid-cols-4">
           {data?.map((cat, i) => (
             <div
-              className="px-3 py-2 max-w-xl bg-blue-600 mx-5 rounded-lg shadow-black shadow text-white
+              className="px-3 py-2 max-w-xl bg-teal-50 mx-5 rounded-lg shadow-black shadow
                hover:bg-blue-400 hover:text-black transition-all"
               key={i}
             >

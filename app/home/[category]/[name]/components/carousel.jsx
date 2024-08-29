@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import defaultImage from "@/public/default.svg";
 
 import a_left from "../assets/left.svg";
 import a_rigth from "../assets/rigth.svg";
 
-function Carousel({ images }) {
+const noImage =
+  "https://fakeimg.pl/450x450/c2c2c2/808080?text=Sin+Imagen&font=bebas";
+
+function Carousel({ images = [] }) {
   const [currentSlide, setCurrentSlide] = useState(1);
 
   const nextSlide = () => {
@@ -26,33 +28,34 @@ function Carousel({ images }) {
   return (
     <div
       id="default-carousel"
-      className="relative w-full max-w-lg h-full"
+      className="relative w-full h-full"
       data-carousel="slide"
     >
-      <div className="relative overflow-hidden rounded-lg">
-        {images?.map((img, i) => (
+      <div className="relative overflow-hidden rounded-xl">
+        {images.map((img, i) => (
           <div
             key={i}
-            className={`duration-700 relative max-w-lg aspect-square w-full ease-in-out ${
+            className={`relative aspect-square w-full ${
               currentSlide === i + 1 ? "" : "hidden"
             }`}
             data-carousel-item
           >
             <Image
-              src={img ?? "https://via.placeholder.com/400"}
+              src={img ?? noImage}
               className="absolute block w-full"
               alt="..."
               fill={true}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 512px"
-              quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 400px, 400px"
+              quality={90}
+              priority={true}
             />
           </div>
         ))}
         {!images.length && (
           <Image
-            src={defaultImage}
-            height={100}
-            width={100}
+            src={noImage}
+            height={450}
+            width={450}
             alt="no image"
             className="mx-auto"
           />

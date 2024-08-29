@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "fakeimg.pl",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {
