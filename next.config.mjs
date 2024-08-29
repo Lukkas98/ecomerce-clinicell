@@ -10,11 +10,17 @@ const nextConfig = {
       },
     ],
   },
-  async rewrites() {
+  async redirects() {
     return [
       {
+        source: "/",
+        destination: "/home/Todos",
+        permanent: true,
+      },
+      {
         source: "/home",
-        destination: "/",
+        destination: "/home/Todos",
+        permanent: true,
       },
     ];
   },
