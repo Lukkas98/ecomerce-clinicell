@@ -40,19 +40,11 @@ export default function Buttons({ itemId }) {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
-      //boton "Si, Borrar"
       if (result.isConfirmed) {
         Toast.fire({
           icon: "success",
           title: "Completado",
           text: result.value,
-        });
-
-        //boton "No"
-      } else if (result.isDenied) {
-        Toast.fire({
-          icon: "info",
-          title: "Acción cancelada",
         });
       }
     });

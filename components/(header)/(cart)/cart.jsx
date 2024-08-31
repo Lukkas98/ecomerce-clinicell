@@ -11,16 +11,19 @@ import {
 import { XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { CartContext } from "./cartProvider";
 import Image from "next/image";
-import { payMP } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
-const TAXES = 1.084; //porcentaje mercado pago 8,4%
+const noImage =
+  "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
-export default function Example() {
+export default function Cart() {
   const { cart, dispatch } = useContext(CartContext);
   const [open, setOpen] = useState(false);
 
-  const handlePay = async (items) => {
-    payMP(items);
+  const router = useRouter();
+
+  const handlePay = async () => {
+    router.push(`/pay`);
   };
 
   return (
@@ -96,7 +99,7 @@ export default function Example() {
                                       quality={85}
                                       width={96}
                                       height={96}
-                                      src={product.images[0]}
+                                      src={product.images[0] ?? noImage}
                                       alt={product.name}
                                       className="h-full w-full object-cover object-center"
                                     />
@@ -142,7 +145,7 @@ export default function Example() {
 
                       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                         <div className="flex justify-between text-base font-medium text-gray-900">
-                          <p>Sub Total</p>
+                          <p>Total</p>
                           <p>
                             ${" "}
                             {cart.items?.reduce(
@@ -151,27 +154,11 @@ export default function Example() {
                             )}
                           </p>
                         </div>
-                        <p className="mt-0.5 text-sm text-gray-500">
-                          Total con inpuestos aplicados + IVA.
-                        </p>
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <p className=" font-bold text-lg">Total</p>
-                          <p className=" text-xl">
-                            ${" "}
-                            {(
-                              cart.items?.reduce(
-                                (acc, obj) => acc + obj.price,
-                                0
-                              ) * TAXES
-                            ).toFixed(2)}
-                          </p>
-                        </div>
+
                         <div className="mt-6">
                           <button
                             disabled={!cart.items.length}
-                            onClick={() => {
-                              handlePay(cart.items);
-                            }}
+                            onClick={handlePay}
                             className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-400 disabled:bg-opacity-80 disabled:cursor-not-allowed"
                           >
                             Completar Pago

@@ -2,7 +2,6 @@ import { getCategoryId } from "@/lib/actions/categories";
 import Image from "next/image";
 import Link from "next/link";
 import ActionButton from "./actionButton";
-import { image } from "@/public/loaderBase64.js";
 
 const noImage =
   "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";
@@ -31,8 +30,7 @@ export default async function ProductCard({ product, searchParams }) {
           alt="imgProduct"
           sizes="(max-width: 768px) 80px, (max-width: 1200px) 160px, 33vw"
           quality={100}
-          placeholder="blur"
-          blurDataURL={image}
+          priority={true}
         />
       </Link>
       <div className="self-center flex flex-col justify-between h-[90%] ml-3 cursor-default">
