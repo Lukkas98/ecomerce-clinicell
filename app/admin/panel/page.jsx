@@ -80,7 +80,7 @@ export default async function AdminPanel({ searchParams }) {
           {data?.map((cat, i) => (
             <div
               className="px-3 py-2 max-w-xl bg-teal-50 mx-5 rounded-lg shadow-black shadow
-               hover:bg-blue-400 hover:text-black transition-all"
+               hover:bg-blue-400 hover:text-black transition-all flex justify-between"
               key={i}
             >
               <div className="mb-3">
