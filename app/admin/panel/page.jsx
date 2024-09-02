@@ -1,7 +1,7 @@
 import { getProducts } from "@/lib/actions/products";
 import { getCategories } from "@/lib/actions/categories";
 import { getAllPayments } from "@/lib/actions/payments";
-import Buttons from "./components/buttons";
+import ButtonsProd from "./components/buttons";
 import BtnPayment from "./components/btnPayment";
 import CheckboxStock from "./components/checkboxStock";
 import Button from "./components/button";
@@ -28,7 +28,7 @@ export default async function AdminPanel({ searchParams }) {
           className="py-2 px-3 bg-blue-500 hover:bg-blue-800 rounded-md transition-all"
           href={"/admin/panel/create"}
         >
-          Crear Producto
+          Subir Producto
         </Link>
         <div className="col-span-2 flex gap-5">
           <Link
@@ -81,7 +81,7 @@ export default async function AdminPanel({ searchParams }) {
                   </div>
                 </div>
               </div>
-              <Buttons itemId={item._id.toString()} />
+              <ButtonsProd itemId={item._id.toString()} />
             </div>
           ))}
         </main>

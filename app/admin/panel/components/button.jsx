@@ -50,7 +50,7 @@ export default function Button({ categoryId }) {
       icon: "question",
       title: "¿Quieres Renombrar esta categoria?",
       showDenyButton: true,
-      confirmButtonText: "Si, editar",
+      confirmButtonText: "Si, renombrar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
     }).then(async (res) => {

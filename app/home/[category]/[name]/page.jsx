@@ -1,4 +1,4 @@
-import ActionButton from "@/components/(productCard)/actionButton";
+import ActionButton from "./components/actionButton";
 import Carousel from "./components/carousel";
 import { searchProducts } from "@/lib/actions/products";
 

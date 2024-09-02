@@ -1,7 +1,7 @@
 import { getCategoryId } from "@/lib/actions/categories";
 import Image from "next/image";
 import Link from "next/link";
-import ActionButton from "./actionButton";
+import ActionButton from "../[name]/components/actionButton";
 
 const noImage =
   "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";

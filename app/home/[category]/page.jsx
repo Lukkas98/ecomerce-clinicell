@@ -1,4 +1,4 @@
-import Category from "@/components/category";
+import Category from "./components/category";
 import { getProducts, searchProducts } from "@/lib/actions/products";
 import { getCategoryName } from "@/lib/actions/categories";
 

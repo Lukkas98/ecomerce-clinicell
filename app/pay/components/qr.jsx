@@ -1,5 +1,5 @@
 "use client";
-import { CartContext } from "@/components/(header)/(cart)/cartProvider";
+import { CartContext } from "@/components/(cart)/cartProvider";
 import { useContext, useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import QRcode from "qrcode";
@@ -32,7 +32,6 @@ Productos: ${productList}.`;
     )}`;
     setWhatsappLink(link);
     QRcode.toDataURL(link).then(setQr);
-    console.log("useEffect: ", link);
   }, [orderId, cart]);
 
   const handleOnClick = () => {
@@ -75,10 +74,12 @@ Productos: ${productList}.`;
           </>
         )}
       </div>
+      {isMovil && <p className="text-sm text-gray-500">Pedido: {orderId}</p>}
       <ButtonPay
         isMobile={isMovil}
         data={{ orderId, cart }}
         dispatch={dispatch}
+        whatsappLink={whatsappLink}
       />
     </>
   );

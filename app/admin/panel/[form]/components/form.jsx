@@ -107,7 +107,10 @@ export default function Form({
         const PromisesUrls = imageUrls.map(async (url, i) => {
           if (url.includes("https://firebasestorage")) return url;
 
-          return await UploadFirebase(url, i, data.name, data.category);
+          const nameCapitalized =
+            data.name[0].toUpperCase() + data.name.slice(1).toLowerCase();
+
+          return await UploadFirebase(url, i, nameCapitalized, data.category);
         });
         const Urls = await Promise.all(PromisesUrls);
 

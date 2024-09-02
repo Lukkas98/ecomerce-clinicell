@@ -12,7 +12,7 @@ const Toast = Swal.mixin({
   timerProgressBar: true,
 });
 
-export default function Buttons({ itemId }) {
+export default function ButtonsProd({ itemId }) {
   const router = useRouter();
 
   const handleEdit = (productId) => {
@@ -21,9 +21,9 @@ export default function Buttons({ itemId }) {
 
   const handleDelete = async (productId) => {
     Swal.fire({
-      title: "Quieres eliminar este producto?",
+      title: "¿Quieres eliminar este producto?",
       showDenyButton: true,
-      confirmButtonText: "Si, Borrar",
+      confirmButtonText: "Si, Eliminar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
       preConfirm: async () => {

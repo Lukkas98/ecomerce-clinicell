@@ -4,7 +4,7 @@ import { createPay } from "@/lib/actions/payments";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
-export default function ButtonPay({ isMobile, data, dispatch }) {
+export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
   const { orderId, cart } = data;
   const router = useRouter();
 
@@ -23,7 +23,11 @@ export default function ButtonPay({ isMobile, data, dispatch }) {
         showLoaderOnConfirm: true,
         preConfirm: async () => {
           try {
-            const response = await createPay({ orderId, items, total });
+            const response = await createPay({
+              orderId,
+              items,
+              total,
+            });
 
             if (!response.success)
               return Swal.showValidationMessage(response.message);
@@ -60,6 +64,51 @@ export default function ButtonPay({ isMobile, data, dispatch }) {
             showConfirmButton: false,
             timer: 1600,
             timerProgressBar: true,
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "question",
+        title: "¿Confirmas la compra?",
+        showConfirmButton: true,
+        confirmButtonText: "Si",
+        showDenyButton: true,
+        denyButtonText: "No",
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
+          try {
+            const response = await createPay(
+              { orderId, items, total },
+              whatsappLink
+            );
+
+            if (!response.success)
+              return Swal.showValidationMessage(response.message);
+
+            dispatch({ type: "EMPTY_CART" });
+            return { message: response.message, link: response.to };
+          } catch (error) {
+            return Swal.showValidationMessage(`Error: ${error.message}`);
+          }
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((res) => {
+        if (res.isConfirmed) {
+          Swal.fire({
+            icon: "success",
+            html: `<div class="bg-white rounded-lg p-6 text-center">
+    <h6 class="text-xl font-semibold text-gray-800 mb-4">Muchas gracias por confiar en Clinic-Cell</h6>
+    <p class="text-green-700 font-medium">${res.value.message}</p>
+    <p class="text-gray-600 mb-4">Redirigiendo a WhatsApp, por favor, espere...</p>
+  </div>`,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            willClose: () => {
+              router.replace(res.value.link);
+            },
           });
         }
       });

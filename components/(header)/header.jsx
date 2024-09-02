@@ -1,7 +1,7 @@
 import { getCategories } from "@/lib/actions/categories";
 import Image from "next/image";
 import LinkHeader from "./linkHeader";
-import Cart from "./(cart)/cart";
+import Cart from "../(cart)/cart";
 import { Suspense } from "react";
 
 export default async function Header() {
