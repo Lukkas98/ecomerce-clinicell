@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import QrImage from "./components/qr";
 import logo from "@/public/LogoPrueba.png";
@@ -10,7 +8,7 @@ const isMobileDevice = () => {
   return /Mobi|Android/i.test(userAgent);
 };
 
-export default function OrderConfirmation() {
+export default async function OrderConfirmation() {
   return (
     <section className="text-center">
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
