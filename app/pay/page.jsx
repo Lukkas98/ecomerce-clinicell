@@ -1,8 +1,12 @@
 import Image from "next/image";
 import QrImage from "./components/qr";
 import logo from "@/public/LogoPrueba.png";
+import { headers } from "next/headers";
 
-const isMobileDevice = () => /Mobi|Android/i.test(navigator.userAgent);
+const isMobileDevice = () => {
+  const userAgent = headers().get("user-agent") || "";
+  return /Mobi|Android/i.test(userAgent);
+};
 
 export default async function OrderConfirmation() {
   return (
