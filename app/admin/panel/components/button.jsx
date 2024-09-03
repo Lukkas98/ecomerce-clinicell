@@ -68,7 +68,10 @@ export default function Button({ categoryId }) {
         });
         if (categoryName) {
           try {
-            const response = await editCategory(categoryId, categoryName);
+            const capitalName =
+              categoryName.charAt(0).toUpperCase() +
+              categoryName.slice(1).toLowerCase();
+            const response = await editCategory(categoryId, capitalName);
 
             if (!response.success) throw new Error(response.message);
 

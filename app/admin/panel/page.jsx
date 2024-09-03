@@ -7,6 +7,7 @@ import CheckboxStock from "./components/checkboxStock";
 import Button from "./components/button";
 import Link from "next/link";
 import Image from "next/image";
+import BtnCreateCategory from "./components/btnCreateCat";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
@@ -89,6 +90,7 @@ export default async function AdminPanel({ searchParams }) {
 
       {tab === "categories" && (
         <main className="grid gap-4 my-4 md:grid-cols-2 lg:grid-cols-4">
+          <BtnCreateCategory />
           {data?.map((cat, i) => (
             <div
               className="px-3 py-2 max-w-xl bg-teal-50 mx-5 rounded-lg shadow-black shadow
