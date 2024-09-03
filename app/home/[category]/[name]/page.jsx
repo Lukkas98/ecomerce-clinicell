@@ -1,4 +1,4 @@
-import ActionButton from "@/components/(productCard)/actionButton";
+import ActionButton from "./components/actionButton";
 import Carousel from "./components/carousel";
 import { searchProducts } from "@/lib/actions/products";
 
@@ -7,9 +7,9 @@ export default async function ProductPage({ params }) {
   const product = await searchProducts(decodeURIComponent(name), true);
 
   return (
-    <section className="container mx-auto p-4">
+    <section className="mx-auto p-4 lg:w-full">
       <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-6">
-        <div className="w-full md:w-1/2">
+        <div className="w-full max-w-[450px]">
           <Carousel images={product.images} />
         </div>
         <div className="w-full md:w-1/2 mt-4 md:mt-0">

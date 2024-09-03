@@ -1,6 +1,6 @@
 import { Exo_2 } from "next/font/google";
 import "./globals.css";
-import CartProvider from "@/components/(header)/(cart)/cartProvider";
+import CartProvider from "@/components/(cart)/cartProvider";
 
 const font = Exo_2({
   subsets: ["latin"],

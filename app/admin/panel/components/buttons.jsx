@@ -12,7 +12,7 @@ const Toast = Swal.mixin({
   timerProgressBar: true,
 });
 
-export default function Buttons({ itemId }) {
+export default function ButtonsProd({ itemId }) {
   const router = useRouter();
 
   const handleEdit = (productId) => {
@@ -21,9 +21,9 @@ export default function Buttons({ itemId }) {
 
   const handleDelete = async (productId) => {
     Swal.fire({
-      title: "Quieres eliminar este producto?",
+      title: "¿Quieres eliminar este producto?",
       showDenyButton: true,
-      confirmButtonText: "Si, Borrar",
+      confirmButtonText: "Si, Eliminar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
       preConfirm: async () => {
@@ -40,19 +40,11 @@ export default function Buttons({ itemId }) {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
-      //boton "Si, Borrar"
       if (result.isConfirmed) {
         Toast.fire({
           icon: "success",
           title: "Completado",
           text: result.value,
-        });
-
-        //boton "No"
-      } else if (result.isDenied) {
-        Toast.fire({
-          icon: "info",
-          title: "Acción cancelada",
         });
       }
     });

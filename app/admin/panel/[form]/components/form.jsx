@@ -10,7 +10,6 @@ import {
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
-import { createCategory } from "@/lib/actions/categories";
 import { productSchema } from "./validation";
 
 const Toast = Swal.mixin({
@@ -22,7 +21,7 @@ const Toast = Swal.mixin({
 });
 
 export default function Form({
-  categories,
+  categories = [],
   mode = "create",
   initialData = {},
 }) {
@@ -34,7 +33,7 @@ export default function Form({
     price: 0,
     stock: true,
     description: "",
-    category: "Categoria1",
+    category: categories.length ? categories[0].name : "",
     imagesForUpload: [],
     imagesSelected: [], //para subirlas a firebase
   });
@@ -47,31 +46,6 @@ export default function Form({
       });
     }
   }, [mode, initialData]);
-
-  const handleOnClick = async () => {
-    const { value: categoryName } = await Swal.fire({
-      title: "Crear Categoría",
-      input: "text",
-      inputLabel: "Ingresa el nombre de la Categoría nueva",
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "No puede estar vacio";
-        }
-      },
-    });
-    if (categoryName) {
-      try {
-        const response = await createCategory(categoryName);
-
-        if (!response.success) throw new Error(response.message);
-
-        Swal.fire("Categoría Creada", response.message, "success");
-      } catch (error) {
-        Swal.fire("Ups..", error.message, "error");
-      }
-    }
-  };
 
   const handleOnChange = (e) => {
     const { name, value, files } = e.target;
@@ -107,7 +81,10 @@ export default function Form({
         const PromisesUrls = imageUrls.map(async (url, i) => {
           if (url.includes("https://firebasestorage")) return url;
 
-          return await UploadFirebase(url, i, data.name, data.category);
+          const nameCapitalized =
+            data.name[0].toUpperCase() + data.name.slice(1).toLowerCase();
+
+          return await UploadFirebase(url, i, nameCapitalized, data.category);
         });
         const Urls = await Promise.all(PromisesUrls);
 
@@ -238,12 +215,6 @@ export default function Form({
       <div className="flex flex-col w-11/12">
         <div className="flex justify-between">
           <p>Selecciona la categoria</p>
-          <span
-            onClick={handleOnClick}
-            className="bg-blue-500 py-1 px-2 rounded text-sm text-white cursor-pointer"
-          >
-            Crear Categoría
-          </span>
         </div>
         <select
           name="category"
@@ -310,7 +281,7 @@ export default function Form({
         </button>
       )}
       {isLoading && (
-        <span className="bg-blue-600 font-bold text-blue-50 px-2 py-1 rounded-md w-full self-center">
+        <span className="bg-blue-300 opacity-80 font-bold text-black px-2 py-1 rounded-md w-full self-center">
           Procesando, por favor espere...
         </span>
       )}

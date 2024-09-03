@@ -1,9 +1,10 @@
 import { getCategoryId } from "@/lib/actions/categories";
 import Image from "next/image";
 import Link from "next/link";
-import ActionButton from "./actionButton";
-import defaultImage from "@/public/default.svg";
-import { image } from "@/public/loaderBase64.js";
+import ActionButton from "../[name]/components/actionButton";
+
+const noImage =
+  "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductCard({ product, searchParams }) {
   const { images, name, price, stock, _id, category } = product;
@@ -24,13 +25,12 @@ export default async function ProductCard({ product, searchParams }) {
         className="relative transition-all duration-500"
       >
         <Image
-          src={images[0] || defaultImage}
+          src={images[0] || noImage}
           fill={true}
           alt="imgProduct"
           sizes="(max-width: 768px) 80px, (max-width: 1200px) 160px, 33vw"
           quality={100}
-          placeholder="blur"
-          blurDataURL={image}
+          priority={true}
         />
       </Link>
       <div className="self-center flex flex-col justify-between h-[90%] ml-3 cursor-default">

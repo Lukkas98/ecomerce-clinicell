@@ -1,7 +1,8 @@
 import { getCategories } from "@/lib/actions/categories";
 import Image from "next/image";
 import LinkHeader from "./linkHeader";
-import Cart from "./(cart)/cart";
+import Cart from "../(cart)/cart";
+import { Suspense } from "react";
 
 export default async function Header() {
   const categories = await getCategories();
@@ -33,13 +34,21 @@ export default async function Header() {
           categoryName={"Todos"}
           className="border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
         />
-        {categories?.map((category) => (
-          <LinkHeader
-            key={category._id}
-            categoryName={category.name}
-            className="border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
-          />
-        ))}
+        <Suspense
+          fallback={
+            <div className="border px-3 py-2 animate-pulse border-blue-800 rounded-md hover:bg-blue-950 transition-all">
+              Cargando
+            </div>
+          }
+        >
+          {categories?.map((category) => (
+            <LinkHeader
+              key={category._id}
+              categoryName={category.name}
+              className="border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+            />
+          ))}
+        </Suspense>
       </nav>
     </header>
   );

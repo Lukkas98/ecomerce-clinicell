@@ -9,14 +9,21 @@ export default async function UploadFirebase(
 ) {
   const storage = getStorage(app, `${process.env.NEXT_PUBLIC_URL_FIREBASE}`);
 
+  const capName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  const capCategory =
+    category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+
   const response = await fetch(imageUrl);
   const blob = await response.blob();
 
   // Generar un nombre único para el archivo
-  const fileName = `${name}-${index}`;
+  const fileName = `${capName}-${index}`;
 
   // Subir el archivo a Firebase Storage
-  const storageRef = ref(storage, `productos/${category}/${name}/${fileName}`);
+  const storageRef = ref(
+    storage,
+    `productos/${capCategory}/${capName}/${fileName}`
+  );
   await uploadBytes(storageRef, blob);
 
   const URL = await getDownloadURL(storageRef);

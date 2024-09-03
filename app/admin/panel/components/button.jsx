@@ -1,6 +1,6 @@
 "use client";
-import { DeleteCategory } from "@/lib/actions/categories";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { DeleteCategory, editCategory } from "@/lib/actions/categories";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Swal from "sweetalert2";
 
 const Toast = Swal.mixin({
@@ -42,25 +42,71 @@ export default function Button({ categoryId }) {
           title: "Completado",
           text: result.value,
         });
-
-        //boton "No"
-      } else if (result.isDenied) {
-        Toast.fire({
-          icon: "info",
-          title: "Acción cancelada",
+      }
+    });
+  };
+  const handleEdit = async () => {
+    Swal.fire({
+      icon: "question",
+      title: "¿Quieres Renombrar esta categoria?",
+      showDenyButton: true,
+      confirmButtonText: "Si, renombrar",
+      showLoaderOnConfirm: true,
+      denyButtonText: `No`,
+    }).then(async (res) => {
+      if (res.isConfirmed) {
+        const { value: categoryName } = await Swal.fire({
+          title: "Editar Categoría",
+          input: "text",
+          inputLabel: "Ingresa el nombre nuevo",
+          showCancelButton: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return "No puede estar vacio";
+            }
+          },
         });
+        if (categoryName) {
+          try {
+            const capitalName =
+              categoryName.charAt(0).toUpperCase() +
+              categoryName.slice(1).toLowerCase();
+            const response = await editCategory(categoryId, capitalName);
+
+            if (!response.success) throw new Error(response.message);
+
+            Toast.fire(response.message, "", "success");
+          } catch (error) {
+            Toast.fire("Ups..", error.message, "error");
+          }
+        }
       }
     });
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex items-center space-x-2">
       <button
-        className="text-red-500 font-bold py-2 px-4 rounded group hover:bg-red-500 transition-all duration-[400ms]"
-        onClick={() => handleDelete(categoryId)}
-        title="Eliminar Categoria"
+        onClick={handleEdit}
+        title="Editar"
+        className="text-green-700 font-bold p-2 rounded group hover:bg-green-700 transition-all duration-[400ms]"
       >
-        <TrashIcon className="h-5 w-5 inline-block group-hover:text-red-200 group-hover:scale-[1.20]" />
+        <PencilSquareIcon
+          width={20}
+          height={20}
+          className="inline-block group-hover:text-green-100 group-hover:scale-[1.20]"
+        />
+      </button>
+      <button
+        className="text-red-500 font-bold p-2 rounded group hover:bg-red-500 transition-all duration-[400ms]"
+        onClick={() => handleDelete(categoryId)}
+        title="Eliminar"
+      >
+        <TrashIcon
+          width={20}
+          height={20}
+          className="inline-block group-hover:text-red-200 group-hover:scale-[1.20]"
+        />
       </button>
     </div>
   );

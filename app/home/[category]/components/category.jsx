@@ -1,4 +1,4 @@
-import ProductCard from "./(productCard)/productCard";
+import ProductCard from "./productCard";
 
 export default function Category({ products = [], searchParams }) {
   const { search } = searchParams;
