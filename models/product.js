@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -18,6 +18,9 @@ const productSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  additionalCategories: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+  ],
   stock: {
     type: Boolean,
     require: true,
@@ -28,7 +31,7 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-productSchema.pre("save", function (next) {
+ProductSchema.pre("save", function (next) {
   if (this.isModified("name")) {
     this.name =
       this.name.charAt(0).toUpperCase() + this.name.slice(1).toLowerCase();
@@ -41,5 +44,10 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+ProductSchema.methods.getAllCategories = function () {
+  // Devuelve una combinación de la categoría principal y adicionales (si existen)
+  return [this.category, ...this.additionalCategories];
+};
+
 export const ProductModel =
-  mongoose?.models?.Product || mongoose.model("Product", productSchema);
+  mongoose?.models?.Product || mongoose.model("Product", ProductSchema);
