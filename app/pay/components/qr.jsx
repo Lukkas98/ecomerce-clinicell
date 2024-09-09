@@ -27,7 +27,7 @@ export default function QrImage({ isMovil }) {
 *#${orderId}* por *$${totalAmount}*.
 Productos: ${productList}.`;
 
-    const link = `https://wa.me/5491131297950?text=${encodeURIComponent(
+    const link = `https://wa.me/5492657210777?text=${encodeURIComponent(
       message
     )}`;
     setWhatsappLink(link);
