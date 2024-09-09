@@ -1,5 +1,5 @@
 import { getProducts } from "@/lib/actions/products";
-import { getCategories } from "@/lib/actions/categories";
+import { getCategories, getCategoryId } from "@/lib/actions/categories";
 import { getAllPayments } from "@/lib/actions/payments";
 import ButtonsProd from "./components/buttons";
 import BtnPayment from "./components/btnPayment";
@@ -20,6 +20,11 @@ export default async function AdminPanel({ searchParams }) {
       : tab === "payments"
       ? await getAllPayments()
       : await getProducts();
+
+  const categoryProd = async (id) => {
+    let coso = await getCategoryId(id);
+    return JSON.parse(JSON.stringify(coso.name));
+  };
 
   return (
     <div className="min-h-screen bg-gray-300 flex flex-col">
@@ -60,20 +65,31 @@ export default async function AdminPanel({ searchParams }) {
               key={i}
               className="border border-gray-300 h-fit p-4 rounded-lg bg-teal-50 flex justify-between items-center shadow-black shadow-md"
             >
-              <div className="w-[50%]">
-                <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
-                <div
-                  className={`aspect-square relative w-24 overflow-hidden rounded-md ${
-                    item.images[0] ? "shadow-black shadow" : ""
-                  }`}
+              <div className="w-[80%]">
+                <h2
+                  title={item.name}
+                  className="text-lg font-semibold mb-2 md:line-clamp-1"
                 >
-                  <Image
-                    src={item.images[0] || noImage}
-                    alt={item.name + "image"}
-                    fill={true}
-                    sizes="96px"
-                    quality={80}
-                  />
+                  {item.name}
+                </h2>
+                <div className="grid grid-cols-2 gap-2 overflow-hidden">
+                  <div
+                    className={`aspect-square relative w-24 overflow-hidden rounded-md ${
+                      item.images[0] ? "shadow-black shadow" : ""
+                    }`}
+                  >
+                    <Image
+                      src={item.images[0] || noImage}
+                      alt={item.name + "image"}
+                      fill={true}
+                      sizes="96px"
+                      quality={80}
+                    />
+                  </div>
+                  {/* cambiar si pongo categories como [] */}
+                  <p className="text-xs whitespace-nowrap mt-2">
+                    {categoryProd(item.category)}
+                  </p>
                 </div>
                 <div className="flex w-full justify-between pt-4">
                   <p className="text-gray-600">$ {item.price}</p>
