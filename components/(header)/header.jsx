@@ -12,7 +12,7 @@ export default async function Header() {
       <div className="flex items-center gap-4 mx-5 my-3">
         <div className="relative h-16 w-16 lg:h-20 lg:w-20 aspect-square rounded-full overflow-hidden">
           <Image
-            src={"/Logo.png"}
+            src={"/logo.png"}
             alt="Logo clinic cell"
             fill={true}
             sizes="80px"
