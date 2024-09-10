@@ -18,10 +18,10 @@ export default async function ProductCard({ product, searchParams }) {
     <div
       className={`${
         !stock ? "opacity-60 text-gray-500 outline-gray-500" : "outline-black"
-      } z-0 w-[90%] grid grid-cols-2 h-40 mx-auto rounded-xl outline outline-1 hover:bg-blue-100 transition-all shadow-[black] shadow-md overflow-hidden`}
+      } z-0 w-[90%] grid grid-cols-2 h-48 p-2 mx-auto rounded-xl outline outline-1 hover:bg-blue-100 transition-all shadow-[black] shadow-md overflow-hidden`}
     >
       <Link
-        href={`${urlPathname}`}
+        href={`${urlPathname}?id=${_id}`}
         className="relative transition-all duration-500"
       >
         <Image
@@ -33,8 +33,10 @@ export default async function ProductCard({ product, searchParams }) {
           priority={true}
         />
       </Link>
-      <div className="self-center flex flex-col justify-between h-[90%] ml-3 cursor-default">
-        <h6 className="font-semibold text-lg">{name}</h6>
+      <div className="self-center flex flex-col justify-between h-[100%] ml-3 cursor-default">
+        <h6 title={name} className="font-semibold text-lg line-clamp-2">
+          {name}
+        </h6>
         <span className="font-bold text-2xl">{"$ " + price}</span>
         <span className="text-sm">{stock ? "En stock" : "Sin stock"}</span>
         <ActionButton
