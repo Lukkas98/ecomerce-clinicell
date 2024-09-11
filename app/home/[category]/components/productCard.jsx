@@ -18,11 +18,11 @@ export default async function ProductCard({ product, searchParams }) {
     <div
       className={`${
         !stock ? "opacity-60 text-gray-500 outline-gray-500" : "outline-black"
-      } z-0 w-[90%] grid grid-cols-2 h-48 p-2 mx-auto rounded-xl outline outline-1 hover:bg-blue-100 transition-all shadow-[black] shadow-md overflow-hidden`}
+      } z-0 w-[90%] grid grid-cols-2 h-fit p-2 mx-auto rounded-xl outline outline-1 hover:bg-blue-100 transition-all shadow-[black] shadow-md `}
     >
       <Link
         href={`${urlPathname}?id=${_id}`}
-        className="relative transition-all duration-500"
+        className="relative transition-all duration-500 aspect-square w-full max-w-[200px] mx-auto"
       >
         <Image
           src={images[0] || noImage}
@@ -31,19 +31,26 @@ export default async function ProductCard({ product, searchParams }) {
           sizes="(max-width: 768px) 80px, (max-width: 1200px) 160px, 33vw"
           quality={100}
           priority={true}
+          className="outline outline-1 outline-gray-300 rounded-lg"
         />
       </Link>
       <div className="self-center flex flex-col justify-between h-[100%] ml-3 cursor-default">
-        <h6 title={name} className="font-semibold text-lg line-clamp-2">
+        <Link
+          href={`${urlPathname}?id=${_id}`}
+          title={name}
+          className="font-semibold text-lg line-clamp-2"
+        >
           {name}
-        </h6>
-        <span className="font-bold text-2xl">{"$ " + price}</span>
-        <span className="text-sm">{stock ? "En stock" : "Sin stock"}</span>
-        <ActionButton
-          product={JSON.parse(JSON.stringify(product))}
-          stock={stock}
-          typeButton="ADD_PRODUCT"
-        />
+        </Link>
+        <span className="font-bold text-xl">{"$ " + price}</span>
+        <div className="flex flex-col gap-1">
+          <span className="text-sm ">{stock ? "En stock" : "Sin stock"}</span>
+          <ActionButton
+            product={JSON.parse(JSON.stringify(product))}
+            stock={stock}
+            typeButton="ADD_PRODUCT"
+          />
+        </div>
       </div>
     </div>
   );
