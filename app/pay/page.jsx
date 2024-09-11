@@ -1,6 +1,6 @@
 import Image from "next/image";
 import QrImage from "./components/qr";
-import logo from "@/public/Logo.png";
+import logo from "@/public/logo.png";
 import { headers } from "next/headers";
 
 const isMobileDevice = () => {

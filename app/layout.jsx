@@ -8,8 +8,10 @@ const font = Exo_2({
 });
 
 export const metadata = {
-  title: "Clinic-Cell / Venta y reparación de celulares",
-  description: "E-comerce de celulares y repuestos",
+  title:
+    "Clinic-Cell / Venta de repuestos, accesorios en telefonía y artículos del hogar",
+  description:
+    "E-comerce de celulares, repuestos, accesorios de celulares y de hogar",
 };
 
 export default function RootLayout({ children }) {

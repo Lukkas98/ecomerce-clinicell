@@ -33,13 +33,11 @@ const ProductSchema = new mongoose.Schema({
 
 ProductSchema.pre("save", function (next) {
   if (this.isModified("name")) {
-    this.name =
-      this.name.charAt(0).toUpperCase() + this.name.slice(1).toLowerCase();
+    this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
   }
   if (this.isModified("description")) {
     this.description =
-      this.description.charAt(0).toUpperCase() +
-      this.description.slice(1).toLowerCase();
+      this.description.charAt(0).toUpperCase() + this.description.slice(1);
   }
   next();
 });

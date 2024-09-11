@@ -9,9 +9,8 @@ export default async function UploadFirebase(
 ) {
   const storage = getStorage(app, `${process.env.NEXT_PUBLIC_URL_FIREBASE}`);
 
-  const capName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-  const capCategory =
-    category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+  const capName = name.charAt(0).toUpperCase() + name.slice(1);
+  const capCategory = category.charAt(0).toUpperCase() + category.slice(1);
 
   const response = await fetch(imageUrl);
   const blob = await response.blob();
