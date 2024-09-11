@@ -16,10 +16,9 @@ export default async function CategoryLayout({ children }) {
       <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5">
         Clinic-Cell © {new Date().getFullYear()} | Desarrollado por{" "}
         <a
-          href="https://lucas-palma.vercel.app/"
-          target="_blank"
+          href="mailto:tuemail@gmail.com?subject=Consulta sobre Clinic-Cell&body=Hola, me gustaría recibir más información sobre..."
           className="text-blue-400"
-          title="Click para ir a mi portafolio"
+          title="Click para enviarme un mail"
         >
           Lucas
         </a>

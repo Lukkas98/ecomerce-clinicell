@@ -18,7 +18,7 @@ export default function Paginate({ totalPages = 1 }) {
 
   return (
     totalPages > 1 && (
-      <div className="flex gap-2 self-center my-4">
+      <div className="flex gap-2 self-center my-4 flex-wrap mx-4">
         {/* Renderiza los botones de página */}
         {[...Array(totalPages).keys()].map((index) => {
           const page = index + 1;
