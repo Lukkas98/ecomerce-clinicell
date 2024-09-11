@@ -1,9 +1,14 @@
+import Paginate from "./paginate";
 import ProductCard from "./productCard";
 
-export default function Category({ products = [], searchParams }) {
+export default function Category({
+  products = [],
+  searchParams,
+  totalPages = 1,
+}) {
   const { search } = searchParams;
   return (
-    <section className="min-h-[80vh] lg:h-fit min-w-screen z-10">
+    <section className="min-h-[80vh] lg:h-fit min-w-screen z-10 flex flex-col justify-between">
       <div className="h-full overflow-hidden overflow-y-auto scrollbar-thin lg:grid">
         {/* <select name="" id="">
             <option value="">Filtrado1</option>
@@ -31,6 +36,7 @@ export default function Category({ products = [], searchParams }) {
           </div>
         )}
       </div>
+      <Paginate totalPages={totalPages} />
     </section>
   );
 }
