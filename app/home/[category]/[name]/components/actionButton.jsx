@@ -26,7 +26,7 @@ export default function ActionButton({ stock, product, typeButton }) {
             dispatch({ type: typeButton, payload: product });
           }}
           // disabled={!stock || isInCart}
-          className="z-20 mt-4 bg-blue-600 text-base hover:bg-blue-800 disabled:bg-gray-400 disabled:text-black disabled:opacity-80 disabled:cursor-not-allowed transition-all text-white px-2 py-1 rounded-md shadow-black shadow"
+          className="z-20 bg-blue-600 text-base hover:bg-blue-800 disabled:bg-gray-400 disabled:text-black disabled:opacity-80 disabled:cursor-not-allowed transition-all text-white px-2 py-1 rounded-md shadow-black shadow"
         >
           {label}
         </button>
@@ -36,7 +36,7 @@ export default function ActionButton({ stock, product, typeButton }) {
           onClick={() => {
             dispatch({ type: "REMOVE_PRODUCT", payload: product });
           }}
-          className="z-20 mt-4 text-base bg-red-600 text-white opacity-80 transition-all px-2 py-1 rounded-md shadow-black shadow"
+          className="z-20 text-base bg-red-600 text-white opacity-80 transition-all px-2 py-1 rounded-md shadow-black shadow"
         >
           {label}
         </button>

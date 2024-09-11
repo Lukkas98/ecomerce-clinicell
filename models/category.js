@@ -15,8 +15,7 @@ const categorySchema = new mongoose.Schema({
 
 categorySchema.pre("save", function (next) {
   if (this.isModified("name")) {
-    this.name =
-      this.name.charAt(0).toUpperCase() + this.name.slice(1).toLowerCase();
+    this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
   }
   next();
 });
