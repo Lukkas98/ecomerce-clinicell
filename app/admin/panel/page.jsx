@@ -13,7 +13,7 @@ export default async function AdminPanel({ searchParams }) {
       ? await getCategories()
       : tab === "payments"
       ? await getAllPayments()
-      : await getProducts();
+      : await getProducts(null, true);
 
   return (
     <div className="min-h-screen bg-gray-300 flex flex-col">
