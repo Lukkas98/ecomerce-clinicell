@@ -6,7 +6,7 @@ export default async function CategoryLayout({ children }) {
   return (
     <main className="min-h-screen relative grid">
       <Header />
-      <section className="lg:grid grid-cols-[0.2fr,1fr]">
+      <section className="lg:grid grid-cols-[300px,1fr]">
         <DesktopMenu />
         {children}
       </section>
