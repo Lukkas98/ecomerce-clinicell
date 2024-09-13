@@ -5,6 +5,7 @@ import {
   searchProducts,
 } from "@/lib/actions/products";
 import { getCategoryName } from "@/lib/actions/categories";
+import { useMemo } from "react";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;
@@ -47,7 +48,6 @@ export default async function CategoryPage({ params, searchParams }) {
     page,
     limit
   );
-
   return (
     <>
       <Category
@@ -57,4 +57,18 @@ export default async function CategoryPage({ params, searchParams }) {
       />
     </>
   );
+}
+
+function filterCategory(products, filter) {
+  let sorted = [...products]; // Hacemos una copia para no mutar el original
+  if (filter === "az") {
+    sorted.sort((a, b) => a.name.localeCompare(b.name)); // A-Z
+  } else if (filter === "za") {
+    sorted.sort((a, b) => b.name.localeCompare(a.name)); // Z-A
+  } else if (filter === "high-to-low") {
+    sorted.sort((a, b) => b.price - a.price); // Precio Mayor a Menor
+  } else if (filter === "low-to-high") {
+    sorted.sort((a, b) => a.price - b.price); // Precio Menor a Mayor
+  }
+  return sorted;
 }

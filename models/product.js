@@ -52,7 +52,7 @@ ProductSchema.methods.getNamesCategories = async function () {
   return categoriesNames;
 };
 
-ProductSchema.query.byFilters = function (
+productSchema.query.byFilters = function (
   search = "",
   filter = "",
   page = 1,
