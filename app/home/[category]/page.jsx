@@ -5,7 +5,6 @@ import {
   searchProducts,
 } from "@/lib/actions/products";
 import { getCategoryName } from "@/lib/actions/categories";
-import { useMemo } from "react";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;
@@ -42,32 +41,20 @@ export default async function CategoryPage({ params, searchParams }) {
   const categoryObj = await getCategoryName(decodeURIComponent(category));
   const totalPages = await getTotalPages(null, categoryObj._id);
 
-  const filterProducts = filterCategory(categoryObj.products, filter);
-
   const limit = 9;
-  const skip = (page - 1) * limit;
+  const filterProducts = await categoryObj.getSortedProducts(
+    filter,
+    page,
+    limit
+  );
 
   return (
     <>
       <Category
         totalPages={totalPages}
-        products={filterProducts.slice(skip, skip + limit)}
+        products={filterProducts}
         searchParams={searchParams}
       />
     </>
   );
-}
-
-function filterCategory(products, filter) {
-  let sorted = [...products]; // Hacemos una copia para no mutar el original
-  if (filter === "az") {
-    sorted.sort((a, b) => a.name.localeCompare(b.name)); // A-Z
-  } else if (filter === "za") {
-    sorted.sort((a, b) => b.name.localeCompare(a.name)); // Z-A
-  } else if (filter === "high-to-low") {
-    sorted.sort((a, b) => b.price - a.price); // Precio Mayor a Menor
-  } else if (filter === "low-to-high") {
-    sorted.sort((a, b) => a.price - b.price); // Precio Menor a Mayor
-  }
-  return sorted;
 }
