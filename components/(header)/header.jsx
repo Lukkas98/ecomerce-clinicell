@@ -22,7 +22,7 @@ export default async function Header() {
         <div>
           <h1 className="font-bold text-xl">Clinic Cell</h1>
           <span className="text-sm text-gray-600 font-semibold">
-            Reparación de celulares
+            Repuestos y Accesorios
           </span>
         </div>
       </div>
