@@ -42,16 +42,17 @@ export default async function CategoryPage({ params, searchParams }) {
   const categoryObj = await getCategoryName(decodeURIComponent(category));
   const totalPages = await getTotalPages(null, categoryObj._id);
 
-  const filterProducts = filterCategory(categoryObj.products, filter);
-
   const limit = 9;
-  const skip = (page - 1) * limit;
-
+  const filterProducts = await categoryObj.getSortedProducts(
+    filter,
+    page,
+    limit
+  );
   return (
     <>
       <Category
         totalPages={totalPages}
-        products={filterProducts.slice(skip, skip + limit)}
+        products={filterProducts}
         searchParams={searchParams}
       />
     </>

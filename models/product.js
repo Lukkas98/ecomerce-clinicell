@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { CategoryModel } from "./category";
 
-const productSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -18,6 +19,9 @@ const productSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  additionalCategories: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Category", default: [] },
+  ],
   stock: {
     type: Boolean,
     require: true,
@@ -28,7 +32,7 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-productSchema.pre("save", function (next) {
+ProductSchema.pre("save", function (next) {
   if (this.isModified("name")) {
     this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
   }
@@ -39,7 +43,16 @@ productSchema.pre("save", function (next) {
   next();
 });
 
-productSchema.query.byFilters = function (
+ProductSchema.methods.getNamesCategories = async function () {
+  const categoryIds = [this.category, ...this.additionalCategories];
+  const categoriesNames = await CategoryModel.find({
+    _id: { $in: categoryIds },
+  }).select("name");
+
+  return categoriesNames;
+};
+
+ProductSchema.query.byFilters = function (
   search = "",
   filter = "",
   page = 1,
@@ -73,4 +86,4 @@ productSchema.query.byFilters = function (
 };
 
 export const ProductModel =
-  mongoose?.models?.Product || mongoose.model("Product", productSchema);
+  mongoose?.models?.Product || mongoose.model("Product", ProductSchema);
