@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { productSchema } from "./validation";
+import SelectCategories from "./selectCategories";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -33,7 +34,8 @@ export default function Form({
     price: 0,
     stock: true,
     description: "",
-    category: categories.length ? categories[0].name : "",
+    category: "",
+    additionalCategories: [], // Las categorías adicionales
     imagesForUpload: [],
     imagesSelected: [], //para subirlas a firebase
   });
@@ -62,7 +64,6 @@ export default function Form({
       } else if (name === "price") {
         updatedValue = Number(value);
       }
-
       return {
         ...oldValues,
         [name]: updatedValue,
@@ -81,10 +82,7 @@ export default function Form({
         const PromisesUrls = imageUrls.map(async (url, i) => {
           if (url.includes("https://firebasestorage")) return url;
 
-          const nameCapitalized =
-            data.name[0].toUpperCase() + data.name.slice(1).toLowerCase();
-
-          return await UploadFirebase(url, i, nameCapitalized, data.category);
+          return await UploadFirebase(url, i, data.name, data.category);
         });
         const Urls = await Promise.all(PromisesUrls);
 
@@ -171,6 +169,8 @@ export default function Form({
     });
   };
 
+  console.log("data: ", data);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -213,21 +213,11 @@ export default function Form({
       </div>
 
       <div className="flex flex-col w-11/12">
-        <div className="flex justify-between">
-          <p>Selecciona la categoria</p>
-        </div>
-        <select
-          name="category"
-          onChange={handleOnChange}
-          value={data.category}
-          className="w-full mx-auto px-2 py-1 mt-2"
-        >
-          {categories.map((category) => (
-            <option key={category._id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+        <SelectCategories
+          data={data}
+          categories={categories}
+          handleOnChange={handleOnChange}
+        />
         <span className="text-red-700 text-sm">{errors.category ?? ""}</span>
       </div>
 

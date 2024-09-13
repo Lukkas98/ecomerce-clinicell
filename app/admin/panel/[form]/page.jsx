@@ -1,4 +1,4 @@
-import { getCategories, getCategoryId } from "@/lib/actions/categories";
+import { getCategories } from "@/lib/actions/categories";
 import Link from "next/link";
 import { getProduct } from "@/lib/actions/products";
 import Form from "./components/form";
@@ -32,12 +32,15 @@ export default async function FormPage({ params, searchParams }) {
   let productEdit = {};
   if (form === "edit") {
     const product = await getProduct(id);
-    productEdit = product.toObject(); // Convertir a objeto plano
+    const namedCategories = await product.getNamesCategories();
+    productEdit = { ...product._doc };
 
-    // Obtener el nombre de la categoría en lugar del ID
-    const category = await getCategoryId(product.category);
-    const categoryPlane = category.toObject();
-    productEdit.category = categoryPlane.name; // Reemplazar el ID por el nombre de la categoría
+    const FirstCategory = namedCategories[0].name;
+    const additionalCategories = namedCategories.map((cat) => {
+      return cat.name;
+    });
+    productEdit.category = await FirstCategory;
+    productEdit.additionalCategories = await additionalCategories.slice(1);
   }
 
   return (

@@ -22,7 +22,7 @@ export const productSchema = z.object({
     .max(1000, "La descripción no debe exceder los 1000 caracteres")
     .min(5, "La descripción es muy corta (mínimo 5 letras)"),
   imagesSelected: z
-    .array(z.string(), { invalid_type_error: "Images debe ser un Array" })
+    .array(z.string(), { invalid_type_error: "Debe ser un Array" })
     .optional(),
   stock: z.boolean({
     required_error: "Stock es requerido",
@@ -34,4 +34,10 @@ export const productSchema = z.object({
       invalid_type_error: "La categoria debe ser un String",
     })
     .min(1, "La categoría es inválida"),
+  additionalCategories: z.array(
+    z.string({ invalid_type_error: "Debe ser texto" }),
+    {
+      invalid_type_error: "Debe ser un Array",
+    }
+  ),
 });

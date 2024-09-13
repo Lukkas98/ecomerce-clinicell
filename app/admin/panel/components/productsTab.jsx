@@ -1,17 +1,19 @@
 import Image from "next/image";
 import ButtonsProd from "./buttons";
 import CheckboxStock from "./checkboxStock";
-import { getCategoryId } from "@/lib/actions/categories";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
-const categoryProd = async (id) => {
-  const category = await getCategoryId(id);
-  return JSON.parse(JSON.stringify(category.name));
+const categoryProd = async (product) => {
+  const categories = await product.getNamesCategories();
+  return categories.map((cat) => <p key={cat._id}>{cat.name}</p>);
 };
 
 export default function ProductsTab({ data }) {
+  // paginado en admin
+  // const productsFilter = ProductModel
+
   return (
     <main className="flex-1 p-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {data?.map((item, i) => (
@@ -40,10 +42,9 @@ export default function ProductsTab({ data }) {
                   quality={80}
                 />
               </div>
-              {/* cambiar si pongo categories como [] */}
-              <p className="text-xs whitespace-nowrap mt-2">
-                {categoryProd(item.category)}
-              </p>
+              <div className="text-xs whitespace-nowrap mt-2 flex flex-col">
+                {categoryProd(item)}
+              </div>
             </div>
             <div className="flex w-full justify-between pt-4">
               <p className="text-gray-600">$ {item.price}</p>

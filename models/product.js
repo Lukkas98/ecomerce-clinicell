@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { CategoryModel } from "./category";
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -42,12 +43,16 @@ ProductSchema.pre("save", function (next) {
   next();
 });
 
-ProductSchema.methods.getAllCategories = function () {
-  // Devuelve una combinación de la categoría principal y adicionales (si existen)
-  return [this.category, ...this.additionalCategories];
+ProductSchema.methods.getNamesCategories = async function () {
+  const categoryIds = [this.category, ...this.additionalCategories];
+  const categoriesNames = await CategoryModel.find({
+    _id: { $in: categoryIds },
+  }).select("name");
+
+  return categoriesNames;
 };
 
-productSchema.query.byFilters = function (
+ProductSchema.query.byFilters = function (
   search = "",
   filter = "",
   page = 1,
