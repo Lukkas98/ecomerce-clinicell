@@ -16,7 +16,7 @@ export default async function CategoryLayout({ children }) {
       <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5">
         Clinic-Cell © {new Date().getFullYear()} | Desarrollado por{" "}
         <a
-          href="mailto:tuemail@gmail.com?subject=Consulta sobre Clinic-Cell&body=Hola, me gustaría recibir más información sobre..."
+          href="mailto:lucaspalma988@gmail.com?subject=Consulta sobre Clinic-Cell&body=Hola, me gustaría recibir más información sobre..."
           className="text-blue-400"
           title="Click para enviarme un mail"
         >

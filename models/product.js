@@ -39,5 +39,38 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+productSchema.query.byFilters = function (
+  search = "",
+  filter = "",
+  page = 1,
+  limit = 9,
+  isAdmin = false //cambiar en un futuro
+) {
+  if (isAdmin) return this.find({});
+
+  let query = this;
+  if (search)
+    query = query.find({
+      name: { $regex: search, $options: "i" },
+    });
+
+  // Ordenar según la opción proporcionada
+  switch (filter) {
+    case "low-to-high":
+      query = query.sort({ price: 1 });
+      break;
+    case "high-to-low":
+      query = query.sort({ price: -1 });
+      break;
+    case "az":
+      query = query.sort({ name: 1 });
+      break;
+    case "za":
+      query = query.sort({ name: -1 });
+      break;
+  }
+  return query.skip((page - 1) * limit).limit(limit);
+};
+
 export const ProductModel =
   mongoose?.models?.Product || mongoose.model("Product", productSchema);

@@ -5,13 +5,14 @@ import {
   searchProducts,
 } from "@/lib/actions/products";
 import { getCategoryName } from "@/lib/actions/categories";
+import { useMemo } from "react";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { category } = params;
-  const { search, page } = searchParams;
+  const { search, page, filter } = searchParams;
 
   if (search) {
-    const products = await searchProducts(search, false, page);
+    const products = await searchProducts(search, false, page, filter);
     const totalPages = await getTotalPages(search);
     return (
       <>
@@ -20,13 +21,12 @@ export default async function CategoryPage({ params, searchParams }) {
           products={products}
           searchParams={searchParams}
         />
-        {/* {console.log("totalPages search:", totalPages)} */}
       </>
     );
   }
 
   if (category === "Todos") {
-    const products = await getProducts(page);
+    const products = await getProducts(page, false, filter);
     const totalPages = await getTotalPages();
     return (
       <>
@@ -35,13 +35,14 @@ export default async function CategoryPage({ params, searchParams }) {
           products={products}
           searchParams={searchParams}
         />
-        {/* {console.log("totalPages todos: ", totalPages)} */}
       </>
     );
   }
 
-  const categoryObj = await getCategoryName(decodeURIComponent(category), page);
+  const categoryObj = await getCategoryName(decodeURIComponent(category));
   const totalPages = await getTotalPages(null, categoryObj._id);
+
+  const filterProducts = filterCategory(categoryObj.products, filter);
 
   const limit = 9;
   const skip = (page - 1) * limit;
@@ -50,10 +51,23 @@ export default async function CategoryPage({ params, searchParams }) {
     <>
       <Category
         totalPages={totalPages}
-        products={categoryObj.products.slice(skip, skip + limit)}
+        products={filterProducts.slice(skip, skip + limit)}
         searchParams={searchParams}
       />
-      {/* {console.log("totalPages category: ", totalPages)} */}
     </>
   );
+}
+
+function filterCategory(products, filter) {
+  let sorted = [...products]; // Hacemos una copia para no mutar el original
+  if (filter === "az") {
+    sorted.sort((a, b) => a.name.localeCompare(b.name)); // A-Z
+  } else if (filter === "za") {
+    sorted.sort((a, b) => b.name.localeCompare(a.name)); // Z-A
+  } else if (filter === "high-to-low") {
+    sorted.sort((a, b) => b.price - a.price); // Precio Mayor a Menor
+  } else if (filter === "low-to-high") {
+    sorted.sort((a, b) => a.price - b.price); // Precio Menor a Mayor
+  }
+  return sorted;
 }
