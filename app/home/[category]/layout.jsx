@@ -1,5 +1,5 @@
 import DesktopMenu from "./components/desktopMenu";
-import InputSearch from "./components/(search)/inputSearch";
+import InputSearch from "@/components/(search)/inputSearch";
 import Header from "@/components/(header)/header";
 
 export default async function CategoryLayout({ children }) {
