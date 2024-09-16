@@ -1,6 +1,8 @@
 import Image from "next/image";
 import ButtonsProd from "./buttons";
 import CheckboxStock from "./checkboxStock";
+import Paginate from "@/app/home/[category]/components/paginate";
+import InputSearch from "@/app/home/[category]/components/(search)/inputSearch";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
@@ -10,13 +12,15 @@ const categoryProd = async (product) => {
   return categories.map((cat) => <p key={cat._id}>{cat.name}</p>);
 };
 
-export default function ProductsTab({ data }) {
-  // paginado en admin
-  // const productsFilter = ProductModel
+export default async function ProductsTab({ data }) {
+  const totalPages = data.totalPages;
 
   return (
     <main className="flex-1 p-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {data?.map((item, i) => (
+      <div className="md:col-span-2 lg:col-span-3 mx-auto">
+        <InputSearch isAdmin={true} />
+      </div>
+      {data.products?.map((item, i) => (
         <div
           key={i}
           className="border border-gray-300 h-fit p-4 rounded-lg bg-teal-50 flex justify-between items-center shadow-black shadow-md"
@@ -56,6 +60,9 @@ export default function ProductsTab({ data }) {
           <ButtonsProd itemId={item._id.toString()} />
         </div>
       ))}
+      <div className="mx-auto md:col-span-2 lg:col-span-3 flex justify-center flex-col items-center">
+        <Paginate totalPages={totalPages} />
+      </div>
     </main>
   );
 }

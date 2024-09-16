@@ -7,13 +7,13 @@ import CategoriesTab from "./components/categoriesTab";
 import PaymentsTab from "./components/paymentsTab";
 
 export default async function AdminPanel({ searchParams }) {
-  const { tab } = searchParams;
+  const { tab, page, search, filter } = searchParams;
   const data =
     tab === "categories"
       ? await getCategories()
       : tab === "payments"
       ? await getAllPayments()
-      : await getProducts(null, true);
+      : await getProducts(search, page, filter, null);
 
   return (
     <div className="min-h-screen bg-gray-300 flex flex-col">

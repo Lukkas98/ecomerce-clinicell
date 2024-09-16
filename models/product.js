@@ -56,11 +56,8 @@ ProductSchema.query.byFilters = function (
   search = "",
   filter = "",
   page = 1,
-  limit = 9,
-  isAdmin = false //cambiar en un futuro
+  limit = 9
 ) {
-  if (isAdmin) return this.find({});
-
   let query = this;
   if (search)
     query = query.find({

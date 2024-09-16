@@ -31,6 +31,7 @@ export default function Filter() {
 
     const params = new URLSearchParams(searchParams);
     params.set("filter", value);
+    params.set("page", 1);
 
     router.replace(`${pathname}?${params.toString()}`);
   };
