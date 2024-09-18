@@ -38,9 +38,11 @@ export default function Paginate({ totalPages = 1 }) {
     <button
       key={page}
       onClick={() => handlePageClick(page)}
-      className={`px-3 py-2 ${
-        page === currentPage ? "bg-blue-500 text-white" : "bg-gray-200"
-      } rounded-md shadow-md`}
+      className={`px-3 py-2 rounded-md shadow-md transition-colors ${
+        page === currentPage
+          ? "bg-blue-500 text-white"
+          : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+      }`}
     >
       {page}
     </button>
@@ -50,7 +52,7 @@ export default function Paginate({ totalPages = 1 }) {
     <button
       key={label}
       onClick={() => handlePageClick(page)}
-      className="px-3 py-2 bg-gray-200 rounded-md shadow-md"
+      className="px-3 py-2 bg-gray-700 text-gray-300 hover:bg-gray-600 rounded-md shadow-md transition-colors"
     >
       {label}
     </button>
@@ -60,7 +62,7 @@ export default function Paginate({ totalPages = 1 }) {
     <button
       key={type}
       onClick={() => handlePageClick(Math.max(1, Math.min(totalPages, page)))}
-      className="px-3 py-2 bg-gray-200 rounded-md shadow-md"
+      className="px-3 py-2 bg-gray-700 text-gray-300 hover:bg-gray-600 rounded-md shadow-md transition-colors"
     >
       {type === "prev" ? "-5" : "+5"}
     </button>

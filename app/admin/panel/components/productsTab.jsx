@@ -5,6 +5,7 @@ import InputSearch from "@/components/(search)/inputSearch";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";
+import AdminFilter from "./adminFilter";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
@@ -18,22 +19,18 @@ export default async function ProductsTab({ data }) {
   const totalPages = data.totalPages;
 
   return (
-    <main className="flex-1 p-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <div className="md:col-span-2 lg:col-span-3 mx-auto flex flex-col gap-4 place-items-center">
-        <InputSearch isAdmin={true} />
-        <div>Filtros</div>
-      </div>
+    <div className="flex-1 p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-5">
       <Suspense key={Date.now()} fallback={<LoadingProducts />}>
         {data.products?.map((item) => (
           <div
             key={item._id}
-            className={`border-2 p-3 rounded-lg bg-white w-[95%] mx-auto grid justify-items-center grid-cols-[110px,auto] gap-4 shadow shadow-black ${
-              item.stock ? "border-green-500" : "border-red-500"
+            className={`border-2 p-3 rounded-lg bg-gray-800 w-full mx-auto grid justify-items-center grid-cols-[110px,auto] gap-4 shadow-lg ${
+              item.stock ? "border-green-500 text-black" : "border-red-500"
             }`}
           >
             <div
               className={`aspect-square w-[100px] relative overflow-hidden rounded-lg ${
-                item.images[0] ? "shadow-sm shadow-black" : ""
+                item.images[0] ? "shadow-md shadow-black" : ""
               }`}
             >
               <Image
@@ -45,17 +42,20 @@ export default async function ProductsTab({ data }) {
                 quality={80}
               />
             </div>
-            <div className="text-sm text-gray-600 mt-2">
+            <div className="text-sm text-gray-400 mt-2">
               {categoryProd(item)}
             </div>
 
             <div className="w-full flex flex-col justify-between col-span-2">
-              <h2 className="text-lg font-semibold" title={item.name}>
+              <h2
+                className="text-lg font-semibold text-white"
+                title={item.name}
+              >
                 {item.name}
               </h2>
 
               <div className="flex justify-between items-center my-2">
-                <p className="text-base font-medium text-gray-800">
+                <p className="text-base font-medium text-gray-300">
                   $ {item.price}
                 </p>
 
@@ -70,6 +70,6 @@ export default async function ProductsTab({ data }) {
       <div className="md:col-span-2 lg:col-span-3">
         <Paginate totalPages={totalPages} />
       </div>
-    </main>
+    </div>
   );
 }

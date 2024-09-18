@@ -88,23 +88,23 @@ export default function Button({ categoryId }) {
       <button
         onClick={handleEdit}
         title="Editar"
-        className="text-green-700 font-bold p-2 rounded group hover:bg-green-700 transition-all duration-[400ms]"
+        className="text-green-400 font-bold p-2 rounded group hover:bg-green-600 hover:text-white transition-all duration-[400ms]"
       >
         <PencilSquareIcon
           width={20}
           height={20}
-          className="inline-block group-hover:text-green-100 group-hover:scale-[1.20]"
+          className="inline-block group-hover:text-white group-hover:scale-110"
         />
       </button>
       <button
-        className="text-red-500 font-bold p-2 rounded group hover:bg-red-500 transition-all duration-[400ms]"
+        className="text-red-400 font-bold p-2 rounded group hover:bg-red-600 hover:text-white transition-all duration-[400ms]"
         onClick={() => handleDelete(categoryId)}
         title="Eliminar"
       >
         <TrashIcon
           width={20}
           height={20}
-          className="inline-block group-hover:text-red-200 group-hover:scale-[1.20]"
+          className="inline-block group-hover:text-white group-hover:scale-110"
         />
       </button>
     </div>

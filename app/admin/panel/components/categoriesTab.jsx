@@ -3,21 +3,22 @@ import Button from "./button";
 
 export default function CategoriesTab({ data }) {
   return (
-    <main className="grid gap-4 my-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 mt-5 mb-16 justify-center md:grid-cols-2 lg:grid-cols-3">
       <BtnCreateCategory />
       {data?.map((cat, i) => (
         <div
-          className="px-3 py-2 max-w-xl bg-teal-50 mx-5 rounded-lg shadow-black shadow
-               hover:bg-blue-400 hover:text-black transition-all flex justify-between"
+          className="px-4 py-3 max-w-xl bg-gray-800 text-white mx-5 rounded-lg shadow-lg hover:bg-blue-600 hover:text-white transition-all flex justify-between"
           key={i}
         >
           <div className="mb-3">
             <p className="font-semibold text-lg">{cat.name}</p>
-            <p className="text-sm">Productos: {cat.products.length}</p>
+            <p className="text-sm text-gray-400">
+              Productos: {cat.products.length}
+            </p>
           </div>
           <Button categoryId={JSON.parse(JSON.stringify(cat._id))} />
         </div>
       ))}
-    </main>
+    </div>
   );
 }
