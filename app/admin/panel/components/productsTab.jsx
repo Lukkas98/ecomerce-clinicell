@@ -5,7 +5,6 @@ import InputSearch from "@/components/(search)/inputSearch";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";
-import AdminFilter from "./adminFilter";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
