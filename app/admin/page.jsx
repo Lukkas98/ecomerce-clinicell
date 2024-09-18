@@ -36,13 +36,13 @@ export default function LoginAdmin() {
 
   return (
     <section className="flex justify-center items-center mt-10">
-      <div className="border p-5 bg-teal-100 rounded-lg shadow-black shadow-md">
-        <h4 className=" text-xl text-center font-semibold">
+      <div className="border p-5 bg-teal-100 rounded-lg shadow-black shadow-md w-[90%] max-w-xl mx-auto">
+        <h4 className="text-xl text-center font-semibold">
           Panel de Administrador
         </h4>
         <form
           action={handleOnSubmit}
-          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 flex flex-col gap-4"
+          className="mt-8 mb-2 w-full flex flex-col gap-4"
         >
           <label className="w-full">
             Email

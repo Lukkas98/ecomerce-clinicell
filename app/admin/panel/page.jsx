@@ -18,7 +18,7 @@ export default async function AdminPanel({ searchParams }) {
   return (
     <div className="min-h-screen bg-gray-300 flex flex-col">
       <nav className="bg-blue-700 text-white py-4 px-6 grid grid-cols-2 place-items-center gap-y-4">
-        <h2 className="text-xl">Panel de Administrador</h2>
+        <h2 className="text-lg">Panel de Administrador</h2>
         <Link
           className="py-2 px-3 bg-blue-500 hover:bg-blue-800 rounded-md transition-all"
           href={"/admin/panel/create"}
