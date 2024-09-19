@@ -16,7 +16,7 @@ export default async function AdminPanel({ searchParams }) {
       ? await getCategories()
       : tab === "payments"
       ? await getAllPayments()
-      : await getProducts(search, page, filter, null);
+      : await getProducts(search, page, filter, null, 8);
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">

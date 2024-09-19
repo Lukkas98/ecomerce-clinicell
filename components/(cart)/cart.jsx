@@ -37,7 +37,7 @@ export default function Cart() {
             setOpen(true);
           }}
         />
-        <p className="px-2 absolute -top-7 bg-blue-500 text-white rounded-lg">
+        <p className="px-2 absolute -right-7 bg-blue-500 text-white rounded-lg">
           {cart.total}
         </p>
       </div>

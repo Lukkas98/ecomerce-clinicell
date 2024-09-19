@@ -30,13 +30,13 @@ export default async function Header() {
         </div>
 
         {/* Barra de búsqueda y carro */}
-        <div className="flex justify-around md:justify-between items-center w-full sm:w-auto md:gap-5">
+        <div className="flex justify-around md:justify-between sm:justify-center items-center w-full sm:w-auto md:gap-5">
           <InputSearch />
           <Cart />
         </div>
       </div>
       {/* Categorías */}
-      <nav className="bg-gray-800 py-2 mb-5">
+      <nav className="bg-gray-800 py-2 mb-5 lg:hidden">
         <div className="container mx-auto px-4 flex overflow-x-auto space-x-2">
           <LinkHeader
             categoryName={"Todos"}

@@ -1,8 +1,8 @@
-import { Exo_2 } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import CartProvider from "@/components/(cart)/cartProvider";
 
-const font = Exo_2({
+const font = Poppins({
   subsets: ["latin"],
   weight: ["200", "400", "500", "600", "800"],
 });

@@ -14,12 +14,15 @@ export default function Category({
 
   if (!products.length)
     return (
-      <section className=" flex justify-center mt-10 py-3 rounded-xl text-white bg-red-500 h-fit w-[85%] mx-auto">
-        <p className=" font-semibold text-lg text-center h-fit">
-          {search
-            ? `Ups... no encontramos nada con ${search}`
-            : "Ups... No encontramos nada por aquí"}
-        </p>
+      <section className="container mx-auto px-4 py-6 grid place-items-center">
+        <TitleCategory />
+        <div className=" flex justify-center items-center my-20 h-[40vh] w-[85%] mx-auto">
+          <p className=" font-semibold text-lg text-center h-fit text-gray-200 bg-red-600 py-3 px-4 rounded-lg">
+            {search
+              ? `Ups... no encontramos nada con ${search}`
+              : "Ups... No encontramos nada por aquí"}
+          </p>
+        </div>
       </section>
     );
 
@@ -31,7 +34,7 @@ export default function Category({
           <Filter />
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid below-320:grid-cols-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           <Suspense fallback={<LoadingProducts />} key={Date.now()}>
             {products.map((product) => (
               <ProductCard
