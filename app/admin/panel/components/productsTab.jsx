@@ -1,7 +1,6 @@
 import Image from "next/image";
 import ButtonsProd from "./buttons";
 import CheckboxStock from "./checkboxStock";
-import InputSearch from "@/components/(search)/inputSearch";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";

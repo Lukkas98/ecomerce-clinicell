@@ -6,6 +6,8 @@ import ProductsTab from "./components/productsTab";
 import CategoriesTab from "./components/categoriesTab";
 import PaymentsTab from "./components/paymentsTab";
 import InputSearch from "@/components/(search)/inputSearch";
+import AdminFilter from "./components/filterAdmin";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default async function AdminPanel({ searchParams }) {
   const { tab, page, search, filter } = searchParams;
@@ -19,18 +21,22 @@ export default async function AdminPanel({ searchParams }) {
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">
       <header className="px-4 py-2 bg-gray-800 fixed top-0 w-full z-10 flex flex-col items-center space-y-2">
-        <InputSearch isAdmin={true} />
-        <div className="flex space-x-2">
-          <select className="bg-gray-700 text-white rounded-lg p-2 outline-none">
-            <option value="">Todos</option>
-            <option value="stock">En Stock</option>
-            <option value="-stock">Sin Stock</option>
-            <option value="high-price">Mayor Precio</option>
-            <option value="low-price">Menor Precio</option>
-          </select>
-        </div>
+        {!tab || tab === "products" ? (
+          <>
+            <InputSearch isAdmin={true} />
+            <AdminFilter />
+          </>
+        ) : (
+          <p className="h-full py-2 text-center text-lg text-gray-400">
+            No se puede buscar ni filtrar en esta pestaña
+          </p>
+        )}
       </header>
-      <main className="flex-1 mt-20 overflow-auto p-4">
+      <main
+        className={`flex-1 overflow-auto p-4 ${
+          tab === "products" || !tab ? "mt-32" : "mt-12"
+        }`}
+      >
         {(!tab || tab === "products") && <ProductsTab data={data} />}
 
         {tab === "categories" && <CategoriesTab data={data} />}
@@ -39,9 +45,9 @@ export default async function AdminPanel({ searchParams }) {
       </main>
       <Link
         href={"/admin/panel/create"}
-        className="bg-blue-600 text-white px-4 py-2 text-lg rounded-full fixed bottom-20 right-5 shadow-lg hover:bg-blue-700 transition"
+        className="bg-blue-600 text-white p-3 text-lg rounded-full fixed bottom-20 right-5 shadow-lg hover:bg-blue-700 transition"
       >
-        +
+        <PlusIcon width={20} height={20} />
       </Link>
 
       <nav className="bg-gray-800 fixed bottom-0 w-full flex justify-around py-4">

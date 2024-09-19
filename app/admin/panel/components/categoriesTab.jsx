@@ -7,12 +7,12 @@ export default function CategoriesTab({ data }) {
       <BtnCreateCategory />
       {data?.map((cat, i) => (
         <div
-          className="px-4 py-3 max-w-xl bg-gray-800 text-white mx-5 rounded-lg shadow-lg hover:bg-blue-600 hover:text-white transition-all flex justify-between"
+          className="px-4 py-3 group max-w-xl bg-gray-800 text-white mx-5 rounded-lg shadow-lg group hover:bg-blue-600 transition-all flex justify-between"
           key={i}
         >
           <div className="mb-3">
             <p className="font-semibold text-lg">{cat.name}</p>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400 group-hover:text-gray-300">
               Productos: {cat.products.length}
             </p>
           </div>

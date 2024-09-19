@@ -88,12 +88,12 @@ export default function Button({ categoryId }) {
       <button
         onClick={handleEdit}
         title="Editar"
-        className="text-green-400 font-bold p-2 rounded group hover:bg-green-600 hover:text-white transition-all duration-[400ms]"
+        className="text-green-400 font-bold p-2 rounded group hover:bg-green-600 transition-all duration-[400ms]"
       >
         <PencilSquareIcon
           width={20}
           height={20}
-          className="inline-block group-hover:text-white group-hover:scale-110"
+          className="inline-block group-hover:text-green-400 group-hover:scale-110"
         />
       </button>
       <button
@@ -104,7 +104,7 @@ export default function Button({ categoryId }) {
         <TrashIcon
           width={20}
           height={20}
-          className="inline-block group-hover:text-white group-hover:scale-110"
+          className="inline-block group-hover:text-red-400 group-hover:scale-110"
         />
       </button>
     </div>

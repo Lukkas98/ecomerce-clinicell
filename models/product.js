@@ -78,6 +78,12 @@ ProductSchema.query.byFilters = function (
     case "za":
       query = query.sort({ name: -1 });
       break;
+    case "stock":
+      query = query.find({ stock: true });
+      break;
+    case "-stock":
+      query = query.find({ stock: false });
+      break;
   }
   return query.skip((page - 1) * limit).limit(limit);
 };
