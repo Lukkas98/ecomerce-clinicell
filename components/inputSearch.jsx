@@ -1,8 +1,7 @@
 "use client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import Search from "./search";
 import { useDebouncedCallback } from "use-debounce";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function InputSearch({ isAdmin = false }) {
   const pathname = usePathname();
@@ -35,14 +34,20 @@ export default function InputSearch({ isAdmin = false }) {
           placeholder="Buscar productos..."
           onChange={(e) => handleOnChange(e.target.value)}
           defaultValue={useParams.get("search")}
-          className="rounded-md w-full placeholder:text-black placeholder:text-opacity-80 bg-blue-200 px-2 py-1 focus:outline-1 focus:outline-slate-900 border-none mr-2"
+          className={
+            isAdmin
+              ? "bg-gray-700 text-white rounded-lg w-full p-2 outline-none"
+              : "flex-grow px-4 py-2 rounded-md border-2 border-gray-600 bg-gray-800 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-500"
+          }
         />
         <div
-          className={`absolute ${
-            isAdmin ? "-left-7 lg:-left-10 text-black" : "-left-10 text-white"
-          }`}
+          className={`absolute ${isAdmin ? "hidden" : "-left-8 text-white"}`}
         >
-          <Search />
+          <MagnifyingGlassIcon
+            width={30}
+            height={30}
+            className="text-gray-400"
+          />
         </div>
         {params.get("search") && (
           <button

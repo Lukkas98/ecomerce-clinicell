@@ -1,17 +1,15 @@
-import DesktopMenu from "./components/desktopMenu";
-import InputSearch from "./components/(search)/inputSearch";
 import Header from "@/components/(header)/header";
+import DesktopNav from "./components/desktopNav";
 
 export default async function CategoryLayout({ children }) {
   return (
-    <main className="min-h-screen relative grid">
+    <main className="bg-gray-900 text-gray-100 min-h-screen md:grid max-w-[2000px] mx-auto">
       <Header />
-      <section className="lg:grid grid-cols-[300px,1fr]">
-        <DesktopMenu />
+      <div className="lg:grid grid-cols-[0.4fr,1fr] xl:grid-cols-[350px,auto]">
+        <div className="hidden lg:block max-w-[350px]">
+          <DesktopNav />
+        </div>
         {children}
-      </section>
-      <div className="sticky bg-slate-800 max-h-20 bottom-0 py-5 w-full flex justify-center items-center border-t border-black z-30">
-        <InputSearch />
       </div>
       <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5">
         Clinic-Cell © {new Date().getFullYear()} | Desarrollado por{" "}

@@ -6,12 +6,8 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        "white-2": "#E7ECEF",
-        "blue-primary": "#274C77",
-        "blue-medium": "#6096BA",
-        "blue-light": "#A3CEF1",
-        "gray-2": "#8B8C89",
+      screens: {
+        "below-320": { max: "320px" },
       },
     },
   },

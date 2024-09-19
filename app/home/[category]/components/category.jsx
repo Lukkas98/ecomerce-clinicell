@@ -1,7 +1,9 @@
 import { Suspense } from "react";
-import Paginate from "./paginate";
 import ProductCard from "./productCard";
 import Filter from "./filter";
+import Paginate from "@/components/paginate";
+import LoadingProducts from "@/components/loadingProducts";
+import TitleCategory from "./titleCategory";
 
 export default function Category({
   products = [],
@@ -9,54 +11,42 @@ export default function Category({
   totalPages = 1,
 }) {
   const { search } = searchParams;
-  return (
-    <section className="min-h-[80vh] lg:h-fit min-w-screen z-10 flex flex-col justify-between">
-      <div className="h-full overflow-hidden overflow-y-auto scrollbar-thin lg:grid">
-        <Filter />
-        {products.length <= 0 && (
-          <div className=" flex justify-center mt-10 py-3 rounded-xl text-white bg-red-500 h-fit w-[85%] mx-auto">
-            <p className=" font-semibold text-lg text-center h-fit">
-              {search
-                ? `Ups... no encontramos nada con ${search}`
-                : "Ups... No encontramos nada por aquí"}
-            </p>
-          </div>
-        )}
-        <Suspense fallback={<LoadingProducts />} key={Date.now()}>
-          {products.length > 0 && (
-            <div className="grid my-6 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard
-                  key={product._id}
-                  product={product}
-                  searchParams={searchParams}
-                />
-              ))}
-            </div>
-          )}
-        </Suspense>
-      </div>
-      <Paginate totalPages={totalPages} />
-    </section>
-  );
-}
 
-function LoadingProducts() {
+  if (!products.length)
+    return (
+      <section className="container mx-auto px-4 py-6 grid place-items-center">
+        <TitleCategory />
+        <div className=" flex justify-center items-center my-20 h-[40vh] w-[85%] mx-auto">
+          <p className=" font-semibold text-lg text-center h-fit text-gray-200 bg-red-600 py-3 px-4 rounded-lg">
+            {search
+              ? `Ups... no encontramos nada con ${search}`
+              : "Ups... No encontramos nada por aquí"}
+          </p>
+        </div>
+      </section>
+    );
+
   return (
-    <div className="grid my-6 gap-4 md:grid-cols-2 lg:grid-cols-3 animate-pulse">
-      {Array(9)
-        .fill("")
-        .map((_, i) => (
-          <div
-            key={i}
-            className="border border-gray-300 rounded-lg bg-gray-200 p-4 shadow-md"
-          >
-            <div className="w-full h-40 bg-gray-300 rounded-md mb-4"></div>
-            <div className="h-6 bg-gray-300 rounded mb-2"></div>
-            <div className="h-6 bg-gray-300 rounded mb-2"></div>
-            <div className="h-6 bg-gray-300 rounded"></div>
-          </div>
-        ))}
+    <div className="container mx-auto px-4 py-6">
+      <section className="mb-6">
+        <div className="flex flex-col justify-center items-center gap-5 mb-4">
+          <TitleCategory />
+          <Filter />
+        </div>
+
+        <div className="grid below-320:grid-cols-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <Suspense fallback={<LoadingProducts />} key={Date.now()}>
+            {products.map((product) => (
+              <ProductCard
+                key={product._id}
+                product={product}
+                searchParams={searchParams}
+              />
+            ))}
+          </Suspense>
+        </div>
+      </section>
+      <Paginate totalPages={totalPages} />
     </div>
   );
 }

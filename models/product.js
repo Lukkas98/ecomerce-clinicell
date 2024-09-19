@@ -56,7 +56,7 @@ ProductSchema.query.byFilters = function (
   search = "",
   filter = "",
   page = 1,
-  limit = 9
+  limit = 10
 ) {
   let query = this;
   if (search)
@@ -77,6 +77,12 @@ ProductSchema.query.byFilters = function (
       break;
     case "za":
       query = query.sort({ name: -1 });
+      break;
+    case "stock":
+      query = query.find({ stock: true });
+      break;
+    case "-stock":
+      query = query.find({ stock: false });
       break;
   }
   return query.skip((page - 1) * limit).limit(limit);

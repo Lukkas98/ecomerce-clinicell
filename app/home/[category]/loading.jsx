@@ -1,23 +1,29 @@
-export default function Loading() {
+const Loading = () => {
   return (
-    <section className="min-h-[80vh] max-h-full min-w-screen">
-      <div className="h-full overflow-hidden overflow-y-auto scrollbar-thin lg:grid animate-pulse">
-        <div className="grid my-6 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {Array(6)
-            .fill("")
-            .map((_, i) => (
-              <div
-                key={i}
-                className="border border-gray-300 rounded-lg bg-gray-200 p-4 shadow-md"
-              >
-                <div className="w-full h-40 bg-gray-300 rounded-md mb-4"></div>
-                <div className="h-6 bg-gray-300 rounded mb-2"></div>
-                <div className="h-6 bg-gray-300 rounded mb-2"></div>
-                <div className="h-6 bg-gray-300 rounded"></div>
-              </div>
-            ))}
+    <div className="container mx-auto px-4 py-6">
+      <section className="mb-6">
+        <div className="flex flex-col justify-center items-center gap-5 mb-4">
+          <div className="w-48 h-6 bg-gray-700 rounded"></div>
+          <div className="w-full sm:w-3/4 lg:w-1/2 h-10 bg-gray-700 rounded"></div>
         </div>
+        <div className="grid below-320:grid-cols-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-pulse">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={index}
+              className="p-4 bg-gray-800 rounded-lg shadow-md flex flex-col items-center"
+            >
+              <div className="w-32 h-32 bg-gray-700 rounded-md mb-4"></div>
+              <div className="w-24 h-4 bg-gray-700 rounded mb-2"></div>
+              <div className="w-16 h-4 bg-gray-700 rounded"></div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <div className="flex justify-center mt-6">
+        <div className="w-48 h-10 bg-gray-700 rounded"></div>
       </div>
-    </section>
+    </div>
   );
-}
+};
+
+export default Loading;

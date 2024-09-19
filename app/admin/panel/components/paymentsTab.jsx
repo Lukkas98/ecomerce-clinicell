@@ -5,7 +5,7 @@ export default function PaymentsTab({ data }) {
     <main className="my-4 mx-2">
       {["Pedidos pendientes", "Pedidos aprobados"].map((title, index) => (
         <details className="mb-6" key={index} open={!index}>
-          <summary className="font-semibold text-xl cursor-pointer">
+          <summary className="font-semibold text-xl text-gray-100 cursor-pointer">
             {title}
           </summary>
           <div className="grid gap-3 mt-4 md:grid-cols-2 lg:grid-cols-3">
@@ -15,9 +15,9 @@ export default function PaymentsTab({ data }) {
                 <div
                   className={`${
                     payment.approved
-                      ? "bg-green-300 hover:bg-green-400"
-                      : "bg-orange-300 hover:bg-orange-400 hover:text-black"
-                  } px-3 py-2 max-w-xl mx-5 rounded-lg shadow-black shadow transition-all flex justify-between items-center`}
+                      ? "bg-green-700 hover:bg-green-800 text-gray-100"
+                      : "bg-blue-800 hover:bg-blue-900 text-white"
+                  } px-3 py-4 max-w-xl mx-5 rounded-lg shadow-lg transition-all flex justify-between items-center`}
                   key={i}
                 >
                   <div className="mb-3">
@@ -29,7 +29,7 @@ export default function PaymentsTab({ data }) {
                         ${payment.total}
                       </span>
                     </p>
-                    <p>
+                    <p className="text-gray-300 mt-1">
                       {new Date(payment.updatedAt).toLocaleString("es-AR", {
                         year: "numeric",
                         month: "2-digit",
@@ -37,12 +37,12 @@ export default function PaymentsTab({ data }) {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
-                      {payment.approved && (
-                        <span className="text-base inline-block font-bold">
-                          Se eliminará automáticamente después de 7 días
-                        </span>
-                      )}
                     </p>
+                    {payment.approved && (
+                      <span className="text-sm text-gray-300 font-bold mt-2 block">
+                        Se eliminará automáticamente después de 7 días
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col gap-2 justify-center items-center">
                     <BtnPayment

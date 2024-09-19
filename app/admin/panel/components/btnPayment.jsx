@@ -91,20 +91,24 @@ export default function BtnPayment({ approved, payment }) {
     <>
       {approved ? (
         <>
-          <CheckIcon width={60} height={60} className="text-green-800" />
+          <CheckIcon width={60} height={60} className="text-green-400" />
         </>
       ) : (
         <>
           <TrashIcon
             width={20}
             height={20}
-            className="text-red-600 hover:scale-125"
+            className="text-red-500 hover:text-red-700 hover:scale-125 transition-all"
             onClick={handleDelete}
           />
-          <ExclamationCircleIcon width={60} height={60} />
+          <ExclamationCircleIcon
+            width={60}
+            height={60}
+            className="text-orange-500"
+          />
           <button
             onClick={handleOnClick}
-            className="px-2 py-1 text-white bg-blue-500 rounded-md shadow-black shadow-sm"
+            className="px-2 py-1 text-white bg-blue-500 rounded-md shadow-black shadow-sm hover:bg-blue-700 transition-all"
           >
             Aprobar
           </button>

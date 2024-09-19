@@ -53,20 +53,23 @@ Productos: ${productList}.`;
       <div className="flex flex-col justify-center items-center w-[80%] mb-6">
         {!isMovil && (
           <>
-            <Image
-              width={200}
-              height={200}
-              src={qr}
-              alt="QR para confirmar tu compra por WhatsApp"
-            />
-            <p className="text-xs text-gray-500">Pedido: {orderId}</p>
-            <p className="text-sm text-gray-600 font-medium">
-              ¿No puedes escanear?, haz click{" "}
+            <div className="bg-gray-700 p-4 rounded-lg shadow-lg">
+              <Image
+                width={200}
+                height={200}
+                src={qr}
+                alt="QR para confirmar tu compra por WhatsApp"
+                className="rounded-lg"
+              />
+            </div>
+            <p className="text-xs text-gray-400 mt-2">Pedido: {orderId}</p>
+            <p className="text-sm text-gray-300 font-medium">
+              ¿No puedes escanear? Haz click{" "}
               <button
                 onClick={handleOnClick}
                 rel="noopener noreferrer"
-                title="Abir WhatsApp web"
-                className="text-blue-500"
+                title="Abrir WhatsApp web"
+                className="text-blue-400 hover:text-blue-300"
               >
                 aquí
               </button>
@@ -74,7 +77,7 @@ Productos: ${productList}.`;
           </>
         )}
       </div>
-      {isMovil && <p className="text-sm text-gray-500">Pedido: {orderId}</p>}
+      {isMovil && <p className="text-sm text-gray-400">Pedido: {orderId}</p>}
       <ButtonPay
         isMobile={isMovil}
         data={{ orderId, cart }}

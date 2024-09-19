@@ -1,8 +1,8 @@
-import { Exo_2 } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import CartProvider from "@/components/(cart)/cartProvider";
 
-const font = Exo_2({
+const font = Poppins({
   subsets: ["latin"],
   weight: ["200", "400", "500", "600", "800"],
 });
@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className="bg-teal-50">
+    <html lang="es" className="bg-gray-900">
       <body className={font.className}>
         <CartProvider>{children}</CartProvider>
       </body>

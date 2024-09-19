@@ -29,10 +29,13 @@ export default function BtnCreateCategory() {
   };
   return (
     <div
-      className="px-3 py-2 bg-blue-200 max-w-xl w-[90%] mx-5 md:mx-auto bg-opacity-75 rounded-lg border-2 border-dashed border-blue-500
-               hover:bg-blue-400 hover:text-black hover:border-black transition-all flex items-center justify-center md:col-span-2 lg:col-span-4"
+      className="px-4 py-3 bg-gray-800 max-w-xl w-[90%] mx-5 md:mx-auto bg-opacity-75 rounded-lg border-2 border-dashed border-gray-600
+               hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all flex items-center justify-center md:col-span-2 lg:col-span-3"
     >
-      <button onClick={handleOnClick} className="font-semibold text-lg">
+      <button
+        onClick={handleOnClick}
+        className="font-semibold text-lg text-white"
+      >
         Crear Categoría
       </button>
     </div>

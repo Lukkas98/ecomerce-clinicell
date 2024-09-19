@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-
-import a_left from "../assets/left.svg";
-import a_rigth from "../assets/rigth.svg";
+import {
+  ArrowLeftCircleIcon,
+  ArrowRightCircleIcon,
+} from "@heroicons/react/24/outline";
 
 const noImage =
   "https://fakeimg.pl/450x450/c2c2c2/808080?text=Sin+Imagen&font=bebas";
@@ -42,11 +43,11 @@ function Carousel({ images = [] }) {
           >
             <Image
               src={img ?? noImage}
-              className="absolute block w-full"
+              className="block w-full object-contain"
               alt="..."
               fill={true}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 400px, 400px"
-              quality={90}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 400px, 500px"
+              quality={100}
               priority={true}
             />
           </div>
@@ -83,7 +84,7 @@ function Carousel({ images = [] }) {
           data-carousel-prev
           onClick={prevSlide}
         >
-          <Image src={a_left} width={20} height={20} alt="pagination" />
+          <ArrowLeftCircleIcon width={40} height={40} className="text-black" />
         </button>
       )}
       {currentSlide > 0 && currentSlide < images.length && (
@@ -93,7 +94,7 @@ function Carousel({ images = [] }) {
           data-carousel-next
           onClick={nextSlide}
         >
-          <Image src={a_rigth} width={20} height={20} alt="pagination" />
+          <ArrowRightCircleIcon width={40} height={40} className="text-black" />
         </button>
       )}
     </div>

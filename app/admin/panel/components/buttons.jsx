@@ -51,7 +51,7 @@ export default function ButtonsProd({ itemId }) {
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 col-span-2">
       <button
         className="text-red-500 font-bold py-2 px-4 rounded group hover:bg-red-500 transition-all duration-[400ms]"
         onClick={() => handleDelete(itemId)}

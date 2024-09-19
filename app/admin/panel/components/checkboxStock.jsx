@@ -35,13 +35,18 @@ export default function CheckboxStock({ item }) {
   };
 
   return (
-    <>
-      <p className="text-gray-600">{item.stock ? "En stock" : "Sin stock"}</p>
+    <div
+      className={`flex items-center justify-center gap-3 px-2 py-1 rounded-md font-semibold ${
+        item.stock ? "bg-green-500" : "bg-red-500 text-white"
+      }`}
+    >
+      <p className="">{item.stock ? "En stock" : "Sin stock"}</p>
       <input
         type="checkbox"
         checked={item.stock}
         onChange={handleStockChange}
+        className="inline-block"
       />
-    </>
+    </div>
   );
 }
