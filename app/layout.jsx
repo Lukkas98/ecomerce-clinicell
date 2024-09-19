@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className="bg-teal-50">
+    <html lang="es" className="bg-gray-900">
       <body className={font.className}>
         <CartProvider>{children}</CartProvider>
       </body>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import ProductsTab from "./components/productsTab";
 import CategoriesTab from "./components/categoriesTab";
 import PaymentsTab from "./components/paymentsTab";
-import InputSearch from "@/components/(search)/inputSearch";
+import InputSearch from "@/components/inputSearch";
 import AdminFilter from "./components/filterAdmin";
 import { PlusIcon } from "@heroicons/react/24/outline";
 

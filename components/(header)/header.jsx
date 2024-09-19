@@ -2,55 +2,54 @@ import { getCategories } from "@/lib/actions/categories";
 import Image from "next/image";
 import LinkHeader from "./linkHeader";
 import Cart from "../(cart)/cart";
-import { Suspense } from "react";
+import InputSearch from "../inputSearch";
 
 export default async function Header() {
   const categories = await getCategories();
 
   return (
-    <header className="grid items-center grid-cols-[1fr,0.2fr] w-full h-fit bg-teal-50 shadow-black shadow-md lg:shadow-none lg:border lg:border-b-black z-50">
-      <div className="flex items-center gap-4 mx-5 my-3">
-        <div className="relative h-16 w-16 lg:h-20 lg:w-20 aspect-square rounded-full overflow-hidden">
-          <Image
-            src={"/logo.png"}
-            alt="Logo clinic cell"
-            fill={true}
-            sizes="80px"
-            quality={100}
-          />
+    <header className="sticky top-0 bg-gray-800 text-white shadow-md z-50">
+      <div className="container mx-auto px-4 py-2 flex flex-col sm:flex-row sm:justify-between items-center">
+        {/* Logo y nombre */}
+        <div className="flex gap-4 items-center mb-2 sm:mb-0">
+          <div className="w-16 h-16 relative bg-blue-700 flex items-center justify-center text-2xl font-bold text-white rounded-md overflow-hidden">
+            <Image
+              src={"/logo.png"}
+              alt="Logo clinic cell"
+              fill={true}
+              sizes="80px"
+              quality={100}
+            />
+          </div>
+          <div>
+            <h1 className="ml-3 text-2xl font-bold">Clinic-Cell</h1>
+            <span className="text-sm text-gray-400 font-semibold">
+              Repuestos y Accesorios
+            </span>
+          </div>
         </div>
-        <div>
-          <h1 className="font-bold text-xl">Clinic Cell</h1>
-          <span className="text-sm text-gray-600 font-semibold">
-            Repuestos y Accesorios
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center justify-center mr-5">
-        <Cart />
-      </div>
 
-      <nav className="flex col-span-3 gap-3 px-3 py-1 overflow-hidden overflow-x-auto snap-x bg-blue-900 text-teal-50 h-full items-center lg:hidden">
-        {/* categorias cargadas del backend */}
-        <LinkHeader
-          categoryName={"Todos"}
-          className="border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
-        />
-        <Suspense
-          fallback={
-            <div className="border px-3 py-2 animate-pulse border-blue-800 rounded-md hover:bg-blue-950 transition-all">
-              Cargando
-            </div>
-          }
-        >
+        {/* Barra de búsqueda y carro */}
+        <div className="flex justify-around md:justify-between items-center w-full sm:w-auto md:gap-5">
+          <InputSearch />
+          <Cart />
+        </div>
+      </div>
+      {/* Categorías */}
+      <nav className="bg-gray-800 py-2 mb-5">
+        <div className="container mx-auto px-4 flex overflow-x-auto space-x-2">
+          <LinkHeader
+            categoryName={"Todos"}
+            className="px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600 whitespace-nowrap"
+          />
           {categories?.map((category) => (
             <LinkHeader
               key={category._id}
               categoryName={category.name}
-              className="border px-3 py-2 border-blue-800 rounded-md hover:bg-blue-950 transition-all"
+              className="px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600 whitespace-nowrap"
             />
           ))}
-        </Suspense>
+        </div>
       </nav>
     </header>
   );

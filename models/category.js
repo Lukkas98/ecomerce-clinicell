@@ -24,7 +24,7 @@ categorySchema.pre("save", function (next) {
 categorySchema.methods.getSortedProducts = async function (
   filter,
   page = 1,
-  limit = 9
+  limit = 10
 ) {
   const skip = (page - 1) * limit;
   let sort = {};

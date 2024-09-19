@@ -56,7 +56,7 @@ ProductSchema.query.byFilters = function (
   search = "",
   filter = "",
   page = 1,
-  limit = 9
+  limit = 10
 ) {
   let query = this;
   if (search)

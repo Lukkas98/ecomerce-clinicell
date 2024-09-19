@@ -49,20 +49,20 @@ export default function Filter() {
       <div className="relative block md:hidden my-4">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-2 border rounded bg-gray-300 text-left text-base flex justify-between items-center"
+          className="w-full px-4 py-2 border border-gray-600 rounded bg-gray-800 text-left text-base text-gray-100 flex justify-between items-center"
         >
           {selectedOption
             ? options.find((option) => option.value === selectedOption).label
             : "Filtros"}
-          <ArrowDownIcon width={20} height={20} />
+          <ArrowDownIcon width={20} height={20} className="text-gray-300" />
         </button>
         {isOpen && (
-          <ul className="absolute z-10 w-full bg-white border rounded mt-2">
+          <ul className="absolute z-10 w-full bg-gray-700 border border-gray-600 rounded mt-2 text-gray-100">
             {options.map((option) => (
               <li
                 key={option.value}
                 onClick={() => handleSelect(option.value)}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                className="px-4 py-2 cursor-pointer hover:bg-gray-600"
               >
                 {option.label}
               </li>
@@ -85,10 +85,10 @@ export default function Filter() {
           <button
             key={option.value}
             onClick={() => handleSelect(option.value)}
-            className={`px-4 py-2 border rounded ${
+            className={`px-4 py-2 border border-gray-600 rounded ${
               selectedOption === option.value
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
             }`}
           >
             {option.label}
