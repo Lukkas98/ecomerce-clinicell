@@ -30,12 +30,14 @@ export default function Cart() {
     <div className="w-fit p-3">
       <div className="flex flex-row-reverse justify-center relative">
         <ShoppingCartIcon
-          className="h-6 w-6 cursor-pointer hover:opacity-70 transition-all"
+          width={25}
+          height={25}
+          className="cursor-pointer hover:opacity-90 transition-all text-gray-200"
           onClick={() => {
             setOpen(true);
           }}
         />
-        <p className="px-2 absolute right-7 bg-blue-500 text-white rounded-lg">
+        <p className="px-2 absolute -top-7 bg-blue-500 text-white rounded-lg">
           {cart.total}
         </p>
       </div>
@@ -49,7 +51,7 @@ export default function Cart() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-gray-800 bg-opacity-75 transition-opacity" />
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-hidden">
@@ -64,16 +66,16 @@ export default function Cart() {
                   leaveTo="translate-x-full"
                 >
                   <DialogPanel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-scroll bg-gray-900 shadow-xl">
                       <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                         <div className="flex items-start justify-between">
-                          <DialogTitle className="text-lg font-medium text-gray-900">
+                          <DialogTitle className="text-lg font-medium text-gray-100">
                             Carrito
                           </DialogTitle>
                           <div className="ml-3 flex h-7 items-center">
                             <button
                               type="button"
-                              className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
+                              className="relative -m-2 p-2 text-gray-400 hover:text-gray-300"
                               onClick={() => setOpen(false)}
                             >
                               <span className="absolute -inset-0.5" />
@@ -90,11 +92,11 @@ export default function Cart() {
                           <div className="flow-root">
                             <ul
                               role="list"
-                              className="-my-6 divide-y divide-gray-200"
+                              className="-my-6 divide-y divide-gray-700"
                             >
                               {cart.items.map((product) => (
                                 <li key={product._id} className="flex py-6">
-                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-600">
                                     <Image
                                       quality={85}
                                       width={96}
@@ -107,16 +109,16 @@ export default function Cart() {
 
                                   <div className="ml-4 flex flex-1 flex-col">
                                     <div>
-                                      <div className="flex justify-between text-base font-medium text-gray-900">
+                                      <div className="flex justify-between text-base font-medium text-gray-100">
                                         <h3>{product.name}</h3>
                                         <p className="ml-4">{`$ ${product.price}`}</p>
                                       </div>
-                                      <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                                      <p className="mt-1 text-sm text-gray-400 line-clamp-2">
                                         {product.description}
                                       </p>
                                     </div>
                                     <div className="flex flex-1 items-end justify-between text-sm">
-                                      <p className="text-gray-500">
+                                      <p className="text-gray-400">
                                         Cantidad: 1
                                       </p>
 
@@ -129,7 +131,7 @@ export default function Cart() {
                                             });
                                           }}
                                           type="button"
-                                          className="font-medium text-red-600 hover:text-red-400"
+                                          className="font-medium text-red-500 hover:text-red-400"
                                         >
                                           Quitar
                                         </button>
@@ -143,8 +145,8 @@ export default function Cart() {
                         </div>
                       </div>
 
-                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                        <div className="flex justify-between text-base font-medium text-gray-900">
+                      <div className="border-t border-gray-700 px-4 py-6 sm:px-6">
+                        <div className="flex justify-between text-base font-medium text-gray-100">
                           <p>Total</p>
                           <p>
                             ${" "}
@@ -159,16 +161,16 @@ export default function Cart() {
                           <button
                             disabled={!cart.items.length}
                             onClick={handlePay}
-                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-400 disabled:bg-opacity-80 disabled:cursor-not-allowed"
+                            className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700 disabled:bg-slate-400 disabled:bg-opacity-80 disabled:cursor-not-allowed"
                           >
                             Completar Pago
                           </button>
                         </div>
-                        <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                        <div className="mt-6 flex justify-center text-center text-sm text-gray-400">
                           <p>
                             <button
                               type="button"
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
+                              className="font-medium text-blue-500 hover:text-blue-400"
                               onClick={() => setOpen(false)}
                             >
                               Seguir Navegando

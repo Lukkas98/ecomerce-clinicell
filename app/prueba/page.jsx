@@ -1,10 +1,10 @@
 import Header from "@/components/(header)/header";
 
-export default async function CategoryLayout({ children }) {
+export default function ClientPage({ children }) {
   return (
-    <main className="bg-gray-900 text-gray-100 min-h-screen lg:grid">
-      <Header />
-      {children}
+    <main className="bg-gray-900 text-gray-100 min-h-screen">
+      <Header /> {/* listo */}
+      {children} {/* categorias */}
       <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5">
         Clinic-Cell © {new Date().getFullYear()} | Desarrollado por{" "}
         <a
