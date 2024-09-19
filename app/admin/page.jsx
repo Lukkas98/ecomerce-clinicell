@@ -28,7 +28,6 @@ export default function LoginAdmin() {
         title: "Ocurrio un error",
         text: error.message,
         icon: "error",
-        toast: true,
         position: "top",
       });
     }
@@ -36,8 +35,8 @@ export default function LoginAdmin() {
 
   return (
     <section className="flex justify-center items-center mt-10">
-      <div className="border p-5 bg-teal-100 rounded-lg shadow-black shadow-md w-[90%] max-w-xl mx-auto">
-        <h4 className="text-xl text-center font-semibold">
+      <div className="border p-5 bg-gray-800 rounded-lg shadow-lg shadow-black w-[90%] max-w-xl mx-auto">
+        <h4 className="text-2xl text-center font-semibold text-gray-100">
           Panel de Administrador
         </h4>
         <form
@@ -45,36 +44,32 @@ export default function LoginAdmin() {
           className="mt-8 mb-2 w-full flex flex-col gap-4"
         >
           <label className="w-full">
-            Email
+            <span className="text-gray-200">Email</span>
             <input
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
+              onChange={(e) => setUser(e.target.value)}
               name="user"
               type="text"
               placeholder="admin user"
-              className="w-full border-t-blue-400 block focus:border-t-gray-900 px-2 py-1 mt-3"
+              className="w-full border-2 border-gray-600 bg-gray-700 text-gray-100 rounded px-2 py-2 mt-2 focus:outline-none focus:border-blue-500 transition-all"
             />
           </label>
           <label className="w-full">
-            Contraseña
+            <span className="text-gray-200">Contraseña</span>
             <input
-              onChange={(e) => {
-                setPass(e.target.value);
-              }}
+              onChange={(e) => setPass(e.target.value)}
               name="pass"
               type="password"
               placeholder="********"
-              className="w-full border-t-blue-400 block focus:border-t-gray-900 px-2 py-1 mt-3"
+              className="w-full border-2 border-gray-600 bg-gray-700 text-gray-100 rounded px-2 py-2 mt-2 focus:outline-none focus:border-blue-500 transition-all"
             />
           </label>
 
           {pass && user && (
             <button
               type="submit"
-              className="mt-6 px-2 py-1 w-full bg-green-300 rounded-lg"
+              className="mt-6 px-4 py-2 w-full bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
             >
-              {loading ? "Entrando" : "Entrar"}
+              {loading ? "Entrando..." : "Entrar"}
             </button>
           )}
         </form>
