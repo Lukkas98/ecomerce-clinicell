@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ButtonsProd from "./buttons";
-import CheckboxStock from "./checkboxStock";
+import ButtonsProd from "../buttons";
+import CheckboxStock from "../checkboxStock";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";
@@ -10,7 +10,11 @@ const noImage =
 
 const categoryProd = async (product) => {
   const categories = await product.getNamesCategories();
-  return categories.map((cat) => <p key={cat._id}>{cat.name}</p>);
+  return categories.map((cat) => (
+    <p className="line-clamp-1" key={cat._id}>
+      {cat.name}
+    </p>
+  ));
 };
 
 export default async function ProductsTab({ data }) {
@@ -27,7 +31,7 @@ export default async function ProductsTab({ data }) {
             }`}
           >
             <div
-              className={`aspect-square w-[100px] relative overflow-hidden rounded-lg ${
+              className={`aspect-square w-[100px] lg:w-[150px] relative overflow-hidden rounded-lg ${
                 item.images[0] ? "shadow-md shadow-black" : ""
               }`}
             >
@@ -35,13 +39,16 @@ export default async function ProductsTab({ data }) {
                 src={item.images[0] || noImage}
                 alt={item.name + " image"}
                 fill={true}
-                sizes="100px"
+                sizes="150px"
                 className="object-contain"
                 quality={80}
               />
             </div>
-            <div className="text-sm text-gray-400 mt-2">
-              {categoryProd(item)}
+            <div className="text-sm text-gray-400 mt-2 relative">
+              <p className="absolute -top-4 font-semibold border-b border-gray-400 pb-0.5">
+                Categorias:
+              </p>
+              <div className="mt-2">{categoryProd(item)}</div>
             </div>
 
             <div className="w-full flex flex-col justify-between col-span-2">

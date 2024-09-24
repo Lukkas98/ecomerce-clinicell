@@ -177,7 +177,7 @@ export default function Form({
     >
       <div className="flex flex-col">
         <input
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-gray-700 text-gray-100 outline-none transition-all"
+          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
           type="text"
           name="name"
           placeholder="Nombre"
@@ -189,7 +189,7 @@ export default function Form({
 
       <div className="flex flex-col">
         <input
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-gray-700 text-gray-100 outline-none transition-all"
+          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
           type="number"
           name="price"
           placeholder="Precio"
@@ -201,7 +201,7 @@ export default function Form({
 
       <div className="flex flex-col">
         <textarea
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-gray-700 text-gray-100 outline-none transition-all max-h-60 h-52"
+          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all max-h-60 h-52"
           type="text"
           name="description"
           placeholder="Descripción"

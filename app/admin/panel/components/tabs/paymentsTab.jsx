@@ -1,4 +1,4 @@
-import BtnPayment from "./btnPayment";
+import BtnPayment from "../btnPayment";
 
 export default function PaymentsTab({ data }) {
   return (

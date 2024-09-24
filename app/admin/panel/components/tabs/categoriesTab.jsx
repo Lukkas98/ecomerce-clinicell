@@ -1,5 +1,5 @@
-import BtnCreateCategory from "./btnCreateCat";
-import Button from "./button";
+import BtnCreateCategory from "../btnCreateCat";
+import Button from "../button";
 
 export default function CategoriesTab({ data }) {
   return (
