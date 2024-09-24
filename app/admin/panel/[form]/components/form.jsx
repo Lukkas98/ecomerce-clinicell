@@ -102,7 +102,8 @@ export default function Form({
           title: result.message,
           text: "Volviendo al panel",
           didClose: () => {
-            router.replace("/admin/panel");
+            if (mode === "edit") router.back();
+            else router.replace("/admin/panel");
           },
         });
       });
@@ -172,7 +173,7 @@ export default function Form({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 w-[90%] mx-auto px-4 py-4 bg-gray-800 rounded-lg shadow-lg"
+      className="flex flex-col gap-6 w-full mx-auto px-4 py-4 bg-gray-800 rounded-lg shadow-lg"
     >
       <div className="flex flex-col">
         <input

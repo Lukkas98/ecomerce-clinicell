@@ -27,37 +27,37 @@ export default function InputSearch({ isAdmin = false }) {
   };
 
   return (
-    <div className={`relative max-w-lg ${isAdmin ? "w-full" : "w-[60%]"}`}>
-      <div className="flex items-center w-full">
+    <div className="flex items-center w-[90%] relative max-w-lg">
+      <div className="relative flex items-center justify-center w-full">
         <input
           type="text"
           placeholder="Buscar productos..."
           onChange={(e) => handleOnChange(e.target.value)}
-          defaultValue={useParams.get("search")}
-          className={
-            isAdmin
-              ? "bg-gray-700 text-white rounded-lg w-full p-2 outline-none"
-              : "flex-grow px-4 py-2 rounded-md border-2 border-gray-600 bg-gray-800 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-500"
-          }
+          defaultValue={useParams.get("search") ?? ""}
+          className={`pl-10
+            ${
+              isAdmin
+                ? "bg-gray-700 text-white rounded-lg w-full p-2 outline-none"
+                : "py-2 rounded-md border-2 w-full border-gray-600 bg-gray-800 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-500"
+            }`}
         />
-        <div
-          className={`absolute ${isAdmin ? "hidden" : "-left-8 text-white"}`}
-        >
+        <span className={`absolute left-2 text-white"}`}>
           <MagnifyingGlassIcon
             width={30}
             height={30}
             className="text-gray-400"
           />
-        </div>
-        {params.get("search") && (
-          <button
-            onClick={handleDeleteSearch}
-            className="absolute right-2 p-1 bg-red-600 text-white rounded-lg"
-          >
-            <XMarkIcon width={20} height={20} />
-          </button>
-        )}
+        </span>
       </div>
+
+      {params.get("search") && (
+        <button
+          onClick={handleDeleteSearch}
+          className="absolute right-2 p-1 bg-red-600 text-white rounded-lg"
+        >
+          <XMarkIcon width={20} height={20} />
+        </button>
+      )}
     </div>
   );
 }

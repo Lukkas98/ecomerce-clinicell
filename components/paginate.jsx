@@ -22,14 +22,14 @@ export default function Paginate({ totalPages = 1 }) {
     if (currentPage > totalPages - 3) startPage = Math.max(1, totalPages - 4);
 
     const buttons = [];
-    if (startPage > 1) buttons.push(renderNavButton("Inicio", 1));
+    if (startPage > 1) buttons.push(renderNavButton("1", 1));
     if (startPage > 2) buttons.push(renderJumpButton("prev", currentPage - 5));
     for (let page = startPage; page <= endPage; page++)
       buttons.push(renderButton(page));
     if (endPage < totalPages - 1)
       buttons.push(renderJumpButton("next", currentPage + 5));
     if (endPage < totalPages)
-      buttons.push(renderNavButton("Final", totalPages));
+      buttons.push(renderNavButton(totalPages.toString(), totalPages));
 
     return buttons;
   };

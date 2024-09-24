@@ -27,8 +27,8 @@ export default async function AdminPanel({ searchParams }) {
             <AdminFilter />
           </>
         ) : (
-          <p className="h-full py-2 text-center text-lg below-320:text-base text-gray-400">
-            No se puede buscar ni filtrar en esta pestaña
+          <p className="h-fit py-2 text-center text-base below-320:text-sm text-gray-400">
+            No se puede buscar ni filtrar en esta pestaña, todavia 😉
           </p>
         )}
       </header>
