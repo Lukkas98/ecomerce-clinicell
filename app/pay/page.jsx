@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const isMobileDevice = () => {
   const userAgent = headers().get("user-agent") || "";
-  return /Mobi|Android/i.test(userAgent);
+  return !/Mobi|Android/i.test(userAgent);
 };
 
 export default async function OrderConfirmation() {
@@ -26,7 +26,7 @@ export default async function OrderConfirmation() {
         </div>
 
         {/* Título Principal */}
-        <h1 className="text-2xl font-bold text-center mb-6 text-white">
+        <h1 className="text-2xl font-semibold text-center mb-6 text-white">
           ¡Falta poco para completar tu compra! 🎉
         </h1>
 

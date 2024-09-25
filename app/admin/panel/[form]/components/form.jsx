@@ -19,6 +19,8 @@ const Toast = Swal.mixin({
   timer: 2000,
   timerProgressBar: true,
   showConfirmButton: false,
+  background: "#374151",
+  color: "#E5E7EB",
 });
 
 export default function Form({
@@ -127,6 +129,8 @@ export default function Form({
       confirmButtonText: "Si, Borrar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
       preConfirm: async () => {
         try {
           const response = image.includes("https://firebasestorage")

@@ -9,18 +9,22 @@ const Toast = Swal.mixin({
   position: "top",
   timer: 3000,
   timerProgressBar: true,
+  background: "#374151",
+  color: "#E5E7EB",
 });
 
 export default function Button({ categoryId }) {
   const handleDelete = async (id) => {
     Swal.fire({
       icon: "warning",
-      title: "¿Quieres eliminar esta categoria?",
-      text: "Todos los productos en esta categoria se borrarán",
+      title: "¿Quieres eliminar esta Categoría?",
+      text: "Todos los productos en esta categoría se borrarán. Si están en otras, también se eliminarán de ellas.",
       showDenyButton: true,
       confirmButtonText: "Si, Borrar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
       preConfirm: async () => {
         try {
           const response = await DeleteCategory(id);
@@ -53,6 +57,8 @@ export default function Button({ categoryId }) {
       confirmButtonText: "Si, renombrar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
     }).then(async (res) => {
       if (res.isConfirmed) {
         const { value: categoryName } = await Swal.fire({
@@ -60,6 +66,8 @@ export default function Button({ categoryId }) {
           input: "text",
           inputLabel: "Ingresa el nombre nuevo",
           showCancelButton: true,
+          background: "#374151",
+          color: "#E5E7EB",
           inputValidator: (value) => {
             if (!value) {
               return "No puede estar vacio";

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ButtonsProd from "../buttons";
+import ButtonsProd from "../buttonsProd";
 import CheckboxStock from "../checkboxStock";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";

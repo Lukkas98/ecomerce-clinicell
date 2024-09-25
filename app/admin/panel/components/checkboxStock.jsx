@@ -8,6 +8,8 @@ const Toast = Swal.mixin({
   position: "top",
   timerProgressBar: true,
   showConfirmButton: false,
+  background: "#374151",
+  color: "#E5E7EB",
 });
 
 export default function CheckboxStock({ item }) {
@@ -19,6 +21,8 @@ export default function CheckboxStock({ item }) {
       showCancelButton: true,
       confirmButtonText: "Sí, cambiarlo",
       cancelButtonText: "Cancelar",
+      background: "#374151",
+      color: "#E5E7EB",
     });
 
     if (result.isConfirmed) {

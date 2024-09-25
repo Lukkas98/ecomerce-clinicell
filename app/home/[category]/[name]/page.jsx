@@ -17,7 +17,7 @@ export default async function ProductPage({ searchParams }) {
       />
       <BtnBack />
       <div className="flex flex-col lg:flex-row lg:space-x-10 items-center">
-        <div className="bg-gray-200 aspect-square w-full lg:w-1/2 rounded-lg relative max-w-[400px] lg:max-w-[500px]">
+        <div className="aspect-square w-full lg:w-1/2 rounded-lg relative max-w-[400px] lg:max-w-[500px]">
           <Carousel images={images} />
         </div>
 
