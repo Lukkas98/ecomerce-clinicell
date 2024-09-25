@@ -87,7 +87,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
     <div className="relative w-full">
       <div
         onClick={toggleDropdown}
-        className="bg-gray-500 p-3 rounded cursor-pointer flex justify-between items-center"
+        className="bg-gray-600 text-gray-200 p-3 rounded cursor-pointer flex justify-between items-center"
       >
         <span>
           {data.category || data.additionalCategories.length > 0
@@ -98,7 +98,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
       </div>
 
       {dropdownOpen && (
-        <div className="absolute top-12 left-0 right-0 bg-gray-600 border border-gray-700 rounded shadow-lg max-h-48 overflow-y-auto z-20">
+        <div className="absolute top-12 left-0 right-0 bg-gray-700 border border-gray-900 rounded shadow-lg max-h-48 overflow-y-auto z-20">
           {categories.map((category) => (
             <div
               key={category.name}
@@ -106,8 +106,8 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
               className={`p-2 cursor-pointer transition-colors duration-200 ${
                 category.name === data.category ||
                 data.additionalCategories.includes(category.name)
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-500 hover:bg-gray-700"
+                  ? "bg-gray-800 text-white"
+                  : "bg-gray-600 hover:bg-gray-700 text-gray-200"
               }`}
             >
               {category.name}

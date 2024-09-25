@@ -22,6 +22,9 @@ export default async function ProductsTab({ data }) {
 
   return (
     <div className="flex-1 p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-5">
+      <div className="md:col-span-2 lg:col-span-3">
+        <Paginate totalPages={totalPages} />
+      </div>
       <Suspense key={Date.now()} fallback={<LoadingProducts />}>
         {data.products?.map((item) => (
           <div
@@ -31,7 +34,7 @@ export default async function ProductsTab({ data }) {
             }`}
           >
             <div
-              className={`aspect-square w-[100px] lg:w-[150px] relative overflow-hidden rounded-lg ${
+              className={`aspect-square w-[100px] relative overflow-hidden rounded-lg ${
                 item.images[0] ? "shadow-md shadow-black" : ""
               }`}
             >
@@ -39,7 +42,7 @@ export default async function ProductsTab({ data }) {
                 src={item.images[0] || noImage}
                 alt={item.name + " image"}
                 fill={true}
-                sizes="150px"
+                sizes="100px"
                 className="object-contain"
                 quality={80}
               />

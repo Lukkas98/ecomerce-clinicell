@@ -267,13 +267,13 @@ export default function Form({
       {!isLoading && (
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 font-bold text-white px-4 py-2 rounded-md w-full"
+          className="bg-blue-800 hover:bg-blue-900 font-semibold text-gray-100 px-4 py-2 rounded-md w-full"
         >
           {mode === "create" ? "Crear" : "Actualizar"}
         </button>
       )}
       {isLoading && (
-        <span className="bg-blue-300 opacity-80 font-bold text-black px-4 py-2 rounded-md w-full text-center">
+        <span className="bg-blue-700 opacity-80 font-semibold text-gray-100 px-4 py-2 rounded-md w-full text-center">
           Procesando, por favor espere...
         </span>
       )}

@@ -38,7 +38,7 @@ export default async function ProductCard({ product, searchParams }) {
       </Link>
       <Link
         href={`${urlPathname}?id=${_id}`}
-        className="text-base font-semibold mb-2"
+        className="text-base font-semibold mb-2 line-clamp-2"
         title={name}
       >
         {name}
