@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const isMobileDevice = () => {
   const userAgent = headers().get("user-agent") || "";
-  return !/Mobi|Android/i.test(userAgent);
+  return /Mobi|Android/i.test(userAgent);
 };
 
 export default async function OrderConfirmation() {
