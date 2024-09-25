@@ -92,7 +92,7 @@ export default function Form({
             : await editProduct(data, Urls);
 
         if (!result.success) {
-          Toast.fire("Ups..", "No pudo subise el producto", "error");
+          Toast.fire("Ups..", result.message, "error");
           console.error(result.message);
           return;
         }
@@ -109,7 +109,6 @@ export default function Form({
       });
     } catch (error) {
       const errMessage = JSON.parse(error.message);
-      // console.error("errMessage: ", errMessage);
       errMessage.forEach((err) => {
         setErrors((oldValues) => {
           return {
