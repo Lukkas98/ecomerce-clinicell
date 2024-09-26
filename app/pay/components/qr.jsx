@@ -42,6 +42,8 @@ Productos: ${productList}.`;
       showConfirmButton: false,
       timer: 4000,
       timerProgressBar: true,
+      background: "#374151",
+      color: "#E5E7EB",
       willClose: () => {
         window.open(whatsappLink, "_blank");
       },

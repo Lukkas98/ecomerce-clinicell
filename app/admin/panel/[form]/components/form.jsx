@@ -19,6 +19,8 @@ const Toast = Swal.mixin({
   timer: 2000,
   timerProgressBar: true,
   showConfirmButton: false,
+  background: "#374151",
+  color: "#E5E7EB",
 });
 
 export default function Form({
@@ -92,7 +94,7 @@ export default function Form({
             : await editProduct(data, Urls);
 
         if (!result.success) {
-          Toast.fire("Ups..", "No pudo subise el producto", "error");
+          Toast.fire("Ups..", result.message, "error");
           console.error(result.message);
           return;
         }
@@ -102,13 +104,13 @@ export default function Form({
           title: result.message,
           text: "Volviendo al panel",
           didClose: () => {
-            router.replace("/admin/panel");
+            if (mode === "edit") router.back();
+            else router.replace("/admin/panel");
           },
         });
       });
     } catch (error) {
       const errMessage = JSON.parse(error.message);
-      // console.error("errMessage: ", errMessage);
       errMessage.forEach((err) => {
         setErrors((oldValues) => {
           return {
@@ -127,6 +129,8 @@ export default function Form({
       confirmButtonText: "Si, Borrar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
       preConfirm: async () => {
         try {
           const response = image.includes("https://firebasestorage")
@@ -172,11 +176,11 @@ export default function Form({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 w-[90%] mx-auto px-4 py-4 bg-gray-800 rounded-lg shadow-lg"
+      className="flex flex-col gap-6 w-full mx-auto px-4 py-4 bg-gray-800 rounded-lg shadow-lg"
     >
       <div className="flex flex-col">
         <input
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-gray-700 text-gray-100 outline-none transition-all"
+          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
           type="text"
           name="name"
           placeholder="Nombre"
@@ -188,7 +192,7 @@ export default function Form({
 
       <div className="flex flex-col">
         <input
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-gray-700 text-gray-100 outline-none transition-all"
+          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
           type="number"
           name="price"
           placeholder="Precio"
@@ -200,7 +204,7 @@ export default function Form({
 
       <div className="flex flex-col">
         <textarea
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-gray-700 text-gray-100 outline-none transition-all max-h-60 h-52"
+          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all max-h-60 h-52"
           type="text"
           name="description"
           placeholder="Descripción"
@@ -266,13 +270,13 @@ export default function Form({
       {!isLoading && (
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 font-bold text-white px-4 py-2 rounded-md w-full"
+          className="bg-blue-800 hover:bg-blue-900 font-semibold text-gray-100 px-4 py-2 rounded-md w-full"
         >
           {mode === "create" ? "Crear" : "Actualizar"}
         </button>
       )}
       {isLoading && (
-        <span className="bg-blue-300 opacity-80 font-bold text-black px-4 py-2 rounded-md w-full text-center">
+        <span className="bg-blue-700 opacity-80 font-semibold text-gray-100 px-4 py-2 rounded-md w-full text-center">
           Procesando, por favor espere...
         </span>
       )}

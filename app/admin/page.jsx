@@ -21,6 +21,8 @@ export default function LoginAdmin() {
           toast: true,
           timer: 2000,
           position: "top",
+          background: "#374151",
+          color: "#E5E7EB",
         })
       );
     } catch (error) {
@@ -29,6 +31,8 @@ export default function LoginAdmin() {
         text: error.message,
         icon: "error",
         position: "top",
+        background: "#374151",
+        color: "#E5E7EB",
       });
     }
   };

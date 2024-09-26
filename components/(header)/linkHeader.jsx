@@ -9,9 +9,9 @@ export default function LinkHeader({ categoryName, className = "" }) {
 
   return (
     <Link
-      className={`${className} whitespace-nowrap ${
+      className={`${className} whitespace-nowrap px-2 py-1 ${
         decodeURIComponent(categoryPathname) === categoryName
-          ? "font-semibold bg-teal-50 text-blue-700 lg:bg-blue-700 lg:text-teal-50 rounded hover:bg-teal-100 lg:hover:bg-blue-500"
+          ? "font-semibold bg-gray-800 border border-gray-200 text-white lg:bg-blue-900 lg:text-teal-50 rounded hover:bg-gray-900 lg:hover:bg-blue-950"
           : ""
       }`}
       href={`/home/${categoryName}?page=1`}

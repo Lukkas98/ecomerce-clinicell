@@ -10,6 +10,8 @@ const Toast = Swal.mixin({
   position: "top",
   timer: 3000,
   timerProgressBar: true,
+  background: "#374151",
+  color: "#E5E7EB",
 });
 
 export default function ButtonsProd({ itemId }) {
@@ -21,11 +23,14 @@ export default function ButtonsProd({ itemId }) {
 
   const handleDelete = async (productId) => {
     Swal.fire({
+      icon: "warning",
       title: "¿Quieres eliminar este producto?",
       showDenyButton: true,
       confirmButtonText: "Si, Eliminar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
       preConfirm: async () => {
         try {
           const response = await deleteProduct(productId);

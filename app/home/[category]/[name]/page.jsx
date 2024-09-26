@@ -2,17 +2,22 @@ import ActionButton from "./components/actionButton";
 import BtnBack from "./components/btnBack";
 import Carousel from "./components/carousel";
 import { getProduct } from "@/lib/actions/products";
+import LinkNav from "./components/linkNav";
 
 export default async function ProductPage({ searchParams }) {
   const { id } = searchParams;
   const product = await getProduct(id);
-  const { name, description, price, stock, images } = product;
+  const { name, description, price, stock, images, category } = product;
 
   return (
-    <div className="container relative max-w-7xl w-full mx-auto p-6">
+    <div className="container relative max-w-7xl w-full mx-auto p-6 mt-5">
+      <LinkNav
+        idCategory={category}
+        className="mb-4 text-xs absolute top-0 left-8"
+      />
       <BtnBack />
       <div className="flex flex-col lg:flex-row lg:space-x-10 items-center">
-        <div className="bg-gray-200 aspect-square w-full lg:w-1/2 rounded-lg relative max-w-[400px] lg:max-w-[500px]">
+        <div className="aspect-square w-full lg:w-1/2 rounded-lg relative max-w-[400px] lg:max-w-[500px]">
           <Carousel images={images} />
         </div>
 
@@ -37,6 +42,9 @@ export default async function ProductPage({ searchParams }) {
             product={JSON.parse(JSON.stringify(product))}
             stock={product.stock}
             typeButton={"ADD_PRODUCT"}
+            className={
+              "px-5 py-3 hover:bg-gray-900 hover:outline outline-1 hover:outline-gray-200 rounded-md"
+            }
           />
         </div>
       </div>

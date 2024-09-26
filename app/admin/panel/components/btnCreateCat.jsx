@@ -2,6 +2,16 @@
 import { createCategory } from "@/lib/actions/categories";
 import Swal from "sweetalert2";
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top",
+  timer: 2000,
+  timerProgressBar: true,
+  showConfirmButton: false,
+  background: "#374151",
+  color: "#E5E7EB",
+});
+
 export default function BtnCreateCategory() {
   const handleOnClick = async () => {
     const { value: categoryName } = await Swal.fire({
@@ -9,6 +19,8 @@ export default function BtnCreateCategory() {
       input: "text",
       inputLabel: "Ingresa el nombre de la Categoría nueva",
       showCancelButton: true,
+      background: "#374151",
+      color: "#E5E7EB",
       inputValidator: (value) => {
         if (!value) {
           return "No puede estar vacio";
@@ -21,9 +33,9 @@ export default function BtnCreateCategory() {
 
         if (!response.success) throw new Error(response.message);
 
-        Swal.fire("Categoría Creada", response.message, "success");
+        Toast.fire("Categoría Creada", response.message, "success");
       } catch (error) {
-        Swal.fire("Ups..", error.message, "error");
+        Toast.fire("Ups..", error.message, "error");
       }
     }
   };

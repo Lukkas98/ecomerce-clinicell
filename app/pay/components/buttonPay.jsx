@@ -21,6 +21,8 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
         showDenyButton: true,
         denyButtonText: "No",
         showLoaderOnConfirm: true,
+        background: "#374151",
+        color: "#E5E7EB",
         preConfirm: async () => {
           try {
             const response = await createPay({
@@ -43,15 +45,17 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
         if (res.isConfirmed) {
           Swal.fire({
             icon: "success",
-            html: `<div class="bg-white rounded-lg p-6 text-center">
-    <h6 class="text-xl font-semibold text-gray-800 mb-4">Muchas gracias por confiar en Clinic-Cell</h6>
-    <p class="text-green-700 font-medium">${res.value.message}</p>
-    <p class="text-gray-600 mb-4">Volviendo a la página principal, por favor, espere...</p>
+            html: `<div class="bg-gray-700 rounded-lg p-6 text-center">
+    <h6 class="text-xl font-semibold text-gray-300 mb-4">Muchas gracias por confiar en Clinic-Cell</h6>
+    <p class="text-green-700 italic font-semibold">${res.value.message}</p>
+    <p class="text-gray-300 mb-4">Volviendo a la página principal, por favor, espere...</p>
   </div>`,
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
             allowOutsideClick: false,
+            background: "#374151",
+            color: "#E5E7EB",
             willClose: () => {
               router.replace(res.value.link);
             },
@@ -64,6 +68,8 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
             showConfirmButton: false,
             timer: 1600,
             timerProgressBar: true,
+            background: "#374151",
+            color: "#E5E7EB",
           });
         }
       });
@@ -76,6 +82,8 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
         showDenyButton: true,
         denyButtonText: "No",
         showLoaderOnConfirm: true,
+        background: "#374151",
+        color: "#E5E7EB",
         preConfirm: async () => {
           try {
             const response = await createPay(
@@ -97,15 +105,17 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
         if (res.isConfirmed) {
           Swal.fire({
             icon: "success",
-            html: `<div class="bg-white rounded-lg p-6 text-center">
-    <h6 class="text-xl font-semibold text-gray-800 mb-4">Muchas gracias por confiar en Clinic-Cell</h6>
-    <p class="text-green-700 font-medium">${res.value.message}</p>
-    <p class="text-gray-600 mb-4">Redirigiendo a WhatsApp, por favor, espere...</p>
+            html: `<div class="bg-gray-700 rounded-lg p-6 text-center">
+    <h6 class="text-xl font-semibold text-gray-300 mb-4">Muchas gracias por confiar en Clinic-Cell</h6>
+    <p class="text-green-700 italic font-semibold">${res.value.message}</p>
+    <p class="text-gray-300 mb-4">Redirigiendo a WhatsApp, por favor, espere...</p>
   </div>`,
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
             allowOutsideClick: false,
+            background: "#374151",
+            color: "#E5E7EB",
             willClose: () => {
               router.replace(res.value.link);
             },

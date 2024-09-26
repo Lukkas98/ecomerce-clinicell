@@ -16,8 +16,10 @@ export default async function ProductCard({ product, searchParams }) {
 
   return (
     <div
-      className={`bg-gray-800 relative p-4 rounded-md shadow-lg flex flex-col justify-between ${
-        stock ? "" : "opacity-50"
+      className={`bg-gray-800 relative p-4 rounded-md shadow-lg flex gap-1 flex-col justify-between transition-all ${
+        stock
+          ? "hover:bg-gray-900 hover:outline hover:outline-green-700"
+          : "opacity-50"
       }`}
     >
       <Link
@@ -29,14 +31,15 @@ export default async function ProductCard({ product, searchParams }) {
           fill={true}
           alt="imgProduct"
           sizes="(max-width: 768px) 150px, (max-width: 1200px) 200px, 500px"
-          quality={100}
+          quality={80}
           priority={true}
           className="object-contain mb-4 rounded-md outline outline-1 outline-gray-400 bg-gray-900"
         />
       </Link>
       <Link
         href={`${urlPathname}?id=${_id}`}
-        className="text-lg font-semibold mb-2"
+        className="text-base font-semibold mb-2 line-clamp-2"
+        title={name}
       >
         {name}
       </Link>
@@ -44,7 +47,9 @@ export default async function ProductCard({ product, searchParams }) {
       <p className="text-sm line-clamp-2 text-gray-400 mb-2">{description}</p>
       <span className="font-bold text-lg text-gray-100 mb-4">$ {price}</span>
       <div className="flex flex-col gap-1">
-        <span className="text-sm text-gray-500">
+        <span
+          className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}
+        >
           {stock ? "En stock" : "Sin stock"}
         </span>
         <ActionButton

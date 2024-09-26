@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ButtonsProd from "./buttons";
-import CheckboxStock from "./checkboxStock";
+import ButtonsProd from "../buttonsProd";
+import CheckboxStock from "../checkboxStock";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";
@@ -10,7 +10,11 @@ const noImage =
 
 const categoryProd = async (product) => {
   const categories = await product.getNamesCategories();
-  return categories.map((cat) => <p key={cat._id}>{cat.name}</p>);
+  return categories.map((cat) => (
+    <p className="line-clamp-1" key={cat._id}>
+      {cat.name}
+    </p>
+  ));
 };
 
 export default async function ProductsTab({ data }) {
@@ -18,6 +22,9 @@ export default async function ProductsTab({ data }) {
 
   return (
     <div className="flex-1 p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-5">
+      <div className="md:col-span-2 lg:col-span-3">
+        <Paginate totalPages={totalPages} />
+      </div>
       <Suspense key={Date.now()} fallback={<LoadingProducts />}>
         {data.products?.map((item) => (
           <div
@@ -40,8 +47,11 @@ export default async function ProductsTab({ data }) {
                 quality={80}
               />
             </div>
-            <div className="text-sm text-gray-400 mt-2">
-              {categoryProd(item)}
+            <div className="text-sm text-gray-400 mt-2 relative">
+              <p className="absolute -top-4 font-semibold border-b border-gray-400 pb-0.5">
+                Categorias:
+              </p>
+              <div className="mt-2">{categoryProd(item)}</div>
             </div>
 
             <div className="w-full flex flex-col justify-between col-span-2">

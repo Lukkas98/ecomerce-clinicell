@@ -29,21 +29,21 @@ function Carousel({ images = [] }) {
   return (
     <div
       id="default-carousel"
-      className="relative w-full h-full"
+      className="relative w-full h-full overflow-hidden rounded-xl border border-gray-950"
       data-carousel="slide"
     >
-      <div className="relative overflow-hidden rounded-xl">
+      <div className="relative overflow-hidden">
         {images.map((img, i) => (
           <div
             key={i}
-            className={`relative aspect-square w-full ${
+            className={`relative aspect-square w-full bg-transparent ${
               currentSlide === i + 1 ? "" : "hidden"
             }`}
             data-carousel-item
           >
             <Image
               src={img ?? noImage}
-              className="block w-full object-contain"
+              className="block w-full object-contain bg-gray-700"
               alt="..."
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 400px, 500px"
@@ -68,7 +68,7 @@ function Carousel({ images = [] }) {
             key={i}
             type="button"
             className={`w-3 h-3 rounded-full ${
-              currentSlide === i + 1 ? "bg-white" : "bg-gray-400"
+              currentSlide === i + 1 ? "bg-blue-500" : "bg-gray-800"
             }`}
             aria-current={currentSlide === i ? "true" : "false"}
             aria-label={`Slide ${i + 1}`}

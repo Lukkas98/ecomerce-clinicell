@@ -2,9 +2,9 @@ import { getProducts } from "@/lib/actions/products";
 import { getCategories } from "@/lib/actions/categories";
 import { getAllPayments } from "@/lib/actions/payments";
 import Link from "next/link";
-import ProductsTab from "./components/productsTab";
-import CategoriesTab from "./components/categoriesTab";
-import PaymentsTab from "./components/paymentsTab";
+import PaymentsTab from "./components/tabs/paymentsTab";
+import ProductsTab from "./components/tabs/productsTab";
+import CategoriesTab from "./components/tabs/categoriesTab";
 import InputSearch from "@/components/inputSearch";
 import AdminFilter from "./components/filterAdmin";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -27,8 +27,8 @@ export default async function AdminPanel({ searchParams }) {
             <AdminFilter />
           </>
         ) : (
-          <p className="h-full py-2 text-center text-lg below-320:text-base text-gray-400">
-            No se puede buscar ni filtrar en esta pestaña
+          <p className="h-fit py-2 text-center text-base below-320:text-sm text-gray-400">
+            No se puede buscar ni filtrar en esta pestaña, todavia 😉
           </p>
         )}
       </header>

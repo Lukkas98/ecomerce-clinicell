@@ -13,6 +13,8 @@ const Toast = Swal.mixin({
   position: "top",
   timer: 3000,
   timerProgressBar: true,
+  background: "#374151",
+  color: "#E5E7EB",
 });
 
 export default function BtnPayment({ approved, payment }) {
@@ -20,11 +22,11 @@ export default function BtnPayment({ approved, payment }) {
     Swal.fire({
       icon: "question",
       title: `¿Aprobar Orden?`,
-      html: `<div class="p-4 bg-white rounded-md">
-         <h2 class="text-xl font-semibold text-gray-800">${payment.id}</h2>
-         <p class="mt-2 text-gray-600">Productos: ${payment.items.length}</p>
-         <p class="text-gray-600">Total: $${payment.total}</p>
-         <p class="mt-4 text-sm text-gray-500 italic">
+      html: `<div class="p-4 bg-gray-800 rounded-xl">
+         <h2 class="text-xl font-semibold text-gray-200">${payment.id}</h2>
+         <p class="mt-2 text-gray-400">Productos: ${payment.items.length}</p>
+         <p class="text-gray-400">Total: $${payment.total}</p>
+         <p class="mt-4 text-sm text-gray-300 italic">
            Una vez aprobada se eliminará a los 7 días
          </p>
        </div>`,
@@ -32,6 +34,8 @@ export default function BtnPayment({ approved, payment }) {
       confirmButtonText: "Si, aprobar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
       preConfirm: async () => {
         try {
           const response = await approvePay(payment.id);
@@ -65,6 +69,8 @@ export default function BtnPayment({ approved, payment }) {
       confirmButtonText: "Si, Eliminar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
+      background: "#374151",
+      color: "#E5E7EB",
       preConfirm: async () => {
         try {
           const response = await deletePay(payment._id);

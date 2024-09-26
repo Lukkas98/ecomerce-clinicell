@@ -1,4 +1,4 @@
-import BtnPayment from "./btnPayment";
+import BtnPayment from "../btnPayment";
 
 export default function PaymentsTab({ data }) {
   return (
@@ -15,7 +15,7 @@ export default function PaymentsTab({ data }) {
                 <div
                   className={`${
                     payment.approved
-                      ? "bg-green-700 hover:bg-green-800 text-gray-100"
+                      ? "bg-green-800 hover:bg-green-900 text-gray-100"
                       : "bg-blue-800 hover:bg-blue-900 text-white"
                   } px-3 py-4 max-w-xl mx-5 rounded-lg shadow-lg transition-all flex justify-between items-center`}
                   key={i}
@@ -39,7 +39,7 @@ export default function PaymentsTab({ data }) {
                       })}
                     </p>
                     {payment.approved && (
-                      <span className="text-sm text-gray-300 font-bold mt-2 block">
+                      <span className="text-xs text-gray-200 font-medium italic mt-2 block">
                         Se eliminará automáticamente después de 7 días
                       </span>
                     )}

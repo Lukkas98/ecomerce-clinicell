@@ -26,7 +26,7 @@ export default async function OrderConfirmation() {
         </div>
 
         {/* Título Principal */}
-        <h1 className="text-2xl font-bold text-center mb-6 text-white">
+        <h1 className="text-2xl font-semibold text-center mb-6 text-white">
           ¡Falta poco para completar tu compra! 🎉
         </h1>
 
