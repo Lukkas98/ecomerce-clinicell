@@ -7,9 +7,10 @@ const noImage =
   "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductCard({ product, searchParams }) {
-  const { images, name, price, stock, _id, category, description } = product;
+  const { images, name, price, stock, _id, category, description, outlet } =
+    product;
 
-  const { search } = searchParams;
+  // const { search } = searchParams;
 
   const categoryOfProduct = await getCategoryId(category);
   const urlPathname = `/home/${categoryOfProduct.name}/${name}`;
@@ -45,13 +46,12 @@ export default async function ProductCard({ product, searchParams }) {
       </Link>
 
       <p className="text-sm line-clamp-2 text-gray-400 mb-2">{description}</p>
-      <span className="font-bold text-lg text-gray-100 mb-4">$ {price}</span>
+      <p className="font-bold text-lg text-gray-100 mb-4">$ {price}</p>
       <div className="flex flex-col gap-1">
-        <span
-          className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}
-        >
+        <p className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}>
           {stock ? "En stock" : "Sin stock"}
-        </span>
+        </p>
+        {outlet && <p className={`text-sm text-red-500`}>Liquidación</p>}
         <ActionButton
           product={JSON.parse(JSON.stringify(product))}
           stock={stock}

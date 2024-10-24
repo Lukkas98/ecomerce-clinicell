@@ -4,6 +4,7 @@ import CheckboxStock from "../checkboxStock";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";
+import CheckboxOutlet from "../checkboxOutlet";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
@@ -44,7 +45,7 @@ export default async function ProductsTab({ data }) {
                 fill={true}
                 sizes="100px"
                 className="object-contain"
-                quality={80}
+                quality={50}
               />
             </div>
             <div className="text-sm text-gray-400 mt-2 relative">
@@ -70,7 +71,7 @@ export default async function ProductsTab({ data }) {
                 <CheckboxStock item={JSON.parse(JSON.stringify(item))} />
               </div>
             </div>
-
+            <CheckboxOutlet item={JSON.parse(JSON.stringify(item))} />
             <ButtonsProd itemId={item._id.toString()} />
           </div>
         ))}
