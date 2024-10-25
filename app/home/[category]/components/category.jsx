@@ -4,6 +4,7 @@ import Filter from "./filter";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import TitleCategory from "./titleCategory";
+import Outlet from "@/components/outlet/Outlet";
 
 export default function Category({
   products = [],
@@ -29,6 +30,8 @@ export default function Category({
   return (
     <div className="container mx-auto px-4 py-6">
       <section className="mb-6">
+        <Outlet products={products} />
+
         <div className="flex flex-col justify-center items-center gap-5 mb-4">
           <TitleCategory />
           <Filter />

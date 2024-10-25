@@ -14,11 +14,18 @@ const carritoReducer = (state, { type, payload }) => {
     case "ADD_PRODUCT":
       const produtToAdd = state.items.find((prod) => prod._id === payload._id);
       if (produtToAdd) return state;
+
+      // Si el producto es "outlet", aplicamos un descuento del 30%
+      const discountPrice = payload.outlet
+        ? Math.ceil(payload.price * 0.7)
+        : payload.price;
+
       return {
         ...state,
-        items: [...state.items, payload],
+        items: [...state.items, { ...payload, price: discountPrice }],
         total: state.total + 1,
       };
+
     case "REMOVE_PRODUCT":
       const prodToRemove = state.items.filter((obj) => obj._id !== payload._id);
       return { ...state, items: prodToRemove, total: state.total - 1 };

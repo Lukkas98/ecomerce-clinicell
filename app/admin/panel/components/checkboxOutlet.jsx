@@ -1,5 +1,5 @@
 "use client";
-import { changeStock } from "@/lib/actions/products";
+import { ChangeOutlet } from "@/lib/actions/products";
 import Swal from "sweetalert2";
 
 const Toast = Swal.mixin({
@@ -12,11 +12,11 @@ const Toast = Swal.mixin({
   color: "#E5E7EB",
 });
 
-export default function CheckboxStock({ item }) {
-  const handleStockChange = async () => {
+export default function CheckboxOutlet({ item }) {
+  const handleOutletChange = async () => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: `Estás a punto de cambiar el stock de ${item.name}`,
+      text: `Estás a punto de cambiar el estado de ${item.name}`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, cambiarlo",
@@ -27,7 +27,7 @@ export default function CheckboxStock({ item }) {
 
     if (result.isConfirmed) {
       try {
-        const response = await changeStock(item._id, item.stock);
+        const response = await ChangeOutlet(item._id, item.outlet);
 
         if (!response.success) throw new Error(response.message);
 
@@ -40,15 +40,15 @@ export default function CheckboxStock({ item }) {
 
   return (
     <div
-      className={`flex items-center justify-center text-white gap-3 px-2 py-1 rounded-md font-semibold ${
-        item.stock ? "bg-green-800" : "bg-red-800"
+      className={`flex items-center justify-center text-white gap-3 px-2 py-0.5 col-span-2 rounded-md font-semibold ${
+        item.outlet ? "bg-red-900" : "bg-green-900"
       }`}
     >
-      <p className="">{item.stock ? "En stock" : "Sin stock"}</p>
+      <p className="">{item.outlet ? "Outlet" : "buen Estado"}</p>
       <input
         type="checkbox"
-        checked={item.stock}
-        onChange={handleStockChange}
+        checked={item.outlet}
+        onChange={handleOutletChange}
         className="inline-block"
       />
     </div>
