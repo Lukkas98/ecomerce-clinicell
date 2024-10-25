@@ -40,11 +40,11 @@ export default function CheckboxOutlet({ item }) {
 
   return (
     <div
-      className={`flex items-center justify-center text-white gap-3 px-1 py-0.5 col-span-2 rounded-md font-semibold ${
+      className={`flex items-center justify-center text-white gap-3 px-2 py-0.5 col-span-2 rounded-md font-semibold ${
         item.outlet ? "bg-red-900" : "bg-green-900"
       }`}
     >
-      <p className="">{item.outlet ? "Outlet" : "En buen Estado"}</p>
+      <p className="">{item.outlet ? "Outlet" : "buen Estado"}</p>
       <input
         type="checkbox"
         checked={item.outlet}

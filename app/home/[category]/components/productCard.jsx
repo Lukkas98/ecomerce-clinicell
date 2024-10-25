@@ -46,12 +46,23 @@ export default async function ProductCard({ product, searchParams }) {
       </Link>
 
       <p className="text-sm line-clamp-2 text-gray-400 mb-2">{description}</p>
-      <p className="font-bold text-lg text-gray-100 mb-4">$ {price}</p>
+      {!outlet ? (
+        <p className="font-bold text-lg text-gray-100 mb-4">$ {price}</p>
+      ) : (
+        <div>
+          {outlet && (
+            <p className={`text-sm text-blue-500 mt-1`}>Liquidación</p>
+          )}
+          <p className="text-base line-through text-gray-400">$ {price}</p>
+          <p className="text-lg font-bold text-gray-100">
+            $ {Math.ceil(price - price * 0.3)}
+          </p>
+        </div>
+      )}
       <div className="flex flex-col gap-1">
         <p className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}>
           {stock ? "En stock" : "Sin stock"}
         </p>
-        {outlet && <p className={`text-sm text-red-500`}>Liquidación</p>}
         <ActionButton
           product={JSON.parse(JSON.stringify(product))}
           stock={stock}

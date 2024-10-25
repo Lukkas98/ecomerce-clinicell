@@ -10,17 +10,18 @@ export default async function Outlet() {
       {products.length > 0 && (
         <section className="container mx-auto bg-slate-800 bg-opacity-30 rounded-3xl p-10 mb-2">
           <div>
-            <h2 className="text-lg font-bold text-center mb-4">
+            <h2 className="text-lg font-bold text-center mb-2">
               Sector Outlet - Liquidación
             </h2>
-            <div className="flex flex-col justify-center items-center">
-              {products.length > 0 && (
-                <ShowMoreProducts>
-                  {products.map((prod, i) => (
-                    <ProductCard product={prod} key={i} />
-                  ))}
-                </ShowMoreProducts>
-              )}
+            <p className=" text-sm font-semibold text-center mb-4 text-gray-300">
+              Mercaderia con detalles, 30% de descuento
+            </p>
+            <div className="flex flex-col gap-4">
+              <ShowMoreProducts>
+                {products.map((prod, i) => (
+                  <ProductCard product={prod} key={i} />
+                ))}
+              </ShowMoreProducts>
             </div>
           </div>
         </section>

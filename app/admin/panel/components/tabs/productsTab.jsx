@@ -64,14 +64,25 @@ export default async function ProductsTab({ data }) {
               </h2>
 
               <div className="flex justify-between items-center my-2">
-                <p className="text-base font-medium text-gray-300">
-                  $ {item.price}
-                </p>
+                {!item.outlet ? (
+                  <p className="text-base font-medium text-gray-300">
+                    $ {item.price}
+                  </p>
+                ) : (
+                  <div>
+                    <p className="text-sm text-gray-500 line-through">
+                      $ {item.price}
+                    </p>
+                    <p className=" text-base font-medium text-gray-300">
+                      $ {Math.ceil(item.price - item.price * 0.3)}
+                    </p>
+                  </div>
+                )}
 
                 <CheckboxStock item={JSON.parse(JSON.stringify(item))} />
+                <CheckboxOutlet item={JSON.parse(JSON.stringify(item))} />
               </div>
             </div>
-            <CheckboxOutlet item={JSON.parse(JSON.stringify(item))} />
             <ButtonsProd itemId={item._id.toString()} />
           </div>
         ))}
