@@ -16,7 +16,9 @@ export default function CheckboxOutlet({ item }) {
   const handleOutletChange = async () => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: `Estás a punto de cambiar el estado de ${item.name}`,
+      text: item.outlet
+        ? `Estás a punto de sacar ${item.name} de "Outlet"`
+        : `Estás a punto de añadir ${item.name} a "Outlet"`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, cambiarlo",
@@ -40,11 +42,11 @@ export default function CheckboxOutlet({ item }) {
 
   return (
     <div
-      className={`flex items-center justify-center text-white gap-3 px-2 py-0.5 col-span-2 rounded-md font-semibold ${
-        item.outlet ? "bg-red-900" : "bg-green-900"
+      className={`flex items-center justify-center text-white gap-3 px-2 py-0.5 col-span-2 h-fit rounded-md whitespace-nowrap ${
+        item.outlet ? "bg-red-800" : "bg-green-800"
       }`}
     >
-      <p className="">{item.outlet ? "Outlet" : "buen Estado"}</p>
+      <p className="">{item.outlet ? "Outlet" : "No Outlet"}</p>
       <input
         type="checkbox"
         checked={item.outlet}

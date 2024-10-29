@@ -56,16 +56,16 @@ export default function ButtonsProd({ itemId }) {
   };
 
   return (
-    <div className="flex space-x-2 col-span-2">
+    <div className="flex flex-col space-y-5 bg-gray-800 h-full px-1">
       <button
-        className="text-red-500 font-bold py-2 px-4 rounded group hover:bg-red-500 transition-all duration-[400ms]"
+        className="text-red-600 rounded-full py-1 px-2 group hover:bg-red-500 transition-all duration-[400ms] flex items-center"
         onClick={() => handleDelete(itemId)}
         title="Eliminar producto"
       >
         <TrashIcon className="h-5 w-5 inline-block group-hover:text-red-200 group-hover:scale-[1.20]" />
       </button>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-teal-50 font-bold py-2 px-4 rounded flex items-center transition-all group"
+        className="bg-green-700 hover:bg-blue-700 text-teal-50 font-bold p-1 rounded-md grid place-content-center transition-all group"
         onClick={() => handleEdit(itemId)}
         title="Editar producto"
       >
