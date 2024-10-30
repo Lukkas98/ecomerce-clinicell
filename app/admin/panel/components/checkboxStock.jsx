@@ -40,11 +40,13 @@ export default function CheckboxStock({ item }) {
 
   return (
     <div
-      className={`flex items-center justify-center text-white gap-3 px-2 py-1 rounded-md font-semibold ${
+      className={`flex items-center justify-center text-white gap-3 rounded-md h-fit px-2 py-1 ${
         item.stock ? "bg-green-800" : "bg-red-800"
       }`}
     >
-      <p className="">{item.stock ? "En stock" : "Sin stock"}</p>
+      <p className="whitespace-nowrap">
+        {item.stock ? "En stock" : "Sin stock"}
+      </p>
       <input
         type="checkbox"
         checked={item.stock}

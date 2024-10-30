@@ -23,7 +23,7 @@ export default function BtnPayment({ approved, payment }) {
       icon: "question",
       title: `¿Aprobar Orden?`,
       html: `<div class="p-4 bg-gray-800 rounded-xl">
-         <h2 class="text-xl font-semibold text-gray-200">${payment.id}</h2>
+         <h2 class="text-lg font-semibold text-gray-200">${payment.id}</h2>
          <p class="mt-2 text-gray-400">Productos: ${payment.items.length}</p>
          <p class="text-gray-400">Total: $${payment.total}</p>
          <p class="mt-4 text-sm text-gray-300 italic">
@@ -97,28 +97,29 @@ export default function BtnPayment({ approved, payment }) {
     <>
       {approved ? (
         <>
-          <CheckIcon width={60} height={60} className="text-green-400" />
+          <CheckIcon width={40} height={40} className="text-green-400" />
         </>
       ) : (
-        <>
+        <div className="flex flex-col gap-2 relative justify-center items-center">
           <TrashIcon
             width={20}
             height={20}
-            className="text-red-500 hover:text-red-700 hover:scale-125 transition-all"
+            className="text-red-500 hover:text-red-700 hover:scale-125 transition-all
+            absolute -top-3 -right-2"
             onClick={handleDelete}
           />
           <ExclamationCircleIcon
-            width={60}
-            height={60}
-            className="text-orange-500"
+            width={40}
+            height={40}
+            className="text-orange-500 mt-4"
           />
           <button
             onClick={handleOnClick}
-            className="px-2 py-1 text-white bg-blue-500 rounded-md shadow-black shadow-sm hover:bg-blue-700 transition-all"
+            className="px-2 py-1 text-white bg-green-800 rounded-md shadow-black shadow-sm hover:bg-green-900 transition-all"
           >
             Aprobar
           </button>
-        </>
+        </div>
       )}
     </>
   );

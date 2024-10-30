@@ -1,30 +1,35 @@
-import ProductCard from "@/app/home/[category]/components/productCard.jsx";
-import ShowMoreProducts from "./ShowMoreProducts.jsx";
 import { ProductModel } from "@/models/product.js";
+import ProductOutlet from "./productOutlet";
+import Link from "next/link";
 
 export default async function Outlet() {
-  const products = await ProductModel.find({ outlet: true }).sort({ name: 1 });
+  const products = await ProductModel.find({ outlet: true, stock: true })
+    .sort({
+      name: 1,
+    })
+    .limit(6);
 
   return (
     <>
       {products.length > 0 && (
-        <section className="container mx-auto bg-slate-800 bg-opacity-30 rounded-3xl p-10 mb-2">
-          <div>
-            <h2 className="text-lg font-bold text-center mb-2">
-              Sector Outlet - Liquidación
-            </h2>
-            <p className=" text-sm font-semibold text-center mb-4 text-gray-300">
-              Mercaderia con detalles, 30% de descuento
-            </p>
-            <div className="flex flex-col gap-4">
-              <ShowMoreProducts>
-                {products.map((prod, i) => (
-                  <ProductCard product={prod} key={i} />
-                ))}
-              </ShowMoreProducts>
-            </div>
+        <div className="bg-gray-900 text-white rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-orange-400 mb-4 text-center">
+            Outlet - Liquidación
+          </h2>
+
+          <div className="flex space-x-4 overflow-x-auto ">
+            {products.map((product) => (
+              <ProductOutlet key={product._id} product={product} />
+            ))}
           </div>
-        </section>
+
+          <Link
+            href={"/outlet"}
+            className="my-4 inline-block bg-orange-500 text-gray-900 font-semibold px-2 py-1 rounded-lg hover:bg-orange-600"
+          >
+            Ver más
+          </Link>
+        </div>
       )}
     </>
   );
