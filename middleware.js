@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 const AdminID = process.env.ADMIN_UUID;
 
-export function middleware(req) {
-  const cookieStore = cookies();
+export async function middleware(req) {
+  const cookieStore = await cookies();
   const admin = cookieStore.get("admin");
   const pathname = req.nextUrl.pathname;
 
@@ -16,7 +16,7 @@ export function middleware(req) {
     return NextResponse.redirect(new URL("/admin/panel", req.url));
   }
   if (admin && admin.value !== AdminID && pathname.startsWith("/admin/")) {
-    return NextResponse.redirect(new URL("/home/Todos", req.url));
+    return NextResponse.redirect(new URL("/admin", req.url));
   }
 
   return NextResponse.next();

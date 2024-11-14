@@ -5,7 +5,8 @@ import { getProduct } from "@/lib/actions/products";
 import LinkNav from "./components/linkNav";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 
-export default async function ProductPage({ searchParams }) {
+export default async function ProductPage(props) {
+  const searchParams = await props.searchParams;
   const { id } = searchParams;
   const product = await getProduct(id);
   const { name, description, price, stock, images, category, outlet } = product;

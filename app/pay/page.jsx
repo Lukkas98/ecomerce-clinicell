@@ -4,8 +4,8 @@ import logo from "@/public/logo.png";
 import { headers } from "next/headers";
 import Link from "next/link";
 
-const isMobileDevice = () => {
-  const userAgent = headers().get("user-agent") || "";
+const isMobileDevice = async () => {
+  const userAgent = (await headers().get("user-agent")) || "";
   return /Mobi|Android/i.test(userAgent);
 };
 

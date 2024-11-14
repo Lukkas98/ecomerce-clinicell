@@ -20,7 +20,8 @@ const getPathnameProduct = async (product) => {
   return urlPathname;
 };
 
-export default async function OutletPage({ searchParams }) {
+export default async function OutletPage(props) {
+  const searchParams = await props.searchParams;
   const { search, page, filter } = searchParams;
 
   const searchCriteria = {

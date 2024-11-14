@@ -3,7 +3,9 @@ import Link from "next/link";
 import { getProduct } from "@/lib/actions/products";
 import Form from "./components/form";
 
-export default async function FormPage({ params, searchParams }) {
+export default async function FormPage(props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const categories = await getCategories(true);
   const { form } = params;
   const { id } = searchParams;

@@ -9,7 +9,8 @@ import InputSearch from "@/components/inputSearch";
 import AdminFilter from "./components/filterAdmin";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-export default async function AdminPanel({ searchParams }) {
+export default async function AdminPanel(props) {
+  const searchParams = await props.searchParams;
   const { tab, page, search, filter } = searchParams;
   const data =
     tab === "categories"
