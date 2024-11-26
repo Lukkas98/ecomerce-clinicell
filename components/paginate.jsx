@@ -11,7 +11,7 @@ export default function Paginate({ totalPages = 1 }) {
   const handlePageClick = (page) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page);
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: true });
   };
 
   const renderButtons = () => {

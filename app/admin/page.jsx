@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 
 export default function LoginAdmin() {
-  const [state, formAction] = useActionState(logAdmin, null);
+  const [state, formAction, isPending] = useActionState(logAdmin, null);
   const router = useRouter();
 
   if (state?.admin) router.refresh();
@@ -38,12 +38,19 @@ export default function LoginAdmin() {
               className="w-full border-2 border-gray-600 bg-gray-700 text-gray-100 rounded px-2 py-2 mt-2 focus:outline-none focus:border-blue-500 transition-all"
             />
           </label>
-          <button
-            type="submit"
-            className="mt-6 px-4 py-2 w-full bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
-          >
-            Entrar
-          </button>
+          {isPending ? (
+            <div className="mt-2 text-center text-white">
+              Procesando, por favor espere...
+            </div>
+          ) : (
+            <button
+              disabled={state?.admin}
+              type={state?.admin ? "button" : "submit"}
+              className="mt-6 px-4 py-2 w-full bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
+            >
+              Entrar
+            </button>
+          )}
 
           {state?.message && (
             <div className="mt-2 text-center text-white">{state.message}</div>

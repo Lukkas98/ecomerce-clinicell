@@ -1,5 +1,5 @@
 import Paginate from "@/components/paginate";
-// import LoadingProducts from "@/components/loadingProducts";
+import LoadingProducts from "@/components/loadingProducts";
 import { Suspense } from "react";
 import Product from "../product";
 
@@ -12,11 +12,11 @@ export default async function ProductsTab({ data }) {
         <Paginate totalPages={totalPages} />
       </div>
 
-      {/* <Suspense key={Date.now()} fallback={<LoadingProducts />}> */}
-      {data.products?.map((item) => (
-        <Product key={item._id} product={item} />
-      ))}
-      {/* </Suspense> */}
+      <Suspense key={Date.now()} fallback={<LoadingProducts />}>
+        {data.products?.map((item) => (
+          <Product key={item._id} product={item} />
+        ))}
+      </Suspense>
 
       <div className="md:col-span-2 lg:col-span-3">
         <Paginate totalPages={totalPages} />

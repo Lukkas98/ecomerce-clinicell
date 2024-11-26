@@ -29,7 +29,7 @@ export default function Product({ product }) {
           alt={product.name + " image"}
           className="rounded-md object-contain"
           fill={true}
-          quality={40}
+          quality={70}
           sizes="96px"
         />
       </div>
