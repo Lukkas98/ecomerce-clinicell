@@ -5,7 +5,8 @@ import { headers } from "next/headers";
 import Link from "next/link";
 
 const isMobileDevice = async () => {
-  const userAgent = (await headers().get("user-agent")) || "";
+  const header = await headers();
+  const userAgent = header.get("user-agent") || "";
   return /Mobi|Android/i.test(userAgent);
 };
 
