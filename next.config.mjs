@@ -5,13 +5,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "firebasestorage.googleapis.com",
-        port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "fakeimg.pl",
-        port: "",
         pathname: "/**",
       },
     ],
@@ -20,12 +18,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/home/Todos",
-        permanent: true,
-      },
-      {
-        source: "/home",
-        destination: "/home/Todos",
+        destination: "/home",
         permanent: true,
       },
     ];
