@@ -29,14 +29,16 @@ export default function BtnCreateCategory({ categories }) {
   useEffect(() => {
     const success = state?.success;
 
-    Toast.fire({
-      icon: success ? "success" : "error",
-      title: success ? "Creada" : "Error",
-      text: state?.message,
-      didClose: () => {
-        closeModal();
-      },
-    });
+    if (state?.message) {
+      Toast.fire({
+        icon: success ? "success" : "error",
+        title: success ? "Creada" : "Error",
+        text: state.message,
+        didClose: () => {
+          closeModal();
+        },
+      });
+    }
   }, [state?.message, state?.success]);
 
   return (
@@ -45,7 +47,6 @@ export default function BtnCreateCategory({ categories }) {
         className="px-4 py-3 bg-gray-800 max-w-xl w-[90%] mx-5 md:mx-auto bg-opacity-75 rounded-lg border-2 border-dashed border-gray-600
                hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all flex items-center justify-center md:col-span-2 lg:col-span-3"
       >
-        {/* Botón para abrir el modal */}
         <button onClick={() => setIsOpen(true)}>Crear Categoría</button>
       </div>
 
