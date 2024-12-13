@@ -9,7 +9,8 @@ const noImage =
 
 export default async function ProductOutlet({ product }) {
   const categoryOfProduct = await getCategoryId(product.category);
-  const urlPathname = `/home/${categoryOfProduct.name}/${product.name}`;
+  const parentCategory = await categoryOfProduct.getParentName();
+  const urlPathname = `/${parentCategory}/${categoryOfProduct.name}/${product.name}`;
 
   return (
     <Link
