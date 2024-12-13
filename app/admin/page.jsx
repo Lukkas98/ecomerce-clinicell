@@ -1,5 +1,4 @@
 "use client";
-
 import { logAdmin } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
@@ -8,7 +7,11 @@ export default function LoginAdmin() {
   const [state, formAction, isPending] = useActionState(logAdmin, null);
   const router = useRouter();
 
-  if (state?.admin) router.refresh();
+  if (state?.href) {
+    setTimeout(() => {
+      router.replace(state.href);
+    }, 1200);
+  }
 
   return (
     <section className="flex justify-center items-center mt-10">
@@ -43,13 +46,15 @@ export default function LoginAdmin() {
               Procesando, por favor espere...
             </div>
           ) : (
-            <button
-              disabled={state?.admin}
-              type={state?.admin ? "button" : "submit"}
-              className="mt-6 px-4 py-2 w-full bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
-            >
-              Entrar
-            </button>
+            !state?.admin && (
+              <button
+                disabled={state?.admin}
+                type={state?.admin ? "button" : "submit"}
+                className="mt-6 px-4 py-2 w-full bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
+              >
+                Entrar
+              </button>
+            )
           )}
 
           {state?.message && (
