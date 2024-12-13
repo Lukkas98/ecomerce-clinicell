@@ -14,7 +14,8 @@ export default async function ProductCard({ product, searchParams }) {
   // const { search } = searchParams;
 
   const categoryOfProduct = await getCategoryId(category);
-  const urlPathname = `/home/${categoryOfProduct.name}/${name}`;
+  const parentCategory = await categoryOfProduct.getParentName();
+  const urlPathname = `/${parentCategory}/${categoryOfProduct.name}/${name}`;
 
   return (
     <div

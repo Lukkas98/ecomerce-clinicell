@@ -4,7 +4,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 
-export default function InputSearch({ isAdmin = false }) {
+export default function InputSearch({ className = "" }) {
   const pathname = usePathname();
   const useParams = useSearchParams();
   const search = useParams.get("search");
@@ -34,31 +34,25 @@ export default function InputSearch({ isAdmin = false }) {
   };
 
   return (
-    <div className="flex items-center w-[90%] relative max-w-lg">
-      <div className="relative flex items-center justify-center w-full">
+    <div className="flex items-center relative">
+      <div className="relative flex items-center w-[95%] mx-auto">
         <input
           ref={inputRef}
           type="text"
-          placeholder="Buscar productos..."
+          placeholder="Buscar..."
           onChange={(e) => handleOnChange(e.target.value)}
           defaultValue={valueInput}
-          className={`pl-10
-            ${
-              isAdmin
-                ? "bg-gray-700 text-white rounded-lg w-full p-2 outline-none"
-                : "py-2 rounded-md border-2 w-full border-gray-600 bg-gray-800 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-500"
-            }`}
+          className={`pl-9 ${className}`}
         />
         <span className={`absolute left-2 text-white"}`}>
           <MagnifyingGlassIcon
-            width={30}
-            height={30}
+            width={20}
+            height={20}
             className="text-gray-400"
           />
         </span>
       </div>
 
-      {console.log(valueInput)}
       {valueInput && (
         <button
           onClick={handleDeleteSearch}

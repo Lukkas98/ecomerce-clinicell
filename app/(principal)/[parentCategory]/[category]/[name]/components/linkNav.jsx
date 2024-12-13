@@ -1,6 +1,8 @@
 import { getCategoryId } from "@/lib/actions/categories";
 import Link from "next/link";
 
+// Modificar más adelante
+
 export default async function LinkNav({ idCategory, className = "" }) {
   const category = await getCategoryId(idCategory);
   const { name } = category;

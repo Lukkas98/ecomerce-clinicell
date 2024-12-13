@@ -2,7 +2,6 @@ import ActionButton from "./components/actionButton";
 import BtnBack from "./components/btnBack";
 import Carousel from "./components/carousel";
 import { getProduct } from "@/lib/actions/products";
-import LinkNav from "./components/linkNav";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 
 export default async function ProductPage(props) {
@@ -13,10 +12,6 @@ export default async function ProductPage(props) {
 
   return (
     <div className="container relative max-w-7xl w-full mx-auto p-6 mt-5">
-      <LinkNav
-        idCategory={category}
-        className="mb-4 text-xs absolute top-0 left-8"
-      />
       <BtnBack />
       <div className="flex flex-col lg:flex-row lg:space-x-10 items-center">
         <div className="aspect-square w-full lg:w-1/2 rounded-lg relative max-w-[400px] lg:max-w-[500px]">
