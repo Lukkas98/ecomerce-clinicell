@@ -2,9 +2,8 @@ import Header from "@/components/(header)/header";
 import { ProductModel } from "@/models/product";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import ActionButton from "../home/[category]/[name]/components/actionButton";
+import ActionButton from "../(principal)/[parentCategory]/[category]/[name]/components/actionButton";
 import Paginate from "@/components/paginate";
-import DesktopNav from "../home/[category]/components/desktopNav";
 import Link from "next/link";
 import { getCategoryId } from "@/lib/actions/categories";
 
@@ -16,7 +15,8 @@ async function getTotalPages(searchCriteria) {
 }
 const getPathnameProduct = async (product) => {
   const categoryOfProduct = await getCategoryId(product.category);
-  const urlPathname = `/home/${categoryOfProduct.name}/${product.name}?id=${product._id}`;
+  const parentCategory = await categoryOfProduct.getParentName();
+  const urlPathname = `/${parentCategory}/${categoryOfProduct.name}/${product.name}?id=${product._id}`;
   return urlPathname;
 };
 
@@ -40,10 +40,7 @@ export default async function OutletPage(props) {
   return (
     <div className="">
       <Header />
-      <section className="mb-6 gap-3 below-320:grid-cols-1 grid lg:grid-cols-[0.4fr,1fr] place-content-center">
-        <div className="hidden lg:block max-w-[350px] text-white">
-          <DesktopNav />
-        </div>
+      <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
         <div className="">
           <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
             Outlet - Liquidación

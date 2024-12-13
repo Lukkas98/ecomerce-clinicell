@@ -59,7 +59,7 @@ export default async function OrderConfirmation() {
 
         <Link
           className="mt-6 text-sm text-blue-400 hover:text-blue-300 underline"
-          href={"/home/Todos"}
+          href={"/"}
         >
           Volver a la tienda
         </Link>
