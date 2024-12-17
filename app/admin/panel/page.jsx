@@ -4,7 +4,7 @@ import { getAllPayments } from "@/lib/actions/payments";
 import Link from "next/link";
 import PaymentsTab from "./components/tabs/paymentsTab";
 import ProductsTab from "./components/tabs/productsTab";
-import CategoriesTab from "./components/tabs/categoriesTab";
+import CategoriesTab from "./components/tabs/Categories/categoriesTab";
 import InputSearch from "@/components/inputSearch";
 import AdminFilter from "./components/filterAdmin";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -24,7 +24,7 @@ export default async function AdminPanel(props) {
       <header className="px-4 py-2 bg-gray-800 fixed top-0 w-full z-10 flex flex-col items-center space-y-2">
         {!tab || tab === "products" ? (
           <>
-            <InputSearch isAdmin={true} />
+            <InputSearch className="bg-gray-700 text-white rounded-lg w-full p-2 outline-none" />
             <AdminFilter />
           </>
         ) : (
