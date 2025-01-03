@@ -1,21 +1,14 @@
-import { getCategoryId } from "@/lib/actions/categories";
 import Image from "next/image";
 import Link from "next/link";
 import ActionButton from "../[name]/components/actionButton";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
+import { getPathnameProduct } from "@/lib/func";
 
 const noImage =
   "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductCard({ product, searchParams }) {
-  const { images, name, price, stock, _id, category, description, outlet } =
-    product;
-
-  // const { search } = searchParams;
-
-  const categoryOfProduct = await getCategoryId(category);
-  const parentCategory = await categoryOfProduct.getParentName();
-  const urlPathname = `/${parentCategory}/${categoryOfProduct.name}/${name}`;
+  const { images, name, price, stock, description, outlet } = product;
 
   return (
     <div
@@ -26,7 +19,7 @@ export default async function ProductCard({ product, searchParams }) {
       }`}
     >
       <Link
-        href={`${urlPathname}?id=${_id}`}
+        href={`${await getPathnameProduct(product)}`}
         className="w-full aspect-square relative"
       >
         <Image
@@ -40,7 +33,7 @@ export default async function ProductCard({ product, searchParams }) {
         />
       </Link>
       <Link
-        href={`${urlPathname}?id=${_id}`}
+        href={`${await getPathnameProduct(product)}`}
         className={`text-base font-semibold mb-2 line-clamp-2 ${
           outlet ? "text-orange-400" : "text-gray-200"
         }`}

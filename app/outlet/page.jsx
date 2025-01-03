@@ -5,7 +5,7 @@ import Image from "next/image";
 import ActionButton from "../(principal)/[parentCategory]/[category]/[name]/components/actionButton";
 import Paginate from "@/components/paginate";
 import Link from "next/link";
-import { getCategoryId } from "@/lib/actions/categories";
+import { getPathnameProduct } from "@/lib/func";
 
 const limit = 8;
 
@@ -13,12 +13,6 @@ async function getTotalPages(searchCriteria) {
   const totalPages = await ProductModel.find(searchCriteria).countDocuments();
   return Math.ceil(totalPages / limit);
 }
-const getPathnameProduct = async (product) => {
-  const categoryOfProduct = await getCategoryId(product.category);
-  const parentCategory = await categoryOfProduct.getParentName();
-  const urlPathname = `/${parentCategory}/${categoryOfProduct.name}/${product.name}?id=${product._id}`;
-  return urlPathname;
-};
 
 export default async function OutletPage(props) {
   const searchParams = await props.searchParams;
