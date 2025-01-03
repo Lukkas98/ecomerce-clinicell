@@ -93,29 +93,6 @@ export default async function Home() {
           ))}
         </div>
       </section>
-
-      {/* Customer Testimonials Section
-      <section className="bg-gray-800 rounded-lg p-8">
-        <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-center">
-          Opiniones de Nuestros Clientes
-        </h2>
-        <div className="flex flex-col lg:flex-row gap-6 justify-center">
-          <div className="bg-gray-700 p-4 rounded-md shadow-md flex-1">
-            <p className="text-gray-300 mb-4">
-              Excelente servicio, me repararon el teléfono en tiempo récord y
-              quedó como nuevo.
-            </p>
-            <span className="text-blue-400 font-medium">- Carlos R.</span>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-md shadow-md flex-1">
-            <p className="text-gray-300 mb-4">
-              Muy buenos precios en accesorios y artículos electrónicos.
-              ¡Recomendado!
-            </p>
-            <span className="text-blue-400 font-medium">- Mariana G.</span>
-          </div>
-        </div>
-      </section> */}
     </main>
   );
 }
