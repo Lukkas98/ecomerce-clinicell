@@ -32,7 +32,16 @@ export default async function OrderConfirmation() {
         </h1>
 
         <div className="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-xl max-w-lg w-full">
-          {!isMobileDevice() && (
+          {(await isMobileDevice()) ? (
+            <>
+              <h2 className="text-lg font-medium text-gray-300 mb-2">
+                Haz click en el botón para completar la compra por WhatsApp
+              </h2>
+              <p className="text-sm text-gray-400 mb-4 text-center leading-relaxed">
+                Muchas gracias por confiar en nosotros 😊🙏
+              </p>
+            </>
+          ) : (
             <>
               <h2 className="text-lg font-medium text-gray-300 mb-2">
                 📱 Escanea el código QR para confirmar tu compra en WhatsApp
@@ -44,17 +53,8 @@ export default async function OrderConfirmation() {
               </p>
             </>
           )}
-          {isMobileDevice() && (
-            <>
-              <h2 className="text-lg font-medium text-gray-300 mb-2">
-                Haz click en el botón para completar la compra por WhatsApp
-              </h2>
-              <p className="text-sm text-gray-400 mb-4 text-center leading-relaxed">
-                Muchas gracias por confiar en nosotros 😊🙏
-              </p>
-            </>
-          )}
-          <QrImage isMovil={isMobileDevice()} />
+
+          <QrImage isMovil={await isMobileDevice()} />
         </div>
 
         <Link

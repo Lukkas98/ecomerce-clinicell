@@ -2,9 +2,10 @@ import Header from "@/components/(header)/header";
 
 export default async function CategoryLayout({ children }) {
   return (
-    <main className="bg-gray-900 text-gray-100 min-h-screen flex flex-col justify-between lg:justify-stretch w-screen min-w-full lg:grid max-w-[2000px] mx-auto overflow-x-hidden">
+    <main className="bg-gray-900 relative text-gray-100 min-h-[100svh] flex flex-col justify-between lg:justify-stretch w-[100svw] min-w-full lg:grid max-w-[2000px] mx-auto">
       <Header />
-      <div className="max-w-[98%] mx-auto">{children}</div>
+
+      <div className="max-w-full mx-auto p-4">{children}</div>
 
       <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5 flex items-center justify-center">
         <p>
