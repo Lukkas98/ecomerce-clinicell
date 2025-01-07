@@ -53,7 +53,7 @@ export default function Filter() {
         >
           {selectedOption
             ? options.find((option) => option.value === selectedOption).label
-            : "Filtros"}
+            : "Ordenar"}
           <ArrowDownIcon width={20} height={20} className="text-gray-300" />
         </button>
         {isOpen && (
