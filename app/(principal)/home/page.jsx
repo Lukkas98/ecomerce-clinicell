@@ -9,8 +9,10 @@ import {
   CheckBadgeIcon,
 } from "@heroicons/react/24/outline";
 import HeroSection from "./components/heroSection";
+import connectDB from "@/lib/ConectDB";
 
 const discount = 0.3;
+connectDB();
 
 export default async function Home() {
   const added = await ProductModel.find().sort({ _id: -1 }).limit(4);
