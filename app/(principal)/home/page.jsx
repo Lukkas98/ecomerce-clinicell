@@ -1,17 +1,15 @@
 import { ProductModel } from "@/models/product";
-import Image from "next/image";
 import OutletSection from "./components/outletSection";
 import {
   WrenchIcon,
   ShoppingBagIcon,
   ComputerDesktopIcon,
   Cog6ToothIcon,
-  CheckBadgeIcon,
 } from "@heroicons/react/24/outline";
 import HeroSection from "./components/heroSection";
 import connectDB from "@/lib/ConectDB";
+import ProductCard from "../[parentCategory]/[category]/components/productCard";
 
-const discount = 0.3;
 connectDB();
 
 export default async function Home() {
@@ -77,44 +75,7 @@ export default async function Home() {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {added.map((product) => (
-            <div
-              key={product._id}
-              className="w-full h-fit p-2 bg-gray-800 rounded-lg shadow-md
-              flex flex-col items-center justify-center hover:bg-gray-700 transition-all"
-            >
-              <div className="relative w-[70%] aspect-square mb-2">
-                <Image
-                  src={product.images[0]}
-                  alt={product.name}
-                  fill
-                  className="rounded-lg"
-                />
-              </div>
-              {product.outlet ? (
-                <>
-                  <span className="text-orange-500 text-sm">OUTLET</span>
-                  <span className="text-gray-300 font-semibold line-clamp-1 whitespace-nowrap">
-                    {product.name}
-                  </span>
-                  <div className="flex gap-2">
-                    <span className="text-gray-300 line-through text-sm">
-                      $ {product.price}
-                    </span>
-                    <p className="text-base text-green-500 flex items-center gap-1">
-                      ${(product.price - product.price * discount).toFixed(2)}
-                      <CheckBadgeIcon width={20} height={20} color="green" />
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <span className="text-gray-300 font-semibold line-clamp-1 whitespace-nowrap">
-                    {product.name}
-                  </span>
-                  <span className="text-gray-300">$ {product.price}</span>
-                </>
-              )}
-            </div>
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </section>
