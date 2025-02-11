@@ -19,14 +19,14 @@ export const metadata = {
       "Tu tienda de confianza para comprar celulares, repuestos y artículos del hogar. Calidad garantizada.",
     url: "https://clinic-cell.com", // URL completa del sitio
     siteName: "Clinic-Cell",
-    images: [
-      {
-        url: process.env.URL_IMAGE_LOGO,
-        width: 500,
-        height: 500,
-        alt: "Clinic-Cell - Venta de celulares y accesorios",
-      },
-    ],
+    // images: [
+    //   {
+    //     url: process.env.URL_IMAGE_LOGO,
+    //     width: 500,
+    //     height: 500,
+    //     alt: "Clinic-Cell - Venta de celulares y accesorios",
+    //   },
+    // ],
     type: "website",
   },
 };
