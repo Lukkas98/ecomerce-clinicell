@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "fakeimg.pl",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {
