@@ -1,13 +1,6 @@
 "use server";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-export { cloudinary };
+import { cloudinaryUploader } from "@/lib/cloudinary-config";
+import { revalidatePath } from "next/cache";
 
 export const uploadToCloudinary = async (
   base64Image,
@@ -22,7 +15,7 @@ export const uploadToCloudinary = async (
 
     const publicId = `${capCategory}/${capName}/${fileName}`;
 
-    const result = await cloudinary.uploader.upload(base64Image, {
+    const result = await cloudinaryUploader.upload(base64Image, {
       public_id: publicId,
       format: "webp",
       transformation: [{ quality: "auto", fetch_format: "webp" }],
@@ -33,17 +26,42 @@ export const uploadToCloudinary = async (
     return result.secure_url;
   } catch (error) {
     throw new Error(`Error subiendo imagen: ${error.message}`);
+  } finally {
+    revalidatePath("/home");
   }
 };
 
 export const deleteFromCloudinary = async (imageUrl) => {
   try {
-    const publicId = imageUrl.split("/").slice(7).join("/").split(".")[0];
-    console.log("publicId", publicId);
+    if (!imageUrl.includes("res.cloudinary.com"))
+      return { success: false, message: "URL no es de Cloudinary" };
 
-    await cloudinary.uploader.destroy(publicId, { invalidate: true });
+    const decodedUrl = decodeURIComponent(imageUrl);
+    const cleanUrl = decodedUrl.replace(/\/v\d+/, "").split("?")[0];
+
+    const uploadIndex = cleanUrl.indexOf("/upload/") + 8;
+    const publicIdWithExtension = cleanUrl.slice(uploadIndex);
+    const publicId = publicIdWithExtension.split(".")[0];
+
+    console.log("Extracted publicId:", publicId);
+
+    const result = await cloudinaryUploader.destroy(publicId, {
+      resource_type: "image",
+      invalidate: true,
+      type: "upload",
+    });
+
+    if (result.result !== "ok")
+      throw new Error(`Cloudinary error: ${result.result}`);
+
     return { success: true };
   } catch (error) {
-    return { success: false, message: error.message };
+    console.error("Error deleting:", error);
+    return {
+      success: false,
+      message: error.message.replace("Cloudinary error: ", ""),
+    };
+  } finally {
+    revalidatePath("/home");
   }
 };
