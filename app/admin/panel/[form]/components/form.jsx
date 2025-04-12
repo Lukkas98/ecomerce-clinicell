@@ -98,8 +98,7 @@ export default function Form({
             : await editProduct(data, Urls);
 
         if (!result.success) {
-          Toast.fire("Ups..", result.message, "error");
-          console.error(result.message);
+          Toast.fire("Error", result.message, "error");
           return;
         }
 
@@ -114,61 +113,45 @@ export default function Form({
         });
       });
     } catch (error) {
-      const errMessage = JSON.parse(error.message);
-      errMessage.forEach((err) => {
-        setErrors((oldValues) => {
-          return {
-            ...oldValues,
-            [err.path[0]]: err.message,
-          };
+      if (error instanceof ZodError) {
+        const newErrors = {};
+        error.errors.forEach((err) => {
+          newErrors[err.path[0]] = err.message;
         });
-      });
+        setErrors(newErrors);
+      } else {
+        Toast.fire("Error", error.message, "error");
+      }
     }
   };
 
   const deleteImage = async (image) => {
-    Swal.fire({
+    const { value: result } = await Swal.fire({
       title: "¿Quieres eliminar esta imagen?",
-      showDenyButton: true,
-      confirmButtonText: "Si, Borrar",
-      showLoaderOnConfirm: true,
-      denyButtonText: `No`,
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
       background: "#374151",
       color: "#E5E7EB",
-      preConfirm: async () => {
-        try {
-          const response = image.startsWith("https://res.cloudinary.com")
-            ? await deleteFromCloudinary(image)
-            : { success: true };
-
-          if (!response.success)
-            return Swal.showValidationMessage(response.message);
-
-          setData((old) => ({
-            ...old,
-            imagesSelected: old.imagesSelected.filter((img) => img !== image),
-          }));
-
-          return "Imagen eliminada";
-        } catch (error) {
-          return Swal.showValidationMessage(`Error: ${error.message}`);
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Toast.fire({
-          icon: "success",
-          title: "Completado",
-          text: result.value,
-        });
-      } else if (result.isDenied) {
-        Toast.fire({
-          icon: "info",
-          title: "Acción cancelada",
-        });
-      }
     });
+
+    if (result) {
+      try {
+        if (image.startsWith("https://res.cloudinary.com"))
+          await deleteFromCloudinary(image);
+
+        setData((old) => ({
+          ...old,
+          imagesSelected: old.imagesSelected.filter((img) => img !== image),
+        }));
+
+        Toast.fire("Eliminada!", "Imagen removida", "success");
+      } catch (error) {
+        Toast.fire("Error", error.message, "error");
+      }
+    }
   };
 
   return (

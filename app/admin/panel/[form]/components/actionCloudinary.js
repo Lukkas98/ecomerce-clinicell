@@ -1,5 +1,6 @@
 "use server";
 import { cloudinaryUploader } from "@/lib/cloudinary-config";
+import checkAdmin from "@/lib/firebaseConfig/checkAdmin";
 import { revalidatePath } from "next/cache";
 
 export const uploadToCloudinary = async (
@@ -33,17 +34,15 @@ export const uploadToCloudinary = async (
 
 export const deleteFromCloudinary = async (imageUrl) => {
   try {
-    if (!imageUrl.includes("res.cloudinary.com"))
-      return { success: false, message: "URL no es de Cloudinary" };
+    if (!checkAdmin())
+      throw new Error("No tienes permisos para eliminar imagenes");
+
+    if (!imageUrl.includes("res.cloudinary.com")) return { success: true };
 
     const decodedUrl = decodeURIComponent(imageUrl);
     const cleanUrl = decodedUrl.replace(/\/v\d+/, "").split("?")[0];
-
     const uploadIndex = cleanUrl.indexOf("/upload/") + 8;
-    const publicIdWithExtension = cleanUrl.slice(uploadIndex);
-    const publicId = publicIdWithExtension.split(".")[0];
-
-    console.log("Extracted publicId:", publicId);
+    const publicId = cleanUrl.slice(uploadIndex).split(".")[0];
 
     const result = await cloudinaryUploader.destroy(publicId, {
       resource_type: "image",
@@ -51,10 +50,13 @@ export const deleteFromCloudinary = async (imageUrl) => {
       type: "upload",
     });
 
-    if (result.result !== "ok")
-      throw new Error(`Cloudinary error: ${result.result}`);
+    // Considerar "not found" como éxito para eliminar de la UI
+    if (result.result === "not found") {
+      console.log("Imagen no existente en Cloudinary");
+      return { success: true };
+    }
 
-    return { success: true };
+    return { success: result.result === "ok" };
   } catch (error) {
     console.error("Error deleting:", error);
     return {
