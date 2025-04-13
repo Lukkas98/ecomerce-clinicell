@@ -1,5 +1,6 @@
 import Header from "@/components/(header)/header";
 import { Suspense } from "react";
+import FooterComponent from "./home/components/fotter";
 
 export default async function CategoryLayout({ children }) {
   return (
@@ -10,19 +11,7 @@ export default async function CategoryLayout({ children }) {
 
       <div className="max-w-full mx-auto p-4">{children}</div>
 
-      <footer className="bg-slate-800 text-white w-full text-center pb-2 pt-5 flex items-center justify-center">
-        <p>
-          Clinic-Cell © {new Date().getFullYear()} | Desarrollado por{" "}
-          <a
-            href="mailto:lucaspalma988@gmail.com?subject=Consulta sobre Clinic-Cell&body=Hola, me gustaría recibir más información sobre..."
-            className="text-blue-400"
-            title="Click para enviarme un mail"
-            target="_blank"
-          >
-            Lucas
-          </a>
-        </p>
-      </footer>
+      <FooterComponent />
     </main>
   );
 }
