@@ -1,7 +1,8 @@
 "use client";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { createCategory } from "@/lib/actions/categories";
 import Swal from "sweetalert2";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -15,121 +16,203 @@ const Toast = Swal.mixin({
 
 export default function BtnCreateCategory({ categories }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isParent, setIsParent] = useState(true);
+  const [mode, setMode] = useState("parent"); // 'parent' | 'child'
   const [parentCategory, setParentCategory] = useState("");
-
   const [state, formAction, isPending] = useActionState(createCategory, null);
+
+  const handleOpen = (type) => {
+    setMode(type);
+    setIsOpen(true);
+  };
 
   const closeModal = () => {
     setIsOpen(false);
-    setIsParent(true);
     setParentCategory("");
   };
 
   useEffect(() => {
-    const success = state?.success;
-
     if (state?.message) {
       Toast.fire({
-        icon: success ? "success" : "error",
-        title: success ? "Creada" : "Error",
+        icon: state.success ? "success" : "error",
+        title: state.success ? "Creada" : "Error",
         text: state.message,
-        didClose: () => {
-          closeModal();
-        },
+        didClose: closeModal,
       });
     }
-  }, [state?.message, state?.success]);
+  }, [state]);
 
   return (
     <>
-      <div
-        className="px-4 py-3 bg-gray-800 max-w-xl w-[90%] mx-5 md:mx-auto bg-opacity-75 rounded-lg border-2 border-dashed border-gray-600
-               hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all flex items-center justify-center md:col-span-2 lg:col-span-3"
-      >
-        <button onClick={() => setIsOpen(true)}>Crear Categoría</button>
+      <div className="flex gap-4 w-[90%] mx-auto max-w-xl">
+        <CategoryButton
+          onClick={() => handleOpen("parent")}
+          label="Crear Principal"
+          colorClass="bg-blue-600 hover:bg-blue-700"
+        />
+
+        <CategoryButton
+          onClick={() => handleOpen("child")}
+          label="Crear Subcategoría"
+          colorClass="bg-purple-600 hover:bg-purple-700"
+        />
       </div>
 
-      {/* Modal */}
       {isOpen && (
-        <>
-          <div
-            onClick={closeModal}
-            className="fixed top-0 left-0 bg-black bg-opacity-55 w-full h-full z-40"
-          ></div>
-          <form
-            action={formAction}
-            className="fixed  bg-black bg-opacity-70 flex items-center justify-center z-50"
-          >
-            <div className="bg-gray-800 text-white rounded-lg p-6 w-96 space-y-4">
-              <h2 className="text-lg font-bold">Nueva Categoría</h2>
-              <input
-                autoComplete="off"
-                type="text"
-                name="name"
-                placeholder={
-                  isParent
-                    ? "Nombre Categoría Principal"
-                    : "Nombre de Sub-Categoría"
-                }
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-              />
-              <div className="space-y-2">
-                <label className="flex items-center space-x-2">
-                  <input
-                    name="isParent"
-                    type="checkbox"
-                    checked={isParent}
-                    onChange={() => setIsParent(!isParent)}
-                    className="form-checkbox text-blue-500 bg-gray-700 border-gray-600 focus:ring-blue-500"
-                  />
-                  <span>Es categoría principal</span>
-                </label>
+        <ModalWrapper onClose={closeModal}>
+          <form action={formAction} className="space-y-4">
+            <h2 className="text-xl font-bold text-gray-100">
+              {mode === "parent"
+                ? "Nueva Categoría Principal"
+                : "Nueva Subcategoría"}
+            </h2>
 
-                {!isParent && (
-                  <select
-                    name="parentCategory"
-                    value={parentCategory}
-                    onChange={(e) => setParentCategory(e.target.value)}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-                  >
-                    <option disabled value="">
-                      Selecciona categoría principal
-                    </option>
-                    {categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                )}
+            <input
+              name="name"
+              placeholder={
+                mode === "parent"
+                  ? "Nombre categoría principal"
+                  : "Nombre de subcategoría"
+              }
+              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-md
+                text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                placeholder-gray-500 transition-all"
+            />
+
+            {mode === "child" && (
+              <div className="space-y-2">
+                <label className="block text-sm text-gray-400 mb-2">
+                  Categoría Padre
+                </label>
+                <CustomSelect
+                  options={categories}
+                  value={parentCategory}
+                  onChange={setParentCategory}
+                  placeholder="Selecciona una categoría"
+                />
+                <input
+                  type="hidden"
+                  name="parentCategory"
+                  value={parentCategory}
+                />
               </div>
-              <div className="flex justify-end space-x-2">
-                {isPending ? (
-                  <div className="mt-2 text-center text-white">
-                    Procesando, por favor espere...
-                  </div>
-                ) : (
-                  <>
-                    <div
-                      onClick={closeModal}
-                      className="px-4 py-2 inline-block bg-gray-600 rounded-md hover:bg-gray-700"
-                    >
-                      Cancelar
-                    </div>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700"
-                    >
-                      Crear
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
+            )}
+
+            <FormActions
+              isPending={isPending}
+              onClose={closeModal}
+              mode={mode}
+            />
           </form>
-        </>
+        </ModalWrapper>
       )}
     </>
   );
 }
+
+// Componentes auxiliares
+const CategoryButton = ({ onClick, label, colorClass }) => (
+  <button
+    onClick={onClick}
+    className={`${colorClass} px-6 py-3 rounded-lg text-sm font-medium 
+      transition-all flex-1 text-center shadow-md hover:shadow-lg`}
+  >
+    {label}
+  </button>
+);
+
+const ModalWrapper = ({ children, onClose }) => (
+  <>
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black bg-opacity-55 z-40"
+    />
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="bg-gray-800 text-white rounded-lg p-6 w-96 max-w-[95%]">
+        {children}
+      </div>
+    </div>
+  </>
+);
+
+const FormActions = ({ isPending, onClose, mode }) => (
+  <div className="flex justify-end gap-3 pt-4 border-t border-gray-700">
+    {isPending ? (
+      <div className="text-sm text-gray-400">
+        Creando {mode === "parent" ? "categoría" : "subcategoría"}...
+      </div>
+    ) : (
+      <>
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 text-sm bg-gray-600 rounded-md hover:bg-gray-700"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 text-sm bg-blue-600 rounded-md hover:bg-blue-700"
+        >
+          {mode === "parent" ? "Crear Principal" : "Crear Subcategoría"}
+        </button>
+      </>
+    )}
+  </div>
+);
+
+const CustomSelect = ({ options, value, onChange, placeholder }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (selectRef.current && !selectRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectedOption = options.find((opt) => opt._id === value);
+
+  return (
+    <div className="relative w-full" ref={selectRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full px-4 py-2 text-left bg-gray-700 border ${
+          isOpen ? "border-blue-500" : "border-gray-600"
+        } rounded-md flex items-center justify-between`}
+      >
+        <span className={value ? "text-gray-200" : "text-gray-400"}>
+          {selectedOption?.name || placeholder}
+        </span>
+        <ChevronDownIcon
+          className={`w-4 h-4 transform transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-10 w-full mt-2 bg-gray-800 border border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
+          {options.map((option) => (
+            <div
+              key={option._id}
+              onClick={() => {
+                onChange(option._id);
+                setIsOpen(false);
+              }}
+              className={`px-4 py-3 cursor-pointer hover:bg-gray-700/50 ${
+                value === option._id ? "bg-blue-600/20" : ""
+              }`}
+            >
+              {option.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
