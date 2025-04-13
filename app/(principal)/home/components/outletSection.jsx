@@ -6,28 +6,43 @@ export default async function OutletSection() {
   const products = await ProductModel.find({ outlet: true, stock: true }).limit(
     3
   );
+  const totalProducts = await ProductModel.countDocuments({
+    outlet: true,
+    stock: true,
+  });
 
   if (products.length === 0) return null;
 
   return (
-    <section className="w-full bg-gradient-to-r from-red-600 to-orange-500 p-6 rounded-lg shadow-lg text-center">
-      <h2 className="text-3xl font-semibold mb-2">
-        <span className="animate-pulse">🔥</span> ¡Productos en{" "}
-        <Link href={"/outlet"} className="text-orange-900">
-          Outlet!
-        </Link>{" "}
-        <span className="animate-pulse">🔥</span>
-      </h2>
-      <p className="text-lg">
-        Descuentos imperdibles en productos seleccionados.{" "}
-        <Link href={"/outlet"} className="underline text-sm">
-          Ver Más
-        </Link>
-      </p>
-      <div className="flex gap-4 justify-center mt-4">
-        {products.map((product) => (
-          <ProductOutlet key={product._id} product={product} />
-        ))}
+    <section className="w-full bg-gradient-to-r from-red-600 to-orange-500 p-4 md:p-6 lg:p-8 rounded-lg shadow-lg">
+      <div className="text-center space-y-2 md:space-y-3">
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold">
+          <span className="animate-pulse text-2xl md:text-3xl">🔥</span>{" "}
+          <Link
+            href="/outlet"
+            className="hover:text-orange-900 transition-colors text-lg"
+          >
+            ¡Ofertas en Outlet!
+          </Link>{" "}
+          <span className="animate-pulse text-2xl md:text-3xl">🔥</span>
+        </h2>
+
+        <p className="text-sm md:text-base lg:text-lg">
+          Descuentos exclusivos -{" "}
+          <Link href="/outlet" className="underline font-medium">
+            Ver todos ({totalProducts})
+          </Link>
+        </p>
+      </div>
+
+      <div className="mt-4 md:mt-6 lg:mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center">
+          {products.map((product) => (
+            <div key={product._id} className="w-full max-w-[250px]">
+              <ProductOutlet product={product} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
