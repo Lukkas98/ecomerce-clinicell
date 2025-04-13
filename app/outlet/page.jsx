@@ -6,10 +6,14 @@ import ActionButton from "../(principal)/[parentCategory]/[category]/[name]/comp
 import Paginate from "@/components/paginate";
 import Link from "next/link";
 import { getPathnameProduct } from "@/lib/func";
+import connectDB from "@/lib/ConectDB";
 
 const limit = 8;
+const noImage =
+  "https://fakeimg.pl/150x150/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 async function getTotalPages(searchCriteria) {
+  await connectDB();
   const totalPages = await ProductModel.find(searchCriteria).countDocuments();
   return Math.ceil(totalPages / limit);
 }
@@ -42,7 +46,7 @@ export default async function OutletPage(props) {
           <div className="below-320:col-span-1 col-span-2">
             <Paginate totalPages={totalPages} />
           </div>
-          <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-auto">
+          <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5">
             {products.map(async (product) => (
               <div
                 key={product._id}
@@ -55,7 +59,9 @@ export default async function OutletPage(props) {
                 >
                   <div className="aspect-square w-[100%] max-w-[200px] mb-4 relative mx-auto overflow-hidden rounded-md">
                     <Image
-                      src={product.images[0]}
+                      src={
+                        product.images[0]?.length ? product.images[0] : noImage
+                      }
                       alt={product.name}
                       className="object-contain"
                       fill={true}
