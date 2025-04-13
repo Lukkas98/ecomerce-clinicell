@@ -16,7 +16,7 @@ export default async function ProductOutlet({ product }) {
       <div>
         <div className="aspect-square w-20 relative mx-auto">
           <Image
-            src={product.images[0].length ? product.images[0] : noImage}
+            src={product.images[0]?.length ? product.images[0] : noImage}
             alt={product.name}
             fill={true}
             sizes="80px"
