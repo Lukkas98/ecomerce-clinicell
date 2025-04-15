@@ -113,15 +113,8 @@ export default function Form({
         });
       });
     } catch (error) {
-      if (error instanceof ZodError) {
-        const newErrors = {};
-        error.errors.forEach((err) => {
-          newErrors[err.path[0]] = err.message;
-        });
-        setErrors(newErrors);
-      } else {
-        Toast.fire("Error", error.message, "error");
-      }
+      console.error(error);
+      Toast.fire("Error", error.message, "error");
     }
   };
 

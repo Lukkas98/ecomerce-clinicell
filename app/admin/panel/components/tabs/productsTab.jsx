@@ -7,7 +7,7 @@ export default async function ProductsTab({ data }) {
   const totalPages = data.totalPages;
 
   return (
-    <div className="flex-1 p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-5 justify-center">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-12 justify-center">
       <div className="md:col-span-2 lg:col-span-3">
         <Paginate totalPages={totalPages} />
       </div>
