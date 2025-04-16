@@ -1,6 +1,6 @@
 "use server";
+import { verifySession } from "@/lib/auth";
 import { cloudinaryUploader } from "@/lib/cloudinary-config";
-import checkAdmin from "@/lib/firebaseConfig/checkAdmin";
 import { revalidatePath } from "next/cache";
 
 export const uploadToCloudinary = async (
@@ -34,7 +34,7 @@ export const uploadToCloudinary = async (
 
 export const deleteFromCloudinary = async (imageUrl) => {
   try {
-    if (!checkAdmin())
+    if (!verifySession())
       throw new Error("No tienes permisos para eliminar imagenes");
 
     if (!imageUrl.includes("res.cloudinary.com")) return { success: true };

@@ -35,7 +35,7 @@ export default function Form({
     category: "",
     additionalCategories: [], // Las categorías adicionales
     imagesForUpload: [],
-    imagesSelected: [], //para subirlas a firebase
+    imagesSelected: [], //para subirlas a claudinary
   });
 
   useEffect(() => {
