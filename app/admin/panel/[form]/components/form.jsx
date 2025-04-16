@@ -1,17 +1,12 @@
 "use client";
-
 import { useState, useTransition, useEffect } from "react";
-import UploadFirebase from "./uploadFirebase";
-import {
-  createProduct,
-  deleteImageByUrl,
-  editProduct,
-} from "@/lib/actions/products";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { productSchema } from "./validation";
 import SelectCategories from "./selectCategories";
+import { uploadToCloudinary, deleteFromCloudinary } from "./actionCloudinary";
+import { createProduct, editProduct } from "@/lib/actions/products";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -39,7 +34,7 @@ export default function Form({
     category: "",
     additionalCategories: [], // Las categorías adicionales
     imagesForUpload: [],
-    imagesSelected: [], //para subirlas a firebase
+    imagesSelected: [], //para subirlas a claudinary
   });
 
   useEffect(() => {
@@ -80,13 +75,21 @@ export default function Form({
       productSchema.parse(data);
 
       startTransition(async () => {
-        const imageUrls = data.imagesSelected;
-        const PromisesUrls = imageUrls.map(async (url, i) => {
-          if (url.includes("https://firebasestorage")) return url;
+        const uploadImages = async (url, i) => {
+          if (url.startsWith("https://res.cloudinary.com")) return url;
 
-          return await UploadFirebase(url, i, data.name, data.category);
-        });
-        const Urls = await Promise.all(PromisesUrls);
+          const response = await fetch(url);
+          const blob = await response.blob();
+          const base64 = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+
+          return await uploadToCloudinary(base64, i, data.name, data.category);
+        };
+
+        const Urls = await Promise.all(data.imagesSelected.map(uploadImages));
 
         const result =
           mode === "create"
@@ -94,8 +97,7 @@ export default function Form({
             : await editProduct(data, Urls);
 
         if (!result.success) {
-          Toast.fire("Ups..", result.message, "error");
-          console.error(result.message);
+          Toast.fire("Error", result.message, "error");
           return;
         }
 
@@ -111,6 +113,7 @@ export default function Form({
       });
     } catch (error) {
       const errMessage = JSON.parse(error.message);
+      // console.error("errMessage: ", errMessage);
       errMessage.forEach((err) => {
         setErrors((oldValues) => {
           return {
@@ -123,54 +126,32 @@ export default function Form({
   };
 
   const deleteImage = async (image) => {
-    Swal.fire({
+    const { value: result } = await Swal.fire({
       title: "¿Quieres eliminar esta imagen?",
-      showDenyButton: true,
-      confirmButtonText: "Si, Borrar",
-      showLoaderOnConfirm: true,
-      denyButtonText: `No`,
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
       background: "#374151",
       color: "#E5E7EB",
-      preConfirm: async () => {
-        try {
-          const response = image.includes("https://firebasestorage")
-            ? await deleteImageByUrl(image, data.name)
-            : { success: true, message: "imagen borrada" };
-
-          if (!response.success)
-            return Swal.showValidationMessage(response.message);
-
-          setData((oldValues) => {
-            return {
-              ...oldValues,
-              imagesSelected: oldValues.imagesSelected.filter(
-                (img) => img !== image
-              ),
-            };
-          });
-          return response.message;
-        } catch (error) {
-          return Swal.showValidationMessage(`Error: ${error.message}`);
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      //boton "Si, Borrar"
-      if (result.isConfirmed) {
-        Toast.fire({
-          icon: "success",
-          title: "Completado",
-          text: result.value,
-        });
-
-        //boton "No"
-      } else if (result.isDenied) {
-        Toast.fire({
-          icon: "info",
-          title: "Acción cancelada",
-        });
-      }
     });
+
+    if (result) {
+      try {
+        if (image.startsWith("https://res.cloudinary.com"))
+          await deleteFromCloudinary(image);
+
+        setData((old) => ({
+          ...old,
+          imagesSelected: old.imagesSelected.filter((img) => img !== image),
+        }));
+
+        Toast.fire("Eliminada!", "Imagen removida", "success");
+      } catch (error) {
+        Toast.fire("Error", error.message, "error");
+      }
+    }
   };
 
   return (

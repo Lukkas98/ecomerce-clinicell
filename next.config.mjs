@@ -1,17 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ["cloudinary"],
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "firebasestorage.googleapis.com",
-        port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "fakeimg.pl",
-        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
         pathname: "/**",
       },
     ],
@@ -20,12 +24,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/home/Todos",
-        permanent: true,
-      },
-      {
-        source: "/home",
-        destination: "/home/Todos",
+        destination: "/home",
         permanent: true,
       },
     ];

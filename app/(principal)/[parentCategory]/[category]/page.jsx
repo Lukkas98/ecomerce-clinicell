@@ -1,7 +1,9 @@
 import Category from "./components/category";
 import { getProducts } from "@/lib/actions/products";
 
-export default async function CategoryPage({ params, searchParams }) {
+export default async function CategoryPage(props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const { category } = params;
   const { search, page, filter } = searchParams;
 

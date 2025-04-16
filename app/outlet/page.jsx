@@ -2,25 +2,24 @@ import Header from "@/components/(header)/header";
 import { ProductModel } from "@/models/product";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import ActionButton from "../home/[category]/[name]/components/actionButton";
+import ActionButton from "../(principal)/[parentCategory]/[category]/[name]/components/actionButton";
 import Paginate from "@/components/paginate";
-import DesktopNav from "../home/[category]/components/desktopNav";
 import Link from "next/link";
-import { getCategoryId } from "@/lib/actions/categories";
+import { getPathnameProduct } from "@/lib/func";
+import connectDB from "@/lib/ConectDB";
 
 const limit = 8;
+const noImage =
+  "https://fakeimg.pl/150x150/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 async function getTotalPages(searchCriteria) {
+  await connectDB();
   const totalPages = await ProductModel.find(searchCriteria).countDocuments();
   return Math.ceil(totalPages / limit);
 }
-const getPathnameProduct = async (product) => {
-  const categoryOfProduct = await getCategoryId(product.category);
-  const urlPathname = `/home/${categoryOfProduct.name}/${product.name}?id=${product._id}`;
-  return urlPathname;
-};
 
-export default async function OutletPage({ searchParams }) {
+export default async function OutletPage(props) {
+  const searchParams = await props.searchParams;
   const { search, page, filter } = searchParams;
 
   const searchCriteria = {
@@ -39,10 +38,7 @@ export default async function OutletPage({ searchParams }) {
   return (
     <div className="">
       <Header />
-      <section className="mb-6 gap-3 below-320:grid-cols-1 grid lg:grid-cols-[0.4fr,1fr] place-content-center">
-        <div className="hidden lg:block max-w-[350px] text-white">
-          <DesktopNav />
-        </div>
+      <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
         <div className="">
           <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
             Outlet - Liquidación
@@ -50,7 +46,7 @@ export default async function OutletPage({ searchParams }) {
           <div className="below-320:col-span-1 col-span-2">
             <Paginate totalPages={totalPages} />
           </div>
-          <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-auto">
+          <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5">
             {products.map(async (product) => (
               <div
                 key={product._id}
@@ -63,7 +59,9 @@ export default async function OutletPage({ searchParams }) {
                 >
                   <div className="aspect-square w-[100%] max-w-[200px] mb-4 relative mx-auto overflow-hidden rounded-md">
                     <Image
-                      src={product.images[0]}
+                      src={
+                        product.images[0]?.length ? product.images[0] : noImage
+                      }
                       alt={product.name}
                       className="object-contain"
                       fill={true}

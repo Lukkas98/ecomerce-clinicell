@@ -1,22 +1,23 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { verifySession } from "./lib/auth";
 
-const AdminID = process.env.ADMIN_UUID;
+export async function middleware(request) {
+  const { pathname } = request.nextUrl;
+  const isAuthenticated = await verifySession();
 
-export function middleware(req) {
-  const cookieStore = cookies();
-  const admin = cookieStore.get("admin");
-  const pathname = req.nextUrl.pathname;
+  // Ruta de login siempre permitida
+  if (pathname === "/admin") {
+    if (isAuthenticated)
+      return NextResponse.redirect(new URL("/admin/panel", request.url));
 
-  if (!admin && pathname.startsWith("/admin/")) {
-    return NextResponse.redirect(new URL("/admin", req.url));
+    return NextResponse.next();
   }
 
-  if (admin && admin.value === AdminID && pathname === "/admin") {
-    return NextResponse.redirect(new URL("/admin/panel", req.url));
-  }
-  if (admin && admin.value !== AdminID && pathname.startsWith("/admin/")) {
-    return NextResponse.redirect(new URL("/home/Todos", req.url));
+  // Verificar rutas protegidas
+  if (pathname.startsWith("/admin")) {
+    if (!isAuthenticated) {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
   }
 
   return NextResponse.next();

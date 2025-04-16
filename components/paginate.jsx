@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 export default function Paginate({ totalPages = 1 }) {
   const pathname = usePathname();
@@ -8,70 +9,80 @@ export default function Paginate({ totalPages = 1 }) {
   const router = useRouter();
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const handlePageClick = (page) => {
+  const handlePageChange = (page) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page);
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: true });
   };
 
-  const renderButtons = () => {
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
+  const renderButton = (
+    content,
+    page,
+    isActive = false,
+    isDisabled = false
+  ) => (
+    <button
+      key={`${content}-${page}`}
+      onClick={() => !isDisabled && handlePageChange(page)}
+      className={`min-w-10 h-10 flex items-center justify-center rounded-md text-sm font-medium transition-all
+        ${isActive ? "bg-blue-600 text-white" : "bg-gray-800 hover:bg-gray-700"}
+        ${isDisabled ? "opacity-20 pointer-events-none" : "cursor-pointer"}
+        mx-0.5`}
+      disabled={isDisabled}
+    >
+      {content}
+    </button>
+  );
 
-    if (currentPage <= 3) endPage = Math.min(5, totalPages);
-    if (currentPage > totalPages - 3) startPage = Math.max(1, totalPages - 4);
+  const renderJumpButton = (direction) => {
+    const jump = direction === "prev" ? -5 : 5;
+    const targetPage = currentPage + jump;
+    const isDisabled =
+      direction === "prev" ? currentPage <= 1 : currentPage >= totalPages;
 
-    const buttons = [];
-    if (startPage > 1) buttons.push(renderNavButton("1", 1));
-    if (startPage > 2) buttons.push(renderJumpButton("prev", currentPage - 5));
-    for (let page = startPage; page <= endPage; page++)
-      buttons.push(renderButton(page));
-    if (endPage < totalPages - 1)
-      buttons.push(renderJumpButton("next", currentPage + 5));
-    if (endPage < totalPages)
-      buttons.push(renderNavButton(totalPages.toString(), totalPages));
-
-    return buttons;
+    return renderButton(
+      direction === "prev" ? "-5" : "+5",
+      Math.max(1, Math.min(totalPages, targetPage)),
+      false,
+      isDisabled
+    );
   };
-
-  const renderButton = (page) => (
-    <button
-      key={page}
-      onClick={() => handlePageClick(page)}
-      className={`px-3 py-2 rounded-md shadow-md transition-colors ${
-        page === currentPage
-          ? "bg-blue-500 text-white"
-          : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-      }`}
-    >
-      {page}
-    </button>
-  );
-
-  const renderNavButton = (label, page) => (
-    <button
-      key={label}
-      onClick={() => handlePageClick(page)}
-      className="px-3 py-2 bg-gray-700 text-gray-300 hover:bg-gray-600 rounded-md shadow-md transition-colors"
-    >
-      {label}
-    </button>
-  );
-
-  const renderJumpButton = (type, page) => (
-    <button
-      key={type}
-      onClick={() => handlePageClick(Math.max(1, Math.min(totalPages, page)))}
-      className="px-3 py-2 bg-gray-700 text-gray-300 hover:bg-gray-600 rounded-md shadow-md transition-colors"
-    >
-      {type === "prev" ? "-5" : "+5"}
-    </button>
-  );
 
   return (
     totalPages > 1 && (
-      <div className="flex gap-2 self-center my-4 flex-wrap justify-center mx-4">
-        {renderButtons()}
+      <div className="w-full overflow-x-auto pb-2">
+        <div className="flex gap-1 justify-center min-w-max px-4">
+          {/* Botón Anterior */}
+          {renderButton(
+            <ChevronLeftIcon className="w-5 h-5" />,
+            currentPage - 1,
+            false,
+            currentPage === 1
+          )}
+
+          {/* Botón -5 */}
+          {currentPage > 3 && renderJumpButton("prev")}
+
+          {/* Primera página si no está cerca */}
+          {currentPage > 3 && renderButton(1, 1)}
+
+          {/* Página actual */}
+          {renderButton(currentPage, currentPage, true)}
+
+          {/* Última página si no está cerca */}
+          {currentPage < totalPages - 2 && renderButton(totalPages, totalPages)}
+
+          {/* Botón +5 */}
+          {currentPage < totalPages - 2 && renderJumpButton("next")}
+
+          {/* Botón Siguiente */}
+          {renderButton(
+            <ChevronRightIcon className="w-5 h-5" />,
+            currentPage + 1,
+            false,
+            currentPage === totalPages
+          )}
+        </div>
       </div>
     )
   );

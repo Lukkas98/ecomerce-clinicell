@@ -8,7 +8,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CartContext } from "./cartProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -28,18 +28,27 @@ export default function Cart() {
 
   return (
     <div className="w-fit p-3">
-      <div className="flex flex-row-reverse justify-center relative">
-        <ShoppingCartIcon
-          width={25}
-          height={25}
-          className="cursor-pointer hover:opacity-90 transition-all text-gray-200"
-          onClick={() => {
-            setOpen(true);
-          }}
-        />
-        <p className="px-2 absolute -right-7 bg-blue-500 text-white rounded-lg">
+      <div
+        className="flex flex-row-reverse justify-center relative"
+        onClick={() => setOpen(true)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="w-6 h-6 hover:opacity-90 transition-all"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5H19M7 13l-4-8H3"
+          />
+        </svg>
+        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
           {cart.total}
-        </p>
+        </span>
       </div>
       <Transition show={open}>
         <Dialog className="relative z-50" onClose={setOpen}>
@@ -81,7 +90,8 @@ export default function Cart() {
                               <span className="absolute -inset-0.5" />
                               <span className="sr-only">Cerrar Panel</span>
                               <XMarkIcon
-                                className="h-6 w-6"
+                                width={24}
+                                height={24}
                                 aria-hidden="true"
                               />
                             </button>

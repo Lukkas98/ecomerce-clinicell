@@ -12,11 +12,28 @@ export const metadata = {
     "Clinic-Cell / Venta de repuestos, accesorios en telefonía y artículos del hogar",
   description:
     "E-comerce de celulares, repuestos, accesorios de celulares y de hogar",
+  openGraph: {
+    title:
+      "Clinic-Cell / Venta y reparación de celulares y artículos del hogar",
+    description:
+      "Tu tienda de confianza para comprar celulares, repuestos y artículos del hogar. Calidad garantizada.",
+    url: "https://clinic-cell.com", // URL completa del sitio
+    siteName: "Clinic-Cell",
+    // images: [
+    //   {
+    //     url: process.env.URL_IMAGE_LOGO,
+    //     width: 500,
+    //     height: 500,
+    //     alt: "Clinic-Cell - Venta de celulares y accesorios",
+    //   },
+    // ],
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className="bg-gray-900">
+    <html lang="es" className="bg-gray-900 overflow-x-hidden">
       <body className={font.className}>
         <CartProvider>{children}</CartProvider>
       </body>

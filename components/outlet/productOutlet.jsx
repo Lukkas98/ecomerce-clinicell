@@ -1,4 +1,4 @@
-import { getCategoryId } from "@/lib/actions/categories";
+import { getPathnameProduct } from "@/lib/func";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,18 +8,15 @@ const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductOutlet({ product }) {
-  const categoryOfProduct = await getCategoryId(product.category);
-  const urlPathname = `/home/${categoryOfProduct.name}/${product.name}`;
-
   return (
     <Link
-      href={`${urlPathname}?id=${product._id}`}
+      href={`${await getPathnameProduct(product)}`}
       className="bg-gray-800 rounded-lg p-2 min-w-[120px] flex flex-col justify-between items-center gap-2"
     >
       <div>
         <div className="aspect-square w-20 relative mx-auto">
           <Image
-            src={product.images[0] || noImage}
+            src={product.images[0]?.length ? product.images[0] : noImage}
             alt={product.name}
             fill={true}
             sizes="80px"

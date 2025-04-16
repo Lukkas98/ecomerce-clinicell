@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
-import { ProductModel } from "./product";
 
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  parentCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    default: null, // Si es null, es una categoría principal
   },
   products: [
     {
@@ -14,12 +18,39 @@ const categorySchema = new mongoose.Schema({
   ],
 });
 
+categorySchema.virtual("subcategories", {
+  ref: "Category",
+  localField: "_id",
+  foreignField: "parentCategory",
+});
+
 categorySchema.pre("save", function (next) {
   if (this.isModified("name")) {
-    this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    const trimmedName = this.name.trim();
+    this.name = trimmedName.charAt(0).toUpperCase() + trimmedName.slice(1);
   }
   next();
 });
+
+categorySchema.pre("find", function () {
+  this.populate("subcategories");
+});
+
+categorySchema.pre("findOne", function () {
+  this.populate("subcategories");
+});
+
+categorySchema.methods.getParentName = async function () {
+  if (!this.parentCategory) {
+    return null; // No tiene categoría padre
+  }
+
+  const parent = await mongoose
+    .model("Category")
+    .findById(this.parentCategory)
+    .select("name");
+  return parent ? parent.name : null;
+};
 
 categorySchema.methods.getSortedProducts = async function (
   filter,
@@ -37,9 +68,11 @@ categorySchema.methods.getSortedProducts = async function (
   } else if (filter === "high-to-low") {
     sort = { price: -1 };
   }
-  const products = await ProductModel.find({
-    _id: { $in: this.products },
-  })
+  const products = await mongoose
+    .model("Product")
+    .find({
+      _id: { $in: this.products },
+    })
     .sort(sort)
     .skip(skip)
     .limit(limit);

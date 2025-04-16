@@ -13,7 +13,7 @@ const Toast = Swal.mixin({
   color: "#E5E7EB",
 });
 
-export default function Button({ categoryId }) {
+export default function Button({ category, subcategories = [] }) {
   const handleDelete = async (id) => {
     Swal.fire({
       icon: "warning",
@@ -27,6 +27,11 @@ export default function Button({ categoryId }) {
       color: "#E5E7EB",
       preConfirm: async () => {
         try {
+          if (subcategories.length)
+            return Swal.showValidationMessage(
+              "No puedes eliminar una categoría principal con subcategorías"
+            );
+
           const response = await DeleteCategory(id);
 
           if (!response.success)
@@ -49,13 +54,13 @@ export default function Button({ categoryId }) {
       }
     });
   };
-  const handleEdit = async () => {
+
+  const handleEdit = async (id) => {
     Swal.fire({
       icon: "question",
       title: "¿Quieres Renombrar esta categoria?",
       showDenyButton: true,
       confirmButtonText: "Si, renombrar",
-      showLoaderOnConfirm: true,
       denyButtonText: `No`,
       background: "#374151",
       color: "#E5E7EB",
@@ -78,7 +83,7 @@ export default function Button({ categoryId }) {
           try {
             const capitalName =
               categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
-            const response = await editCategory(categoryId, capitalName);
+            const response = await editCategory(id, capitalName);
 
             if (!response.success) throw new Error(response.message);
 
@@ -92,9 +97,15 @@ export default function Button({ categoryId }) {
   };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div
+      className={
+        subcategories.length
+          ? " scale-110 bg-blue-950 px-2 py-1 rounded-lg"
+          : "flex items-center space-x-2"
+      }
+    >
       <button
-        onClick={handleEdit}
+        onClick={() => handleEdit(category._id)}
         title="Editar"
         className="text-green-400 font-bold p-2 rounded group hover:bg-green-600 transition-all duration-[400ms]"
       >
@@ -106,7 +117,7 @@ export default function Button({ categoryId }) {
       </button>
       <button
         className="text-red-400 font-bold p-2 rounded group hover:bg-red-600 hover:text-white transition-all duration-[400ms]"
-        onClick={() => handleDelete(categoryId)}
+        onClick={() => handleDelete(category._id)}
         title="Eliminar"
       >
         <TrashIcon

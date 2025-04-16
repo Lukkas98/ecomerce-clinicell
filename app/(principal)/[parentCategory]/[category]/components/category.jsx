@@ -4,7 +4,7 @@ import Filter from "./filter";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import TitleCategory from "./titleCategory";
-import Outlet from "@/components/outlet/Outlet";
+// import Outlet from "@/components/outlet/Outlet";
 
 export default function Category({
   products = [],
@@ -36,9 +36,6 @@ export default function Category({
         </div>
 
         <div className="grid below-320:grid-cols-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-          <div className="below-320:col-span-1 col-span-2 sm:col-span-3 xl:col-span-4">
-            <Outlet />
-          </div>
           <Suspense fallback={<LoadingProducts />} key={Date.now()}>
             {products.map((product) => (
               <ProductCard
