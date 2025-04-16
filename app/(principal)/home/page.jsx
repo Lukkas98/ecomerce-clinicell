@@ -73,7 +73,7 @@ export default async function Home() {
         <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-5">
           📦 Ultimos Agregados
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 gap-6 p-10">
           {added.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

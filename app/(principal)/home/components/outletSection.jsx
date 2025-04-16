@@ -36,7 +36,7 @@ export default async function OutletSection() {
       </div>
 
       <div className="mt-4 md:mt-6 lg:mt-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           {products.map((product) => (
             <div key={product._id} className="w-full max-w-[250px]">
               <ProductOutlet product={product} />
