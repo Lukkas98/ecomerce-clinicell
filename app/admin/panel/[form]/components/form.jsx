@@ -113,8 +113,16 @@ export default function Form({
         });
       });
     } catch (error) {
-      console.error(error);
-      Toast.fire("Error", error.message, "error");
+      const errMessage = JSON.parse(error.message);
+      // console.error("errMessage: ", errMessage);
+      errMessage.forEach((err) => {
+        setErrors((oldValues) => {
+          return {
+            ...oldValues,
+            [err.path[0]]: err.message,
+          };
+        });
+      });
     }
   };
 
