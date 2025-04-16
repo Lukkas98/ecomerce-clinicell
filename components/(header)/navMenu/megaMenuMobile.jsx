@@ -110,13 +110,13 @@ export default function MegaMenuMobile({ menuOpen, onClose }) {
           >
             Outlet
           </Link>
-          <Link
+          {/* <Link
             href="/ofertas"
             onClick={closeMenu}
             className="block px-4 py-3 border-b border-gray-800 hover:bg-gray-800 transition-colors font-medium"
           >
             Ofertas
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </div>
