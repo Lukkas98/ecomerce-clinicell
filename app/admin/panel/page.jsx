@@ -5,7 +5,7 @@ import Link from "next/link";
 import PaymentsTab from "./components/tabs/paymentsTab";
 import ProductsTab from "./components/tabs/productsTab";
 import CategoriesTab from "./components/tabs/Categories/categoriesTab";
-import InputSearch from "@/components/inputSearch";
+import AdminSearch from "@/components/adminSearch";
 import AdminFilter from "./components/filterAdmin";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
@@ -40,7 +40,7 @@ export default async function AdminPanel(props) {
       >
         {!tab || tab === "products" ? (
           <>
-            <InputSearch className="bg-gray-700 text-white rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+            <AdminSearch className="bg-gray-700 text-white rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
             <AdminFilter />
           </>
         ) : (
