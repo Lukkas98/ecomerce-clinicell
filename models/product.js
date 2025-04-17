@@ -36,6 +36,8 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
+ProductSchema.index({ name: "text" });
+
 ProductSchema.pre("save", function (next) {
   if (this.isModified("name")) {
     const trimmedName = this.name.trim();
@@ -64,10 +66,13 @@ ProductSchema.query.byFilters = function (
   limit = 10
 ) {
   let query = this;
-  if (search)
+
+  // Si hay búsqueda, usamos el índice de texto completo
+  if (search) {
     query = query.find({
-      name: { $regex: search, $options: "i" },
+      $text: { $search: search },
     });
+  }
 
   // Ordenar según la opción proporcionada
   switch (filter) {
