@@ -59,7 +59,7 @@ ProductSchema.methods.getNamesCategories = async function () {
   return categoriesNames;
 };
 
-ProductSchema.query.byFilters = function (
+ProductSchema.query.byFilters = async function (
   search = "",
   filter = "az",
   page = 1
@@ -92,10 +92,24 @@ ProductSchema.query.byFilters = function (
       query = query.find({ stock: false });
       break;
   }
-  return query.skip((page - 1) * limit).limit(limit);
+
+  // Obtener productos y total en paralelo
+  const [products, total] = await Promise.all([
+    query
+      .clone()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(),
+    query.model.countDocuments(query.getFilter()),
+  ]);
+
+  return {
+    products,
+    totalPages: Math.ceil(total / limit),
+  };
 };
 
-ProductSchema.query.byCategoryWithFilters = function (
+ProductSchema.query.byCategoryWithFilters = async function (
   categoryId,
   filter = "az",
   page = 1,
@@ -107,17 +121,29 @@ ProductSchema.query.byCategoryWithFilters = function (
   else if (filter === "low-to-high") sort = { price: 1 };
   else if (filter === "high-to-low") sort = { price: -1 };
 
-  return this.find({
+  const query = this.find({
     $and: [
       {
         $or: [{ category: categoryId }, { additionalCategories: categoryId }],
       },
       { stock: true },
     ],
-  })
-    .sort(sort)
-    .skip((page - 1) * limit)
-    .limit(limit);
+  }).sort(sort);
+
+  // Obtener productos y total en paralelo
+  const [products, total] = await Promise.all([
+    query
+      .clone()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(),
+    query.model.countDocuments(query.getFilter()),
+  ]);
+
+  return {
+    products,
+    totalPages: Math.ceil(total / limit),
+  };
 };
 
 export const ProductModel =
