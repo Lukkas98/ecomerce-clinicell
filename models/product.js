@@ -24,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
   ],
   stock: {
     type: Boolean,
-    require: true,
+    default: true,
   }, //modificar outlet para poner el valor de 25% fijo
   outlet: {
     type: Boolean,
