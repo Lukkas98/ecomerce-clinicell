@@ -12,11 +12,9 @@ export default async function ProductCard({ product, searchParams }) {
 
   return (
     <div
-      className={`bg-gray-800 relative p-4 rounded-md shadow-lg flex gap-1 flex-col justify-between transition-all ${
-        stock
-          ? "hover:bg-gray-900 hover:outline hover:outline-green-700"
-          : "opacity-50"
-      }`}
+      className={`bg-gray-800 relative p-4 rounded-md shadow-lg 
+        flex gap-1 flex-col justify-between transition-all hover:bg-gray-900 hover:outline hover:outline-green-700
+      `}
     >
       <Link
         href={`${await getPathnameProduct(product)}`}
@@ -29,7 +27,7 @@ export default async function ProductCard({ product, searchParams }) {
           sizes="(max-width: 768px) 150px, (max-width: 1200px) 200px, 500px"
           quality={80}
           priority={true}
-          className="object-contain mb-4 rounded-md outline outline-1 outline-gray-400 bg-gray-900"
+          className="object-contain mb-4 rounded-md outline-1 outline-gray-400 bg-gray-900"
         />
       </Link>
       <Link
@@ -58,9 +56,9 @@ export default async function ProductCard({ product, searchParams }) {
         </div>
       )}
       <div className="flex flex-col gap-1">
-        <p className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}>
+        {/* <p className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}>
           {stock ? "En stock" : "Sin stock"}
-        </p>
+        </p> */}
         <ActionButton
           product={JSON.parse(JSON.stringify(product))}
           stock={stock}

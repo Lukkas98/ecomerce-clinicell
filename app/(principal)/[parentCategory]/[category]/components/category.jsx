@@ -4,24 +4,19 @@ import Filter from "./filter";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";
 import TitleCategory from "./titleCategory";
-// import Outlet from "@/components/outlet/Outlet";
 
 export default function Category({
   products = [],
   searchParams,
   totalPages = 1,
 }) {
-  const { search } = searchParams;
-
   if (!products.length)
     return (
       <section className="container mx-auto px-4 py-6 flex flex-col items-center">
         <TitleCategory />
         <div className=" flex justify-center items-center my-20 w-[85%] mx-auto">
           <p className=" font-semibold text-base lg:text-xl text-center h-fit text-gray-200 bg-red-700 py-2 px-3 rounded-lg">
-            {search
-              ? `Ups... no encontramos nada con ${search}`
-              : "Ups... No encontramos nada por aquí"}
+            Ups... No encontramos nada por aquí
           </p>
         </div>
       </section>

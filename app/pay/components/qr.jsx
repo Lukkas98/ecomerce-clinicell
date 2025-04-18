@@ -1,5 +1,5 @@
 "use client";
-import { CartContext } from "@/components/(cart)/cartProvider";
+import { CartContext } from "@/components/providers/cartProvider";
 import { useContext, useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import QRcode from "qrcode";

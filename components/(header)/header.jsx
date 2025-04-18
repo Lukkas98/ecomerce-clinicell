@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import Cart from "../(cart)/cart";
+import Cart from "../cart";
 import MegaMenu from "./navMenu/megaMenu";
 import MenuMobile from "./navMenu/menuMobile";
+import ClientSearch from "./navMenu/(clientInput)/clientSearch";
 
 export default function Navbar() {
   return (
@@ -31,8 +32,7 @@ export default function Navbar() {
 
         {/* Barra de búsqueda (desktop) */}
         <div className="flex-1 mx-4 hidden md:block">
-          <span>INPUT</span>
-          {/* <AdminSearch className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" /> */}
+          <ClientSearch />
         </div>
 
         {/* Carrito y menú */}
@@ -58,7 +58,10 @@ export default function Navbar() {
           </button>
 
           {/* Navegación principal (Mobile) */}
-          <MenuMobile />
+
+          <MenuMobile>
+            <ClientSearch />
+          </MenuMobile>
         </div>
       </div>
     </header>

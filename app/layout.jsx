@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import CartProvider from "@/components/(cart)/cartProvider";
+import CartProvider from "@/components/providers/cartProvider";
+import { MenuProvider } from "@/components/providers/menuContext";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -35,7 +36,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" className="bg-gray-900 overflow-x-hidden">
       <body className={font.className}>
-        <CartProvider>{children}</CartProvider>
+        <CartProvider>
+          <MenuProvider>{children}</MenuProvider>
+        </CartProvider>
       </body>
     </html>
   );

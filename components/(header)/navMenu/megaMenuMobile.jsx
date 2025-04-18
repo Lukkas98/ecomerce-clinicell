@@ -3,8 +3,10 @@ import { getCategories } from "@/lib/actions/categories";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useMenu } from "../../providers/menuContext";
 
-export default function MegaMenuMobile({ menuOpen, toggleMenu }) {
+export default function MegaMenuMobile({ children }) {
+  const { isMenuOpen, closeMenu } = useMenu();
   const [expandedCategories, setExpandedCategories] = useState({});
   const [categories, setCategories] = useState([]);
 
@@ -23,11 +25,6 @@ export default function MegaMenuMobile({ menuOpen, toggleMenu }) {
     }));
   };
 
-  const closeMenu = () => {
-    setExpandedCategories({});
-    toggleMenu();
-  };
-
   // Organizar categorías
   const parentCategories =
     categories?.filter((cat) => !cat.parentCategory) || [];
@@ -37,7 +34,7 @@ export default function MegaMenuMobile({ menuOpen, toggleMenu }) {
   return (
     <div
       className={`fixed inset-0 z-50 bg-gray-900 text-gray-100 flex flex-col transition-all duration-300 ${
-        menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
     >
       <div className="flex justify-between items-center p-4 border-b border-gray-800">
@@ -50,9 +47,8 @@ export default function MegaMenuMobile({ menuOpen, toggleMenu }) {
           <XMarkIcon className="w-6 h-6" />
         </button>
       </div>
-      {/* futura barra de busqueda */}
-      {/* aquí */}
-      {/*  <AdminSearch className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"  */}
+
+      {children}
 
       <div className="flex-1 overflow-y-auto">
         <nav className="py-2">
