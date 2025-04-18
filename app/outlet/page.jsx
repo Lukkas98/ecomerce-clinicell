@@ -20,12 +20,11 @@ async function getTotalPages(searchCriteria) {
 
 export default async function OutletPage(props) {
   const searchParams = await props.searchParams;
-  const { search, page, filter } = searchParams;
+  const { page, filter } = searchParams;
 
   const searchCriteria = {
     outlet: true,
     stock: true,
-    ...(search && { name: { $regex: search, $options: "i" } }),
   };
   const totalPages = await getTotalPages(searchCriteria);
   const products = await ProductModel.find(searchCriteria)

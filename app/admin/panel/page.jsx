@@ -1,4 +1,3 @@
-import { getProducts } from "@/lib/actions/products";
 import { getCategories } from "@/lib/actions/categories";
 import { getAllPayments } from "@/lib/actions/payments";
 import Link from "next/link";
@@ -9,6 +8,7 @@ import AdminSearch from "@/components/adminSearch";
 import AdminFilter from "./components/filterAdmin";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import { getProductsAdmin } from "@/lib/actions/products";
 
 export default async function AdminPanel(props) {
   const searchParams = await props.searchParams;
@@ -22,7 +22,7 @@ export default async function AdminPanel(props) {
       ? await getCategories()
       : tab === "payments"
       ? allPayments
-      : await getProducts(search, page, filter, null, 8, true);
+      : await getProductsAdmin(search, filter, page);
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">

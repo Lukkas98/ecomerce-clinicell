@@ -61,20 +61,17 @@ ProductSchema.methods.getNamesCategories = async function () {
 
 ProductSchema.query.byFilters = function (
   search = "",
-  filter = "",
-  page = 1,
-  limit = 10
+  filter = "az",
+  page = 1
 ) {
+  const limit = 8;
   let query = this;
 
-  // Si hay búsqueda, usamos el índice de texto completo
   if (search) {
-    query = query.find({
-      $text: { $search: search },
-    });
+    if (search.length > 3) query = query.find({ $text: { $search: search } });
+    else query = query.find({ name: { $regex: search, $options: "i" } });
   }
 
-  // Ordenar según la opción proporcionada
   switch (filter) {
     case "low-to-high":
       query = query.sort({ price: 1 });
@@ -96,6 +93,31 @@ ProductSchema.query.byFilters = function (
       break;
   }
   return query.skip((page - 1) * limit).limit(limit);
+};
+
+ProductSchema.query.byCategoryWithFilters = function (
+  categoryId,
+  filter = "az",
+  page = 1,
+  limit = 10
+) {
+  let sort = {};
+  if (filter === "az") sort = { name: 1 };
+  else if (filter === "za") sort = { name: -1 };
+  else if (filter === "low-to-high") sort = { price: 1 };
+  else if (filter === "high-to-low") sort = { price: -1 };
+
+  return this.find({
+    $and: [
+      {
+        $or: [{ category: categoryId }, { additionalCategories: categoryId }],
+      },
+      { stock: true },
+    ],
+  })
+    .sort(sort)
+    .skip((page - 1) * limit)
+    .limit(limit);
 };
 
 export const ProductModel =
