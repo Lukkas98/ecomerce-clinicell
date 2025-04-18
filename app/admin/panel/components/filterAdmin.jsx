@@ -11,6 +11,7 @@ export default function AdminFilter() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // actualizar filtros para buscar tambien por discount
   const options = [
     { label: "Con stock", value: "stock" },
     { label: "Sin stock", value: "-stock" },

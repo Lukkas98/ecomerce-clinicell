@@ -2,71 +2,137 @@ import Image from "next/image";
 import ButtonsProd from "./buttonsProd";
 import CheckboxStock from "./checkboxStock";
 import CheckboxOutlet from "./checkboxOutlet";
+import CheckboxDiscount from "./checkboxDiscount";
 
 const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
-const categoryProd = async (product) => {
-  const categories = await product.getNamesCategories();
-  return categories.map((cat) => (
-    <p className="line-clamp-1" key={cat._id}>
-      {cat.name}
-    </p>
-  ));
-};
-
 export default function Product({ product }) {
+  const isOutlet = product.outlet;
+  const isDiscount = product.discount > 0;
+  const inStock = product.stock;
+
   return (
     <div
-      className={`relative bg-gray-800 rounded-lg p-3 shadow shadow-black
-       max-w-full w-full grid grid-cols-2 items-center border
-       place-items-center
-       ${product.stock ? "border-green-500 text-black" : "border-red-500"}`}
+      className={`relative bg-gray-800 rounded-lg p-3 shadow-lg border-2 
+      ${inStock ? "border-green-500" : "border-red-500 opacity-85"}
+      ${isOutlet && "border-orange-500"}
+      grid gap-2 max-w-full w-full`}
     >
-      <div className="aspect-square w-24 relative shadow-sm shadow-black">
-        <Image
-          src={product.images[0] || noImage}
-          alt={product.name + " image"}
-          className="rounded-md object-contain"
-          fill={true}
-          quality={70}
-          sizes="96px"
-        />
-      </div>
+      <div className="flex gap-3 items-start">
+        <div className="aspect-square w-20 relative shrink-0">
+          <Image
+            src={product.images[0] || noImage}
+            alt={product.name}
+            className="rounded-md object-cover"
+            fill
+            quality={70}
+            sizes="80px"
+          />
+        </div>
 
-      <div className="flex flex-col justify-between ml-4 w-full">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-100 px-1.5 line-clamp-2 hover:line-clamp-none">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-base font-semibold text-gray-100 line-clamp-2">
             {product.name}
           </h2>
-          {!product.outlet ? (
-            <p className="text-base font-medium text-gray-300">
-              $ {product.price}
-            </p>
-          ) : (
-            <div>
-              <p className="text-sm text-gray-500 line-through">
-                $ {product.price}
-              </p>
-              <p className=" text-base font-medium text-gray-300">
-                $ {Math.ceil(product.price - product.price * 0.3)}
-              </p>
-            </div>
-          )}
-          <div className="text-sm text-gray-500 line-clamp-2 hover:line-clamp-none">
-            {categoryProd(product)}
+
+          <div className="flex items-baseline gap-2 mt-1">
+            <>
+              {isOutlet && (
+                <div className="flex gap-2">
+                  <span className="text-sm text-gray-400 line-through">
+                    ${product.price}
+                  </span>
+                  <span className="text-lg font-medium text-orange-400">
+                    ${Math.ceil(product.price * 0.7)}
+                  </span>
+                </div>
+              )}
+
+              {isDiscount && (
+                <div className="flex gap-2">
+                  <span className="text-sm text-gray-400 line-through">
+                    ${product.price}
+                  </span>
+                  <span className="text-lg font-medium text-blue-400">
+                    ${Math.ceil(product.discount)}
+                  </span>
+                </div>
+              )}
+
+              {!isOutlet && !isDiscount && (
+                <span className="text-lg font-medium text-gray-300">
+                  ${product.price}
+                </span>
+              )}
+            </>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 w-full items-center col-span-2 mt-2">
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <CheckboxStock item={JSON.parse(JSON.stringify(product))} />
-          <CheckboxOutlet item={JSON.parse(JSON.stringify(product))} />
+      {/* Status Tags */}
+      <div className="flex flex-wrap gap-2">
+        <div
+          className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors
+            ${
+              inStock
+                ? "bg-green-900/50 text-green-400"
+                : "bg-red-900/50 text-red-400"
+            }`}
+        >
+          {inStock ? "En stock" : "Sin stock"}
         </div>
 
-        <div className="flex w-full justify-around">
-          <ButtonsProd itemId={product._id.toString()} />
+        <div
+          className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors
+            ${
+              isOutlet
+                ? "bg-orange-900/50 text-orange-400"
+                : "bg-gray-700/50 text-gray-400 opacity-50"
+            }`}
+        >
+          Outlet
+        </div>
+
+        <div
+          className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors
+            ${
+              isDiscount && !isOutlet
+                ? "bg-blue-900/50 text-blue-400"
+                : "bg-gray-700/50 text-gray-400 opacity-50"
+            }`}
+        >
+          Oferta
+        </div>
+      </div>
+
+      {/* Controles */}
+      <div className="grid grid-cols-2 gap-2 border-t border-gray-700 pt-2">
+        <div className="flex flex-col gap-1.5">
+          <CheckboxStock
+            item={JSON.parse(JSON.stringify(product))}
+            className="text-xs py-1 px-2"
+          />
+          {!product.discount && (
+            <CheckboxOutlet
+              item={JSON.parse(JSON.stringify(product))}
+              className="text-xs py-1 px-2"
+            />
+          )}
+          {!product.outlet && (
+            <CheckboxDiscount
+              item={JSON.parse(JSON.stringify(product))}
+              className="text-xs py-1 px-2"
+            />
+          )}
+        </div>
+
+        <div className="flex justify-end items-center">
+          <ButtonsProd
+            itemId={product._id.toString()}
+            variant="icon"
+            size="sm"
+          />
         </div>
       </div>
     </div>
