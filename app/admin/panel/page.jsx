@@ -22,7 +22,11 @@ export default async function AdminPanel(props) {
       ? await getCategories()
       : tab === "payments"
       ? allPayments
-      : await getProductsAdmin(search, filter, page);
+      : await getProductsAdmin(
+          search,
+          { sort: "az", stock: [], discount: [], outlet: [] },
+          page
+        );
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">

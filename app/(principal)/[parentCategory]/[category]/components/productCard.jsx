@@ -8,7 +8,7 @@ const noImage =
   "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductCard({ product, searchParams }) {
-  const { images, name, price, stock, description, outlet } = product;
+  const { images, name, price, stock, description, outlet, discount } = product;
 
   return (
     <div
@@ -41,24 +41,28 @@ export default async function ProductCard({ product, searchParams }) {
       </Link>
 
       <p className="text-sm line-clamp-2 text-gray-400 mb-2">{description}</p>
-      {!outlet ? (
-        <p className="font-bold text-lg text-gray-100 mb-4">$ {price}</p>
-      ) : (
+      {outlet ? (
         <div>
-          {outlet && (
-            <p className={`text-sm text-orange-400 mt-1`}>Liquidación</p>
-          )}
+          <p className={`text-sm text-orange-400 mt-1`}>Liquidación</p>
           <p className="text-sm line-through text-gray-400">$ {price}</p>
           <p className="text-lg font-bold text-green-500 flex items-center gap-2">
             $ {Math.ceil(price - price * 0.3)}
             <CheckBadgeIcon width={20} height={20} color="green" />
           </p>
         </div>
+      ) : discount ? (
+        <div>
+          <p className={`text-sm text-blue-400 mt-1`}>Oferta</p>
+          <p className="text-sm line-through text-gray-400">$ {price}</p>
+          <p className="text-lg font-bold text-blue-500 flex items-center gap-2">
+            $ {discount}
+            <CheckBadgeIcon width={20} height={20} color="green" />
+          </p>
+        </div>
+      ) : (
+        <p className="font-bold text-lg text-gray-100 mb-4">$ {price}</p>
       )}
       <div className="flex flex-col gap-1">
-        {/* <p className={`text-sm ${stock ? "text-green-500" : "text-red-500"}`}>
-          {stock ? "En stock" : "Sin stock"}
-        </p> */}
         <ActionButton
           product={JSON.parse(JSON.stringify(product))}
           stock={stock}

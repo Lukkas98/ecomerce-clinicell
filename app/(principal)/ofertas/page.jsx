@@ -2,15 +2,17 @@ import Paginate from "@/components/paginate";
 import { getProductsAdmin } from "@/lib/actions/products";
 import ProductCard from "../[parentCategory]/[category]/components/productCard";
 
-const noImage =
-  "https://fakeimg.pl/150x150/c2c2c2/808080?text=Sin+Imagen&font=bebas";
-
-export default async function SearchPage({ searchParams }) {
-  const { q, page } = await searchParams;
+export default async function OffertsPage({ searchParams }) {
+  const { page } = await searchParams;
 
   const { products, totalPages } = await getProductsAdmin(
-    q,
-    { sort: "az", stock: ["in-stock"], discount: [], outlet: [] },
+    "",
+    {
+      sort: "az",
+      stock: ["in-stock"],
+      discount: ["with-discount"],
+      outlet: [],
+    },
     page
   );
 
@@ -18,12 +20,12 @@ export default async function SearchPage({ searchParams }) {
     <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
       <div className="">
         <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
-          Busqueda - {q}
+          Ofertas
         </h1>
         <div className="below-320:col-span-1 col-span-2">
           <Paginate totalPages={totalPages} />
         </div>
-        <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5 my-4">
+        <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5">
           {products.map(async (product) => (
             <ProductCard product={product} />
           ))}
