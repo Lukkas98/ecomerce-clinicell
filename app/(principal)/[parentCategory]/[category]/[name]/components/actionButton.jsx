@@ -1,6 +1,6 @@
 "use client";
 
-import { CartContext } from "@/components/(cart)/cartProvider";
+import { CartContext } from "@/components/providers/cartProvider";
 import { useContext, useEffect, useState } from "react";
 
 //modificar más adelante para soportar cantidades de producto y no solo 1

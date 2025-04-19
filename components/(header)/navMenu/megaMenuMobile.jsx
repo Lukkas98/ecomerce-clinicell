@@ -1,9 +1,12 @@
+"use client";
 import { getCategories } from "@/lib/actions/categories";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useMenu } from "../../providers/menuContext";
 
-export default function MegaMenuMobile({ menuOpen, onClose }) {
+export default function MegaMenuMobile({ children }) {
+  const { isMenuOpen, closeMenu } = useMenu();
   const [expandedCategories, setExpandedCategories] = useState({});
   const [categories, setCategories] = useState([]);
 
@@ -22,13 +25,6 @@ export default function MegaMenuMobile({ menuOpen, onClose }) {
     }));
   };
 
-  const closeMenu = () => {
-    setExpandedCategories({});
-    onClose();
-  };
-
-  if (!menuOpen) return null;
-
   // Organizar categorías
   const parentCategories =
     categories?.filter((cat) => !cat.parentCategory) || [];
@@ -36,7 +32,11 @@ export default function MegaMenuMobile({ menuOpen, onClose }) {
     categories.filter((cat) => String(cat.parentCategory) === String(parentId));
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900 text-gray-100 flex flex-col">
+    <div
+      className={`fixed inset-0 z-50 bg-gray-900 text-gray-100 flex flex-col transition-all duration-300 ${
+        isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      }`}
+    >
       <div className="flex justify-between items-center p-4 border-b border-gray-800">
         <h2 className="text-xl font-semibold">Menú</h2>
         <button
@@ -47,6 +47,8 @@ export default function MegaMenuMobile({ menuOpen, onClose }) {
           <XMarkIcon className="w-6 h-6" />
         </button>
       </div>
+
+      {children}
 
       <div className="flex-1 overflow-y-auto">
         <nav className="py-2">

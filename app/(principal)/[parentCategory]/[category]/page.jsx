@@ -1,5 +1,5 @@
 import Category from "./components/category";
-import { getProducts } from "@/lib/actions/products";
+import { getProductsClient } from "@/lib/actions/products";
 
 export default async function CategoryPage(props) {
   const searchParams = await props.searchParams;
@@ -7,8 +7,7 @@ export default async function CategoryPage(props) {
   const { category } = params;
   const { search, page, filter } = searchParams;
 
-  const data = await getProducts(
-    search,
+  const data = await getProductsClient(
     page,
     filter,
     category === "Todos" ? null : category,

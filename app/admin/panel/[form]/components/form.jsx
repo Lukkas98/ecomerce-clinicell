@@ -29,9 +29,9 @@ export default function Form({
   const [data, setData] = useState({
     name: "",
     price: 0,
-    stock: true,
     description: "",
     category: "",
+    stock: true,
     additionalCategories: [], // Las categorías adicionales
     imagesForUpload: [],
     imagesSelected: [], //para subirlas a claudinary

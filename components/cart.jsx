@@ -9,7 +9,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { CartContext } from "./cartProvider";
+import { CartContext } from "./providers/cartProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

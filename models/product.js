@@ -24,17 +24,23 @@ const ProductSchema = new mongoose.Schema({
   ],
   stock: {
     type: Boolean,
-    require: true,
-  },
+    default: true,
+  }, //modificar outlet para poner el valor de 25% fijo
   outlet: {
     type: Boolean,
     default: false,
+  },
+  discount: {
+    type: Number,
+    default: 0,
   },
   images: {
     type: [String],
     required: true,
   },
 });
+
+ProductSchema.index({ name: "text" });
 
 ProductSchema.pre("save", function (next) {
   if (this.isModified("name")) {
@@ -57,40 +63,122 @@ ProductSchema.methods.getNamesCategories = async function () {
   return categoriesNames;
 };
 
-ProductSchema.query.byFilters = function (
+ProductSchema.query.byFilters = async function (
   search = "",
-  filter = "",
+  filters = {
+    sort: "az",
+    stock: [], // ['in-stock', 'out-of-stock']
+    discount: [], // ['with-discount', 'without-discount']
+    outlet: [], // ['outlet']
+  },
+  page = 1
+) {
+  const limit = 8;
+  let query = this;
+  const filterConditions = [];
+
+  // Búsqueda
+  if (search) {
+    if (search.length > 3) {
+      filterConditions.push({ $text: { $search: search } });
+    } else {
+      filterConditions.push({ name: { $regex: search, $options: "i" } });
+    }
+  }
+
+  // Construcción de filtros
+  const buildConditions = (values, valueMap) => {
+    const conditions = [];
+    values.forEach((value) => {
+      if (valueMap[value]) conditions.push(valueMap[value]);
+    });
+    return conditions.length > 0 ? { $or: conditions } : null;
+  };
+
+  // Filtro de stock
+  const stockFilter = buildConditions(filters.stock, {
+    "in-stock": { stock: true },
+    "out-of-stock": { stock: false },
+  });
+  if (stockFilter) filterConditions.push(stockFilter);
+
+  // Filtro de descuentos
+  const discountFilter = buildConditions(filters.discount, {
+    "with-discount": { discount: { $gt: 0 } },
+    "without-discount": { discount: 0 },
+  });
+  if (discountFilter) filterConditions.push(discountFilter);
+
+  // Filtro de outlet
+  if (filters.outlet.includes("outlet")) {
+    filterConditions.push({ outlet: true });
+  }
+
+  // Aplicar todos los filtros combinados con AND
+  if (filterConditions.length > 0) {
+    query = query.find({ $and: filterConditions });
+  }
+
+  // Ordenamiento
+  const sortOptions = {
+    "low-to-high": { price: 1 },
+    "high-to-low": { price: -1 },
+    az: { name: 1 },
+    za: { name: -1 },
+  };
+  query = query.sort(sortOptions[filters.sort] || { name: 1 });
+
+  // Paginación y ejecución
+  const [products, total] = await Promise.all([
+    query
+      .clone()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(),
+    query.model.countDocuments(query.getFilter()),
+  ]);
+
+  return {
+    products,
+    totalPages: Math.ceil(total / limit),
+  };
+};
+
+ProductSchema.query.byCategoryWithFilters = async function (
+  categoryId,
+  filter = "az",
   page = 1,
   limit = 10
 ) {
-  let query = this;
-  if (search)
-    query = query.find({
-      name: { $regex: search, $options: "i" },
-    });
+  let sort = {};
+  if (filter === "az") sort = { name: 1 };
+  else if (filter === "za") sort = { name: -1 };
+  else if (filter === "low-to-high") sort = { price: 1 };
+  else if (filter === "high-to-low") sort = { price: -1 };
 
-  // Ordenar según la opción proporcionada
-  switch (filter) {
-    case "low-to-high":
-      query = query.sort({ price: 1 });
-      break;
-    case "high-to-low":
-      query = query.sort({ price: -1 });
-      break;
-    case "az":
-      query = query.sort({ name: 1 });
-      break;
-    case "za":
-      query = query.sort({ name: -1 });
-      break;
-    case "stock":
-      query = query.find({ stock: true });
-      break;
-    case "-stock":
-      query = query.find({ stock: false });
-      break;
-  }
-  return query.skip((page - 1) * limit).limit(limit);
+  const query = this.find({
+    $and: [
+      {
+        $or: [{ category: categoryId }, { additionalCategories: categoryId }],
+      },
+      { stock: true },
+    ],
+  }).sort(sort);
+
+  // Obtener productos y total en paralelo
+  const [products, total] = await Promise.all([
+    query
+      .clone()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(),
+    query.model.countDocuments(query.getFilter()),
+  ]);
+
+  return {
+    products,
+    totalPages: Math.ceil(total / limit),
+  };
 };
 
 export const ProductModel =

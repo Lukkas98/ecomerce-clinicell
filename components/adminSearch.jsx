@@ -4,7 +4,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 
-export default function InputSearch({ className = "" }) {
+export default function AdminSearch({ className = "" }) {
   const pathname = usePathname();
   const useParams = useSearchParams();
   const search = useParams.get("search");
