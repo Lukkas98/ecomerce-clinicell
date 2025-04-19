@@ -26,8 +26,8 @@ export default async function OffertsPage({ searchParams }) {
           <Paginate totalPages={totalPages} />
         </div>
         <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5">
-          {products.map(async (product) => (
-            <ProductCard product={product} />
+          {products.map(async (product, i) => (
+            <ProductCard product={product} key={i} />
           ))}
         </div>
         <div className="below-320:col-span-1 col-span-2 lg:col-span-3">
