@@ -18,7 +18,9 @@ const carritoReducer = (state, { type, payload }) => {
       // Si el producto es "outlet", aplicamos un descuento del 30%
       const discountPrice = payload.outlet
         ? Math.ceil(payload.price * 0.7)
-        : payload.discount ?? payload.price;
+        : payload.discount
+        ? payload.discount
+        : payload.price;
 
       return {
         ...state,
