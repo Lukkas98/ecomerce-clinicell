@@ -29,7 +29,7 @@ export default function HeroSection() {
           className="text-4xl lg:text-6xl font-bold bg-gradient-to-r
          from-blue-300 to-cyan-500 bg-clip-text text-transparent animate-bounce"
         >
-          ¡Reparación & Tecnología al Alcance!
+          ¡Reparación & Tecnología!
         </h1>
       </div>
       <div className="absolute -top-10 -left-10 w-1/4 h-1/4 bg-blue-500 rotate-12 opacity-70"></div>
