@@ -14,7 +14,7 @@ export const uploadToCloudinary = async (
     const capCategory = category.charAt(0).toUpperCase() + category.slice(1);
     const fileName = `${capName}-${index}`;
 
-    const publicId = `${capCategory}/${capName}/${fileName}`;
+    const publicId = `${fileName}`;
 
     const result = await cloudinaryUploader.upload(base64Image, {
       public_id: publicId,
@@ -24,11 +24,11 @@ export const uploadToCloudinary = async (
       folder: `${capCategory}/${capName}`,
     });
 
-    return result.secure_url;
+    return { url: result.secure_url, publicId };
   } catch (error) {
     throw new Error(`Error subiendo imagen: ${error.message}`);
   } finally {
-    revalidatePath("/home");
+    revalidatePath("/home", "page");
   }
 };
 
@@ -64,6 +64,6 @@ export const deleteFromCloudinary = async (imageUrl) => {
       message: error.message.replace("Cloudinary error: ", ""),
     };
   } finally {
-    revalidatePath("/home");
+    revalidatePath("/home", "page");
   }
 };

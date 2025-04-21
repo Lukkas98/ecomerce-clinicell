@@ -56,7 +56,7 @@ export default function ClientInput({ products = [] }) {
                   <div className="flex gap-3.5">
                     <Image
                       src={
-                        product.images[0] ??
+                        product.images[0]?.url ??
                         "https://fakeimg.pl/80x80/c2c2c2/808080?text=Sin+Imagen&font=bebas"
                       }
                       alt={product.name}

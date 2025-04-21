@@ -21,7 +21,7 @@ export default async function ProductCard({ product, searchParams }) {
         className="w-full aspect-square relative"
       >
         <Image
-          src={images[0] || noImage}
+          src={images[0]?.url || noImage}
           fill={true}
           alt="imgProduct"
           sizes="(max-width: 768px) 150px, (max-width: 1200px) 200px, 500px"

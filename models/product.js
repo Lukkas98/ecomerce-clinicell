@@ -34,10 +34,12 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  images: {
-    type: [String],
-    required: true,
-  },
+  images: [
+    {
+      url: String,
+      publicId: String,
+    },
+  ],
 });
 
 ProductSchema.index({ name: "text" });
