@@ -1,9 +1,8 @@
+export const dynamic = "force-dynamic";
+
 import Paginate from "@/components/paginate";
 import { getProductsAdmin } from "@/lib/actions/products";
 import ProductCard from "../[parentCategory]/[category]/components/productCard";
-
-const noImage =
-  "https://fakeimg.pl/150x150/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function SearchPage({ searchParams }) {
   const { q, page } = await searchParams;

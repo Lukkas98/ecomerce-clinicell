@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ProductOutlet from "@/components/outlet/productOutlet";
 import { ProductModel } from "@/models/product";
 import Link from "next/link";

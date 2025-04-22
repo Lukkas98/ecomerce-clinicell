@@ -1,5 +1,7 @@
+export const dynamic = "force-dynamic";
+
 import { ProductModel } from "@/models/product";
-import OutletSection from "./components/outletSection";
+// import OutletSection from "./components/outletSection";
 import {
   WrenchIcon,
   ShoppingBagIcon,
@@ -45,7 +47,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col gap-10 p-4 lg:p-10 bg-gray-900 text-white">
       <HeroSection />
-      <OutletSection />
+      {/* <OutletSection /> */}
 
       <section>
         <h2 className="text-2xl lg:text-3xl font-semibold mb-4 text-center">

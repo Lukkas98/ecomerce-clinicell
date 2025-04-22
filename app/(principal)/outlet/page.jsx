@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Paginate from "@/components/paginate";
 import ProductCard from "../[parentCategory]/[category]/components/productCard";
 import { getProductsAdmin } from "@/lib/actions/products";
