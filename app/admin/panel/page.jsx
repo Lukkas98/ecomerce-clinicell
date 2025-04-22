@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getCategories } from "@/lib/actions/categories";
 import { getAllPayments } from "@/lib/actions/payments";
 import Link from "next/link";

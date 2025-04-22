@@ -34,14 +34,18 @@ export default function Form({
     stock: true,
     additionalCategories: [], // Las categorías adicionales
     imagesForUpload: [],
-    imagesSelected: [], //para subirlas a claudinary
+    imagesSelected: [], //para subirlas a claudinary - array de objetos {url, publicId}
   });
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
       setData({
         ...initialData,
-        imagesSelected: initialData.images || [], // asume que tienes URLs de imágenes en initialData
+        imagesSelected:
+          initialData?.images?.map((img) => ({
+            url: img.url,
+            publicId: img.publicId,
+          })) || [],
       });
     }
   }, [mode, initialData]);
@@ -50,21 +54,22 @@ export default function Form({
     const { name, value, files } = e.target;
 
     setData((oldValues) => {
-      let updatedValue = value;
-
       if (name === "imagesForUpload") {
-        updatedValue = Array.from(files).map((file) =>
-          URL.createObjectURL(file)
-        );
-        // Combinar con las imágenes ya seleccionadas
-        updatedValue = [...(oldValues.imagesSelected || []), ...updatedValue];
-      } else if (name === "price") {
-        updatedValue = Number(value);
+        const newImages = Array.from(files).map((file) => ({
+          url: URL.createObjectURL(file),
+          publicId: null,
+        }));
+
+        return {
+          ...oldValues,
+          imagesSelected: [...oldValues.imagesSelected, ...newImages],
+        };
       }
+      let updatedValue = name === "price" ? Number(value) : value;
+
       return {
         ...oldValues,
         [name]: updatedValue,
-        ...(name === "imagesForUpload" && { imagesSelected: updatedValue }),
       };
     });
   };
@@ -75,10 +80,10 @@ export default function Form({
       productSchema.parse(data);
 
       startTransition(async () => {
-        const uploadImages = async (url, i) => {
-          if (url.startsWith("https://res.cloudinary.com")) return url;
+        const uploadImages = async (img, i) => {
+          if (img.publicId) return img;
 
-          const response = await fetch(url);
+          const response = await fetch(img.url);
           const blob = await response.blob();
           const base64 = await new Promise((resolve) => {
             const reader = new FileReader();
@@ -89,12 +94,13 @@ export default function Form({
           return await uploadToCloudinary(base64, i, data.name, data.category);
         };
 
-        const Urls = await Promise.all(data.imagesSelected.map(uploadImages));
+        const Imgs = await Promise.all(data.imagesSelected.map(uploadImages));
+        //Imgs es un array de objetos con url y publicId
 
         const result =
           mode === "create"
-            ? await createProduct(data, Urls)
-            : await editProduct(data, Urls);
+            ? await createProduct(data, Imgs)
+            : await editProduct(data, Imgs);
 
         if (!result.success) {
           Toast.fire("Error", result.message, "error");
@@ -139,12 +145,13 @@ export default function Form({
 
     if (result) {
       try {
-        if (image.startsWith("https://res.cloudinary.com"))
-          await deleteFromCloudinary(image);
+        if (image.publicId) await deleteFromCloudinary(image.publicId);
 
         setData((old) => ({
           ...old,
-          imagesSelected: old.imagesSelected.filter((img) => img !== image),
+          imagesSelected: old.imagesSelected.filter(
+            (img) => img.url !== image.url
+          ),
         }));
 
         Toast.fire("Eliminada!", "Imagen removida", "success");
@@ -228,7 +235,7 @@ export default function Form({
             <div key={i} className="relative mt-5">
               <div className="relative w-20 aspect-square rounded-lg overflow-hidden shadow-md shadow-black">
                 <Image
-                  src={image}
+                  src={image.url}
                   alt={`Selected preview ${i}`}
                   fill={true}
                   sizes="80px"

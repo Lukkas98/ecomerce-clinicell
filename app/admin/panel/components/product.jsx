@@ -22,7 +22,7 @@ export default function Product({ product }) {
       <div className="flex gap-3 items-start">
         <div className="aspect-square w-20 relative shrink-0">
           <Image
-            src={product.images[0] || noImage}
+            src={product.images[0]?.url || noImage}
             alt={product.name}
             className="rounded-md object-cover"
             fill
@@ -161,7 +161,7 @@ export default function Product({ product }) {
 //       <div className="h-full aspect-square bg-gray-700 flex items-center justify-center">
 //         {product.images?.length > 0 ? (
 //           <img
-//             src={product.images[0]}
+//             src={product.images[0].url || noImage}
 //             alt={product.name}
 //             className="w-full h-full"
 //           />

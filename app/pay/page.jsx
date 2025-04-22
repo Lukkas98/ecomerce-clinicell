@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
 import QrImage from "./components/qr";
 import logo from "@/public/logo.png";

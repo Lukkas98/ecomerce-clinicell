@@ -42,7 +42,7 @@ function Carousel({ images = [] }) {
             data-carousel-item
           >
             <Image
-              src={img ?? noImage}
+              src={img?.url ?? noImage}
               className="block w-full object-contain bg-gray-700"
               alt="..."
               fill={true}

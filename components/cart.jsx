@@ -111,7 +111,7 @@ export default function Cart() {
                                       quality={85}
                                       width={96}
                                       height={96}
-                                      src={product.images[0] ?? noImage}
+                                      src={product.images[0]?.url ?? noImage}
                                       alt={product.name}
                                       className="h-full w-full object-cover object-center"
                                     />

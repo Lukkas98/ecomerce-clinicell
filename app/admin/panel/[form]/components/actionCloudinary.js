@@ -10,39 +10,33 @@ export const uploadToCloudinary = async (
   category
 ) => {
   try {
+    if (!(await verifySession()))
+      throw new Error("No tienes permisos para subir imagenes");
+
     const capName = name.charAt(0).toUpperCase() + name.slice(1);
     const capCategory = category.charAt(0).toUpperCase() + category.slice(1);
     const fileName = `${capName}-${index}`;
 
-    const publicId = `${capCategory}/${capName}/${fileName}`;
-
     const result = await cloudinaryUploader.upload(base64Image, {
-      public_id: publicId,
+      public_id: fileName,
       format: "webp",
       transformation: [{ quality: "auto", fetch_format: "webp" }],
       overwrite: true,
       folder: `${capCategory}/${capName}`,
     });
 
-    return result.secure_url;
+    return { url: result.secure_url, publicId: result.public_id };
   } catch (error) {
     throw new Error(`Error subiendo imagen: ${error.message}`);
   } finally {
-    revalidatePath("/home");
+    revalidatePath("/home", "page");
   }
 };
 
-export const deleteFromCloudinary = async (imageUrl) => {
+export const deleteFromCloudinary = async (publicId) => {
   try {
-    if (!verifySession())
+    if (!(await verifySession()))
       throw new Error("No tienes permisos para eliminar imagenes");
-
-    if (!imageUrl.includes("res.cloudinary.com")) return { success: true };
-
-    const decodedUrl = decodeURIComponent(imageUrl);
-    const cleanUrl = decodedUrl.replace(/\/v\d+/, "").split("?")[0];
-    const uploadIndex = cleanUrl.indexOf("/upload/") + 8;
-    const publicId = cleanUrl.slice(uploadIndex).split(".")[0];
 
     const result = await cloudinaryUploader.destroy(publicId, {
       resource_type: "image",
@@ -64,6 +58,6 @@ export const deleteFromCloudinary = async (imageUrl) => {
       message: error.message.replace("Cloudinary error: ", ""),
     };
   } finally {
-    revalidatePath("/home");
+    revalidatePath("/home", "page");
   }
 };
