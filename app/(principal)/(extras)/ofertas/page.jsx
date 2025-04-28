@@ -1,6 +1,6 @@
 import Paginate from "@/components/paginate";
 import { getProductsAdmin } from "@/lib/actions/products";
-import ProductCard from "../[parentCategory]/[category]/components/productCard";
+import ProductCard from "@/components/productCard";
 
 export default async function OffertsPage({ searchParams }) {
   const { page } = await searchParams;

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ProductCard from "./productCard";
+import ProductCard from "../../../../../components/productCard";
 import Filter from "./filter";
 import Paginate from "@/components/paginate";
 import LoadingProducts from "@/components/loadingProducts";

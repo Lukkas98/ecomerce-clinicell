@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { ProductModel } from "@/models/product";
 // import OutletSection from "./components/outletSection";
 import {
@@ -10,7 +8,8 @@ import {
 } from "@heroicons/react/24/outline";
 import HeroSection from "./components/heroSection";
 import connectDB from "@/lib/ConectDB";
-import ProductCard from "../[parentCategory]/[category]/components/productCard";
+import ProductCard from "@/components/productCard";
+import { Suspense } from "react";
 
 connectDB();
 
@@ -80,9 +79,11 @@ export default async function Home() {
           📦 Ultimos Agregados
         </h2>
         <div className="grid md:grid-cols-4 gap-6 p-10">
-          {added.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          <Suspense fallback={<div className="text-center">Cargando...</div>}>
+            {added.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </Suspense>
         </div>
       </section>
     </main>
