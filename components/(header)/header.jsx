@@ -5,7 +5,7 @@ import MegaMenu from "./navMenu/megaMenu";
 import MenuMobile from "./navMenu/menuMobile";
 import ClientSearch from "./navMenu/(clientInput)/clientSearch";
 
-export default function Navbar() {
+export default async function Navbar({ categories }) {
   return (
     <header className="bg-gray-900 text-white sticky top-0 z-50 w-full shadow-sm shadow-gray-950">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -51,15 +51,21 @@ export default function Navbar() {
             >
               Outlet
             </Link>
-            <MegaMenu />
+            <Link
+              href="/ofertas"
+              className="text-sm hover:text-blue-400 transition-colors"
+            >
+              Ofertas
+            </Link>
+
+            <MegaMenu dataCategories={categories} />
           </nav>
           <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden md:flex">
             <Cart />
           </button>
 
           {/* Navegación principal (Mobile) */}
-
-          <MenuMobile>
+          <MenuMobile dataCategories={categories}>
             <ClientSearch />
           </MenuMobile>
         </div>
