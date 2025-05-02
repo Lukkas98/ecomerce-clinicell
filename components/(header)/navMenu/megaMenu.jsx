@@ -1,26 +1,24 @@
 "use client";
-import { getCategories } from "@/lib/actions/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function MegaMenu() {
+export default function MegaMenu({ dataCategories = [] }) {
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await getCategories(true);
-      setCategories(response);
-    };
-    fetchCategories();
-  }, []);
+  const getSubcategories = (parentId) =>
+    dataCategories.filter(
+      (cat) =>
+        String(cat.parentCategory) === String(parentId) &&
+        cat.products.some((prod) => prod.stock === true)
+    );
 
   const parentCategories =
-    categories?.filter((cat) => !cat.parentCategory) || [];
-  const getSubcategories = (parentId) =>
-    categories.filter((cat) => String(cat.parentCategory) === String(parentId));
+    dataCategories?.filter((cat) => {
+      if (cat.parentCategory) return false;
+      return getSubcategories(cat._id).length > 0;
+    }) || [];
 
   return (
     <div
@@ -50,37 +48,29 @@ export default function MegaMenu() {
           <div className="flex">
             {/* Columna de categorías principales */}
             <div className="w-56 bg-gray-800/90 border-r border-gray-700">
-              {parentCategories.map((parentCat) => {
-                const hasSubcategories =
-                  getSubcategories(parentCat._id).length > 0;
-
-                return (
+              {parentCategories.map((parentCat) => (
+                <div
+                  key={parentCat._id}
+                  className={`border-b border-gray-700 last:border-b-0 ${
+                    activeCategory === parentCat._id ? "bg-gray-700" : ""
+                  }`}
+                  onMouseEnter={() => setActiveCategory(parentCat._id)}
+                >
                   <div
-                    key={parentCat._id}
-                    className={`border-b border-gray-700 last:border-b-0 ${
-                      activeCategory === parentCat._id ? "bg-gray-700" : ""
-                    }`}
-                    onMouseEnter={() => setActiveCategory(parentCat._id)}
+                    className={`flex items-center justify-between px-4 py-3 pr-2`}
                   >
-                    <div
-                      className={`flex items-center justify-between px-4 py-3 ${
-                        hasSubcategories ? "pr-2" : ""
+                    <span className="font-medium hover:text-blue-400 transition-colors">
+                      {parentCat.name}
+                    </span>
+
+                    <ChevronDownIcon
+                      className={`w-4 h-4 text-gray-400 transition-transform ${
+                        activeCategory === parentCat._id ? "-rotate-90" : ""
                       }`}
-                    >
-                      <span className="font-medium hover:text-blue-400 transition-colors">
-                        {parentCat.name}
-                      </span>
-                      {hasSubcategories && (
-                        <ChevronDownIcon
-                          className={`w-4 h-4 text-gray-400 transition-transform ${
-                            activeCategory === parentCat._id ? "-rotate-90" : ""
-                          }`}
-                        />
-                      )}
-                    </div>
+                    />
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
 
             {/* Columna de subcategorías */}

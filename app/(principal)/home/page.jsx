@@ -41,7 +41,7 @@ const gadgets = [
 ];
 
 export default async function Home() {
-  const added = await ProductModel.find().sort({ _id: -1 }).limit(4);
+  const added = await ProductModel.find().sort({ timeUpdated: -1 }).limit(4);
 
   return (
     <main className="flex flex-col gap-10 p-4 lg:p-10 bg-gray-900 text-white">
