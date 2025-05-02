@@ -26,3 +26,18 @@
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d17c00",endColorstr="#9e1b00",GradientType=1);
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
