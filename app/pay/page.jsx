@@ -40,7 +40,7 @@ export default async function OrderConfirmation() {
                 Haz click en el botón para completar la compra por WhatsApp
               </h2>
               <p className="text-sm text-gray-400 mb-4 text-center leading-relaxed">
-                Muchas gracias por confiar en nosotros 😊🙏
+                Muchas gracias por confiar en nosotros 😊🤝
               </p>
             </>
           ) : (
@@ -51,7 +51,7 @@ export default async function OrderConfirmation() {
               <p className="text-sm text-gray-400 mb-4 text-center leading-relaxed">
                 Por favor haz click en el botón una vez mandes el mensaje.{" "}
                 <br />
-                Muchas gracias por confiar en nosotros 😊🙏
+                Muchas gracias por confiar en nosotros 😊🤝
               </p>
             </>
           )}
