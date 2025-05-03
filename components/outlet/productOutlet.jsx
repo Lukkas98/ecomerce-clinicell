@@ -8,6 +8,12 @@ const noImage =
   "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductOutlet({ product }) {
+  const priceWithDiscount = product.price - product.price * discount;
+
+  const formattedPrice = Number.isInteger(priceWithDiscount)
+    ? priceWithDiscount
+    : priceWithDiscount.toFixed(2);
+
   return (
     <Link
       href={`${await getPathnameProduct(product)}`}
@@ -31,7 +37,7 @@ export default async function ProductOutlet({ product }) {
       <div className="grid place-content-start">
         <p className="text-sm text-gray-400 line-through">${product.price}</p>
         <p className="text-lg font-bold text-green-500 flex items-center gap-1">
-          ${(product.price - product.price * discount).toFixed(2)}
+          ${formattedPrice}
           <CheckBadgeIcon width={20} height={20} color="green" />
         </p>
       </div>

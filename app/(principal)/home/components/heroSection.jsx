@@ -20,7 +20,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative w-full h-[400px] bg-gray-700 rounded-lg overflow-hidden bg-cover bg-center"
+      className="relative w-full h-[400px] bg-gray-700 rounded-lg overflow-hidden bg-cover bg-center animate-zoomBg"
       style={{ backgroundImage: `url(${images[currentImage]})` }}
     >
       <div className="absolute inset-0 bg-black/50"></div>
@@ -32,8 +32,8 @@ export default function HeroSection() {
           ¡Reparación & Tecnología!
         </h1>
       </div>
-      <div className="absolute -top-10 -left-10 w-1/4 h-1/4 bg-blue-500 rotate-12 opacity-70"></div>
-      <div className="absolute bottom-5 right-10 w-1/3 h-1/3 bg-cyan-400 rotate-6 opacity-50"></div>
+      <div className="absolute -top-4 -left-3 w-1/4 h-1/4 bg-blue-500/70 rotate-12"></div>
+      <div className="absolute -bottom-8 -right-5 w-1/3 h-1/3 bg-cyan-400/60 rotate-6"></div>
     </section>
   );
 }

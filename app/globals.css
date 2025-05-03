@@ -27,6 +27,23 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d17c00",endColorstr="#9e1b00",GradientType=1);
 }
 
+@theme {
+  --animate-zoomBg: zoomBg 25s infinite;
+  --animate-fadeIn: adeIn 0.3s ease-out;
+}
+
+@keyframes zoomBg {
+  0%,
+  100% {
+    background-size: 100%;
+    background-position: 0, 0;
+  }
+  50% {
+    background-size: 120%;
+    background-position: 20px, 20px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -36,8 +53,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out;
 }

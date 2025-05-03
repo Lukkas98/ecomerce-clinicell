@@ -59,10 +59,29 @@ export default function MegaMenuMobile({
           <Link
             href="/home"
             onClick={closeMenu}
-            className="block px-4 py-3 hover:bg-gray-800 transition-colors font-medium"
+            className="block px-4 py-2 font-medium"
           >
             Inicio
           </Link>
+
+          {hasOutlet && (
+            <Link
+              href="/outlet"
+              className="block px-4 py-2 font-medium"
+              onClick={closeMenu}
+            >
+              Outlet
+            </Link>
+          )}
+          {hasOffers && (
+            <Link
+              href="/ofertas"
+              className="block px-4 py-2 font-medium"
+              onClick={closeMenu}
+            >
+              Ofertas
+            </Link>
+          )}
 
           {/* Categorías principales */}
           {parentCategories.map((parentCat) => {
@@ -108,25 +127,6 @@ export default function MegaMenuMobile({
               </div>
             );
           })}
-
-          {hasOutlet && (
-            <Link
-              href="/outlet"
-              className="text-sm hover:text-blue-400 transition-colors"
-              onClick={closeMenu}
-            >
-              Outlet
-            </Link>
-          )}
-          {hasOffers && (
-            <Link
-              href="/ofertas"
-              className="text-sm hover:text-blue-400 transition-colors"
-              onClick={closeMenu}
-            >
-              Ofertas
-            </Link>
-          )}
         </nav>
       </div>
     </div>
