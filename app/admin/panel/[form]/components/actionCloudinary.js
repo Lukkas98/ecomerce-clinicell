@@ -14,15 +14,16 @@ export const uploadToCloudinary = async (
       throw new Error("No tienes permisos para subir imagenes");
 
     const capName = name.charAt(0).toUpperCase() + name.slice(1);
+    const capNameTrimmed = capName.trim();
     const capCategory = category.charAt(0).toUpperCase() + category.slice(1);
-    const fileName = `${capName}-${index}`;
+    const fileName = `${capNameTrimmed}-${index}`;
 
     const result = await cloudinaryUploader.upload(base64Image, {
       public_id: fileName,
       format: "webp",
       transformation: [{ quality: "auto", fetch_format: "webp" }],
       overwrite: true,
-      folder: `${capCategory}/${capName}`,
+      folder: `${capCategory.trim()}/${capNameTrimmed}`,
     });
 
     return { url: result.secure_url, publicId: result.public_id };
