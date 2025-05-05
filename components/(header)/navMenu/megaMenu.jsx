@@ -6,16 +6,17 @@ import { useState } from "react";
 export default function MegaMenu({ dataCategories = [] }) {
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
+  const categories = dataCategories;
 
   const getSubcategories = (parentId) =>
-    dataCategories.filter(
+    categories.filter(
       (cat) =>
         String(cat.parentCategory) === String(parentId) &&
         cat.products.some((prod) => prod.stock === true)
     );
 
   const parentCategories =
-    dataCategories?.filter((cat) => {
+    categories?.filter((cat) => {
       if (cat.parentCategory) return false;
       return getSubcategories(cat._id).length > 0;
     }) || [];

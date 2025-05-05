@@ -1,6 +1,3 @@
-export const dynamic = "force-dynamic";
-
-import { ProductModel } from "@/models/product";
 import {
   WrenchIcon,
   ShoppingBagIcon,
@@ -9,10 +6,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { FaPhone, FaCircleCheck } from "react-icons/fa6";
 import HeroSection from "./components/heroSection";
-import connectDB from "@/lib/ConectDB";
-import ProductCard from "@/components/productCard";
-import { Suspense } from "react";
 import OffertSection from "./components/offertSection";
+import LatestProducts from "./components/latestProducts";
 
 const gadgets = [
   {
@@ -42,9 +37,6 @@ const gadgets = [
 ];
 
 export default async function Home() {
-  await connectDB();
-  const added = await ProductModel.find().sort({ timeUpdated: -1 }).limit(4);
-
   return (
     <main className="flex flex-col gap-10 p-4 lg:p-10 bg-gray-900 text-white">
       <HeroSection />
@@ -96,18 +88,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mb-10">
-        <h2 className="text-2xl lg:text-3xl font-semibold text-center">
-          📦 Ultimos Agregados
-        </h2>
-        <div className="grid md:grid-cols-4 gap-6 p-10">
-          <Suspense fallback={<div className="text-center">Cargando...</div>}>
-            {added.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </Suspense>
-        </div>
-      </section>
+      <LatestProducts />
     </main>
   );
 }
