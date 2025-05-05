@@ -4,8 +4,12 @@ import Cart from "../cart";
 import MegaMenu from "./navMenu/megaMenu";
 import MenuMobile from "./navMenu/menuMobile";
 import ClientSearch from "./navMenu/(clientInput)/clientSearch";
+import { getCategories } from "@/lib/actions/categories";
+import { getOffertOutlet } from "@/lib/actions/products";
 
-export default async function Navbar({ categories, boleans = {} }) {
+export default async function Navbar() {
+  const categories = await getCategories();
+  const boleans = await getOffertOutlet();
   const { hasOutlet, hasOffers } = boleans;
 
   return (
@@ -64,14 +68,17 @@ export default async function Navbar({ categories, boleans = {} }) {
               </Link>
             )}
 
-            <MegaMenu dataCategories={categories} />
+            <MegaMenu dataCategories={JSON.parse(JSON.stringify(categories))} />
           </nav>
           <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden md:flex">
             <Cart />
           </button>
 
           {/* Navegación principal (Mobile) */}
-          <MenuMobile dataCategories={categories} boleans={boleans}>
+          <MenuMobile
+            dataCategories={JSON.parse(JSON.stringify(categories))}
+            boleans={boleans}
+          >
             <ClientSearch />
           </MenuMobile>
         </div>
