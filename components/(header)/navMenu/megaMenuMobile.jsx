@@ -1,21 +1,21 @@
 "use client";
-import { getCategories } from "@/lib/actions/categories";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMenu } from "../../providers/menuContext";
 
-export default function MegaMenuMobile({ children }) {
+export default function MegaMenuMobile({
+  dataCategories = [],
+  children,
+  boleans,
+}) {
   const { isMenuOpen, closeMenu } = useMenu();
   const [expandedCategories, setExpandedCategories] = useState({});
   const [categories, setCategories] = useState([]);
+  const { hasOutlet, hasOffers } = boleans;
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await getCategories(true);
-      setCategories(response);
-    };
-    fetchCategories();
+    setCategories(dataCategories);
   }, []);
 
   const toggleCategory = (categoryId) => {
@@ -29,7 +29,11 @@ export default function MegaMenuMobile({ children }) {
   const parentCategories =
     categories?.filter((cat) => !cat.parentCategory) || [];
   const getSubcategories = (parentId) =>
-    categories.filter((cat) => String(cat.parentCategory) === String(parentId));
+    categories.filter(
+      (cat) =>
+        String(cat.parentCategory) === String(parentId) &&
+        cat.products.some((prod) => prod.stock === true)
+    );
 
   return (
     <div
@@ -55,10 +59,29 @@ export default function MegaMenuMobile({ children }) {
           <Link
             href="/home"
             onClick={closeMenu}
-            className="block px-4 py-3 hover:bg-gray-800 transition-colors font-medium"
+            className="block px-4 py-2 font-medium"
           >
             Inicio
           </Link>
+
+          {hasOutlet && (
+            <Link
+              href="/outlet"
+              className="block px-4 py-2 font-medium"
+              onClick={closeMenu}
+            >
+              Outlet
+            </Link>
+          )}
+          {hasOffers && (
+            <Link
+              href="/ofertas"
+              className="block px-4 py-2 font-medium"
+              onClick={closeMenu}
+            >
+              Ofertas
+            </Link>
+          )}
 
           {/* Categorías principales */}
           {parentCategories.map((parentCat) => {
@@ -104,21 +127,6 @@ export default function MegaMenuMobile({ children }) {
               </div>
             );
           })}
-
-          <Link
-            href="/outlet"
-            onClick={closeMenu}
-            className="block px-4 py-3 border-b border-gray-800 hover:bg-gray-800 transition-colors font-medium"
-          >
-            Outlet
-          </Link>
-          {/* <Link
-            href="/ofertas"
-            onClick={closeMenu}
-            className="block px-4 py-3 border-b border-gray-800 hover:bg-gray-800 transition-colors font-medium"
-          >
-            Ofertas
-          </Link> */}
         </nav>
       </div>
     </div>

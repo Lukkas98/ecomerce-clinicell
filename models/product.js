@@ -1,46 +1,49 @@
 import mongoose from "mongoose";
 import { CategoryModel } from "./category";
 
-const ProductSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-    required: true,
-  },
-  additionalCategories: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Category", default: [] },
-  ],
-  stock: {
-    type: Boolean,
-    default: true,
-  }, //modificar outlet para poner el valor de 25% fijo
-  outlet: {
-    type: Boolean,
-    default: false,
-  },
-  discount: {
-    type: Number,
-    default: 0,
-  },
-  images: [
-    {
-      url: String,
-      publicId: String,
+const ProductSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-  ],
-});
+    price: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
+    additionalCategories: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Category", default: [] },
+    ],
+    stock: {
+      type: Boolean,
+      default: true,
+    }, //modificar outlet para poner el valor de 25% fijo
+    outlet: {
+      type: Boolean,
+      default: false,
+    },
+    discount: {
+      type: Number,
+      default: 0,
+    },
+    images: [
+      {
+        url: String,
+        publicId: String,
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 ProductSchema.index({ name: "text" });
 

@@ -5,9 +5,11 @@ import MegaMenu from "./navMenu/megaMenu";
 import MenuMobile from "./navMenu/menuMobile";
 import ClientSearch from "./navMenu/(clientInput)/clientSearch";
 
-export default function Navbar() {
+export default async function Navbar({ categories, boleans = {} }) {
+  const { hasOutlet, hasOffers } = boleans;
+
   return (
-    <header className="bg-gray-900 text-white sticky top-0 z-50 w-full shadow-sm shadow-gray-950">
+    <header className="bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white sticky top-0 z-50 w-full shadow-sm shadow-gray-950">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo y nombre */}
         <div className="flex items-center gap-3">
@@ -45,21 +47,31 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link
-              href="/outlet"
-              className="text-sm hover:text-blue-400 transition-colors"
-            >
-              Outlet
-            </Link>
-            <MegaMenu />
+            {hasOutlet && (
+              <Link
+                href="/outlet"
+                className="text-sm hover:text-blue-400 transition-colors"
+              >
+                Outlet
+              </Link>
+            )}
+            {hasOffers && (
+              <Link
+                href="/ofertas"
+                className="text-sm hover:text-blue-400 transition-colors"
+              >
+                Ofertas
+              </Link>
+            )}
+
+            <MegaMenu dataCategories={categories} />
           </nav>
           <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden md:flex">
             <Cart />
           </button>
 
           {/* Navegación principal (Mobile) */}
-
-          <MenuMobile>
+          <MenuMobile dataCategories={categories} boleans={boleans}>
             <ClientSearch />
           </MenuMobile>
         </div>

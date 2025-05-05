@@ -76,6 +76,14 @@ export default function BtnCreateCategory({ categories }) {
               className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-md
                 text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent
                 placeholder-gray-500 transition-all"
+              onFocus={(e) => {
+                setTimeout(() => {
+                  document.getElementById("submit-button")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                  });
+                }, 1500);
+              }}
             />
 
             {mode === "child" && (
@@ -93,6 +101,14 @@ export default function BtnCreateCategory({ categories }) {
                   type="hidden"
                   name="parentCategory"
                   value={parentCategory}
+                  onFocus={(e) => {
+                    setTimeout(() => {
+                      document.getElementById("submit-button")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                      });
+                    }, 1500);
+                  }}
                 />
               </div>
             )}
@@ -102,6 +118,7 @@ export default function BtnCreateCategory({ categories }) {
               onClose={closeModal}
               mode={mode}
             />
+            <div id="submit-button"></div>
           </form>
         </ModalWrapper>
       )}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ActionButton from "../[name]/components/actionButton";
+import ActionButton from "../app/(principal)/[parentCategory]/[category]/[name]/components/actionButton";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { getPathnameProduct } from "@/lib/func";
 

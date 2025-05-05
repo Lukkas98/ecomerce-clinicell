@@ -4,7 +4,7 @@ import { FaBars } from "react-icons/fa";
 import Cart from "@/components/cart";
 import { useMenu } from "@/components/providers/menuContext";
 
-export default function MenuMobile({ children }) {
+export default function MenuMobile({ dataCategories = [], children, boleans }) {
   const { toggleMenu } = useMenu();
 
   return (
@@ -14,7 +14,9 @@ export default function MenuMobile({ children }) {
         <Cart />
       </button>
 
-      <MegaMenuMobile>{children}</MegaMenuMobile>
+      <MegaMenuMobile dataCategories={dataCategories} boleans={boleans}>
+        {children}
+      </MegaMenuMobile>
     </nav>
   );
 }

@@ -1,18 +1,18 @@
 export const dynamic = "force-dynamic";
 
 import { ProductModel } from "@/models/product";
-// import OutletSection from "./components/outletSection";
 import {
   WrenchIcon,
   ShoppingBagIcon,
   ComputerDesktopIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
+import { FaPhone, FaCircleCheck } from "react-icons/fa6";
 import HeroSection from "./components/heroSection";
 import connectDB from "@/lib/ConectDB";
-import ProductCard from "../[parentCategory]/[category]/components/productCard";
-
-connectDB();
+import ProductCard from "@/components/productCard";
+import { Suspense } from "react";
+import OffertSection from "./components/offertSection";
 
 const gadgets = [
   {
@@ -42,22 +42,23 @@ const gadgets = [
 ];
 
 export default async function Home() {
-  const added = await ProductModel.find().sort({ _id: -1 }).limit(4);
+  await connectDB();
+  const added = await ProductModel.find().sort({ timeUpdated: -1 }).limit(4);
 
   return (
     <main className="flex flex-col gap-10 p-4 lg:p-10 bg-gray-900 text-white">
       <HeroSection />
-      {/* <OutletSection /> */}
+      <OffertSection />
 
       <section>
         <h2 className="text-2xl lg:text-3xl font-semibold mb-4 text-center">
           Nuestros Servicios y Productos
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 animate-min-pulse md:grid-cols-2 lg:grid-cols-4 gap-6">
           {gadgets.map((item, index) => (
             <div
               key={index}
-              className="p-6 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center"
+              className="p-6 bg-gradient-to-r from-gray-700/80 to-gray-900/80 border border-blue-900 rounded-lg shadow-lg flex flex-col items-center"
             >
               <div
                 className={`w-16 h-16 ${item.color} rounded-full mb-4 flex justify-center items-center`}
@@ -75,14 +76,36 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="text-gray-100 my-4">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-4 hover:scale-105 transition-transform">
+            <a
+              target="_blank"
+              href="https://www.google.com"
+              className="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-lg font-semibold flex items-center gap-2"
+            >
+              <FaPhone className="inline" />
+              Hacé tu consulta por compras mayoristas
+            </a>
+          </div>
+
+          <div className="flex items-center gap-2 text-lg">
+            <FaCircleCheck className="inline text-green-500" />
+            <span>Envíos gratis a todo el País</span>
+          </div>
+        </div>
+      </section>
+
       <section className="mb-10">
-        <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-5">
+        <h2 className="text-2xl lg:text-3xl font-semibold text-center">
           📦 Ultimos Agregados
         </h2>
         <div className="grid md:grid-cols-4 gap-6 p-10">
-          {added.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          <Suspense fallback={<div className="text-center">Cargando...</div>}>
+            {added.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </Suspense>
         </div>
       </section>
     </main>

@@ -1,8 +1,6 @@
-export const dynamic = "force-dynamic";
-
 import Paginate from "@/components/paginate";
 import { getProductsAdmin } from "@/lib/actions/products";
-import ProductCard from "../[parentCategory]/[category]/components/productCard";
+import ProductCard from "@/components/productCard";
 
 export default async function SearchPage({ searchParams }) {
   const { q, page } = await searchParams;
