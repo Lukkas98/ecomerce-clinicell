@@ -80,7 +80,7 @@ export default async function AdminPanel(props) {
 
       <Link
         href={"/admin/panel/create"}
-        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full fixed bottom-20 right-5 shadow-xl transition-all z-10"
+        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full fixed bottom-15 right-2 shadow-xl transition-all z-10"
       >
         <PlusIcon className="w-6 h-6" />
       </Link>

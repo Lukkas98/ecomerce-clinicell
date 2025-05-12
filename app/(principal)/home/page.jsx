@@ -4,7 +4,7 @@ import {
   ComputerDesktopIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-import { FaPhone, FaCircleCheck } from "react-icons/fa6";
+import { FaPhone, FaTruck } from "react-icons/fa6";
 import HeroSection from "./components/heroSection";
 import OffertSection from "./components/offertSection";
 import LatestProducts from "./components/latestProducts";
@@ -70,20 +70,20 @@ export default async function Home() {
 
       <section className="text-gray-100 my-4">
         <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-4 hover:scale-105 transition-transform">
+          <div className="bg-indigo-600 text-base hover:bg-indigo-700 px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-center">
+            <FaPhone className="text-xl" />
             <a
               target="_blank"
-              href="https://www.google.com"
-              className="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-lg font-semibold flex items-center gap-2"
+              href="https://wa.me/5492657210777?text=`Hola, estoy interesado en las compras mayoristas`"
+              className=""
             >
-              <FaPhone className="inline" />
               Hacé tu consulta por compras mayoristas
             </a>
           </div>
 
-          <div className="flex items-center gap-2 text-lg">
-            <FaCircleCheck className="inline text-green-500" />
-            <span>Envíos gratis a todo el País</span>
+          <div className="flex items-center gap-1.5 bg-green-700 text-green-50 px-4 py-2 rounded-xl text-base font-semibold text-center">
+            <FaTruck className="text-xl text-green-50 animate-bounce" />
+            <span>¡Envíos gratis a todo el país!</span>
           </div>
         </div>
       </section>

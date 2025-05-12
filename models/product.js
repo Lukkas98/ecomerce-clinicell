@@ -149,36 +149,50 @@ ProductSchema.query.byFilters = async function (
   };
 };
 
-ProductSchema.query.byCategoryWithFilters = async function (
+ProductSchema.statics.byCategoryWithFilters = async function (
   categoryId,
   filter = "az",
   page = 1,
   limit = 10
 ) {
-  let sort = {};
-  if (filter === "az") sort = { name: 1 };
-  else if (filter === "za") sort = { name: -1 };
-  else if (filter === "low-to-high") sort = { price: 1 };
-  else if (filter === "high-to-low") sort = { price: -1 };
+  const sortStage = {};
 
-  const query = this.find({
+  if (filter === "az") sortStage.name = 1;
+  else if (filter === "za") sortStage.name = -1;
+  else if (filter === "low-to-high") sortStage.finalPrice = 1;
+  else if (filter === "high-to-low") sortStage.finalPrice = -1;
+
+  const matchStage = {
     $and: [
       {
         $or: [{ category: categoryId }, { additionalCategories: categoryId }],
       },
       { stock: true },
     ],
-  }).sort(sort);
+  };
 
-  // Obtener productos y total en paralelo
-  const [products, total] = await Promise.all([
-    query
-      .clone()
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .exec(),
-    query.model.countDocuments(query.getFilter()),
-  ]);
+  const pipeline = [
+    { $match: matchStage },
+    {
+      $addFields: {
+        finalPrice: {
+          $cond: [{ $gt: ["$discount", 0] }, "$discount", "$price"],
+        },
+      },
+    },
+    { $sort: sortStage },
+    {
+      $facet: {
+        products: [{ $skip: (page - 1) * limit }, { $limit: limit }],
+        total: [{ $count: "count" }],
+      },
+    },
+  ];
+
+  const result = await this.aggregate(pipeline).exec();
+
+  const products = result[0].products;
+  const total = result[0].total[0]?.count || 0;
 
   return {
     products,

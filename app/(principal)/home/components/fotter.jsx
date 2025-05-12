@@ -4,7 +4,7 @@ export default function FooterComponent() {
   return (
     <footer className="bg-gray-900 text-gray-300 w-full border-t border-gray-700">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 gap-8 mb-8">
           {/* Redes Sociales */}
           <div className="space-y-3">
             <h3 className="text-white font-semibold mb-2 text-center">
@@ -12,7 +12,7 @@ export default function FooterComponent() {
             </h3>
             <div className="flex space-x-4 justify-center">
               <a
-                href="https://facebook.com/tu-pagina"
+                href="https://www.facebook.com/colo.blanca.jesi"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-blue-400 transition-colors"
@@ -21,7 +21,7 @@ export default function FooterComponent() {
                 <FaFacebook width={35} height={35} />
               </a>
               <a
-                href="https://instagram.com/tu-cuenta"
+                href="https://www.instagram.com/clinic.cell.colo?igsh=MXJmbmJlOXRzb2hsNg=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-pink-400 transition-colors"
@@ -34,7 +34,7 @@ export default function FooterComponent() {
         </div>
 
         {/* Créditos */}
-        <div className="border-t border-gray-800 pt-6 text-center md:flex md:items-center md:justify-between">
+        <div className="border-t border-gray-800 pt-6 px-5 text-center md:flex md:items-center md:justify-between">
           <p className="mb-4 md:mb-0">
             Clinic-Cell © {new Date().getFullYear()} - Todos los derechos
             reservados

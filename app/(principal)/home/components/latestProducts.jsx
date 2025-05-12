@@ -5,14 +5,14 @@ import { Suspense } from "react";
 
 export default async function LatestProducts() {
   await connectDB();
-  const latestProd = await ProductModel.find({ stock: true })
+  const latestProd = await ProductModel.find({ stock: true, discount: 0 })
     .sort({ updatedAt: -1 })
     .limit(4);
 
   return (
     <section className="mb-10">
       <h2 className="text-2xl lg:text-3xl font-semibold text-center">
-        📦 Novedades
+        📦 Ultimos reingresos
       </h2>
       <div className="grid md:grid-cols-4 gap-6 p-10">
         <Suspense fallback={<div className="text-center">Cargando...</div>}>
