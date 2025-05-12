@@ -64,7 +64,7 @@ export default async function Navbar() {
                 href="/ofertas"
                 className="text-sm hover:text-blue-400 transition-colors"
               >
-                Ofertas
+                Ofertas de la semana
               </Link>
             )}
 

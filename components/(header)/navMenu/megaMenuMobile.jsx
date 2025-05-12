@@ -79,7 +79,7 @@ export default function MegaMenuMobile({
               className="block px-4 py-2 font-medium"
               onClick={closeMenu}
             >
-              Ofertas
+              Ofertas de la semana
             </Link>
           )}
 

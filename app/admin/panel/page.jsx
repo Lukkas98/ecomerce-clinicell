@@ -7,14 +7,15 @@ import PaymentsTab from "./components/tabs/paymentsTab";
 import ProductsTab from "./components/tabs/productsTab";
 import CategoriesTab from "./components/tabs/Categories/categoriesTab";
 import AdminSearch from "@/components/adminSearch";
-import AdminFilter from "./components/filterAdmin";
+
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { getProductsAdmin } from "@/lib/actions/products";
+import AdminFilter from "./components/filter-admin/adminFilter";
 
 export default async function AdminPanel(props) {
   const searchParams = await props.searchParams;
-  const { tab, page, search, filter } = searchParams;
+  const { tab, page, search, stock, discount, outlet } = searchParams;
 
   const allPayments = await getAllPayments();
   const pendingPayments = allPayments.filter((payment) => !payment.approved);
@@ -26,7 +27,12 @@ export default async function AdminPanel(props) {
       ? allPayments
       : await getProductsAdmin(
           search,
-          { sort: "az", stock: [], discount: [], outlet: [] },
+          {
+            sort: "az",
+            stock: [stock],
+            discount: [discount],
+            outlet: [outlet],
+          },
           page
         );
 
@@ -74,7 +80,7 @@ export default async function AdminPanel(props) {
 
       <Link
         href={"/admin/panel/create"}
-        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full fixed bottom-20 right-5 shadow-xl transition-all z-10"
+        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full fixed bottom-15 right-2 shadow-xl transition-all z-10"
       >
         <PlusIcon className="w-6 h-6" />
       </Link>

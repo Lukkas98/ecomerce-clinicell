@@ -20,7 +20,7 @@ export default async function OffertsPage({ searchParams }) {
     <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
       <div className="">
         <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
-          Ofertas
+          !!Ofertas de la Semana¡¡
         </h1>
         <div className="below-320:col-span-1 col-span-2">
           <Paginate totalPages={totalPages} />
