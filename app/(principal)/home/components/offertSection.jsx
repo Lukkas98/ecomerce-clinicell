@@ -40,7 +40,7 @@ export default async function OffertSection() {
         </h2>
 
         <p className="text-sm md:text-base lg:text-lg">
-          Descuentos exclusivos -{" "}
+          Descuentos exclusivos -
           <Link
             href="/ofertas"
             className="underline font-medium hover:text-blue-300"
@@ -50,14 +50,15 @@ export default async function OffertSection() {
         </p>
       </div>
 
-      <div className="mt-4 md:mt-6 lg:mt-8">
-        <div className="flex flex-col md:flex-wrap items-center justify-center gap-2">
-          {products.map((product) => (
-            <div key={product._id} className="w-full max-w-[250px]">
-              <ProductOffer product={product} />
-            </div>
-          ))}
-        </div>
+      <div className="mt-4 md:mt-6 lg:mt-8 mx-auto flex flex-col items-center justify-center gap-2 md:flex-row flex-wrap">
+        {products.map((product) => (
+          <div
+            key={product._id}
+            className="w-full max-w-[250px] lg:max-w-[350px]"
+          >
+            <ProductOffer product={product} />
+          </div>
+        ))}
       </div>
     </section>
   );
