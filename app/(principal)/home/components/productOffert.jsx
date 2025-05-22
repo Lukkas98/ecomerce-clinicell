@@ -13,13 +13,13 @@ export default async function ProductOffer({ product }) {
       className="bg-gray-900/80 rounded-lg px-4 py-2 flex shadow shadow-black"
     >
       <div className="grid grid-cols-2 gap-2 w-full">
-        <div className="w-fit">
+        <div className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] relative">
           <Image
             src={product.images[0]?.url ?? noImage}
             alt={product.name}
-            width={100}
-            height={100}
-            className="rounded-md object-contain"
+            fill
+            sizes="120px"
+            className="rounded-md"
             quality={90}
           />
         </div>
