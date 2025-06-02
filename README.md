@@ -41,4 +41,4 @@ Mantenimiento activo y mejoras continuas.
 
 ## 📬 Contacto
 
-Si te interesa este proyecto o querés contratarme, podés escribirme por [LinkedIn](https://www.linkedin.com/in/...) o comunicarte por [Mail](mailto:lucas@example.com?subject=Hola%20Lucas&body=Quiero%20hablar%20sobre%20tu%20proyecto)
+Si te interesa este proyecto o querés contratarme, podés escribirme por [LinkedIn](https://www.linkedin.com/in/lucaspalma98) o comunicarte por [Mail](mailto:lucas@example.com?subject=Hola%20Lucas&body=Quiero%20hablar%20sobre%20tu%20proyecto)
