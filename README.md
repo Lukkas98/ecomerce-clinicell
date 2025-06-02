@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 Clinic Cell - E-commerce Fullstack
 
-## Getting Started
+**Clinic Cell** es un sitio de comercio electrónico desarrollado 100% por mí, pensado para una tienda de productos tecnológicos. Cuenta con funcionalidades completas de compra, gestión de productos y administración, con una intefaz moderna y agradable.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tecnologías utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js** – Framework React con renderizado híbrido.
+- **MongoDB + Mongoose** – Base de datos NoSQL y modelado de datos.
+- **Tailwind CSS** – Estilado rápido y moderno.
+- **JavaScript** – Lógica y comportamiento.
+- **Node.js / API Routes (Next)** – Backend integrado.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🧩 Funcionalidades principales
 
-## Learn More
+✅ Carrito de compras con flujo final vía **WhatsApp**  
+✅ Catálogo de productos con filtros dinámicos  
+✅ Panel de administrador seguro  
+✅ Gestión de stock y ofertas  
+✅ Creación y edición de productos  
+✅ Diseño **responsive**  
+✅ navegación fluida
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⚙️ Configuración
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Este proyecto contiene un archivo `env.example` con todas las variables necesarias para la configuración del entorno local.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 👨‍💻 Autor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Desarrollado con 💻 por [Lucas (Lukkas98)](https://github.com/Lukkas98)  
+Mantenimiento activo y mejoras continuas.
+
+---
+
+## 📬 Contacto
+
+Si te interesa este proyecto o querés contratarme, podés escribirme por [LinkedIn](https://www.linkedin.com/in/...) o comunicarte por [Mail](mailto:lucas@example.com?subject=Hola%20Lucas&body=Quiero%20hablar%20sobre%20tu%20proyecto)
