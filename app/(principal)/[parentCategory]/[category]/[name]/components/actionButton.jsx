@@ -25,6 +25,7 @@ export default function ActionButton({
 
   return (
     <>
+      {!stock && <p className=" text-red-500 font-bold text-sm">Sin Stock</p>}
       {stock && !isInCart && (
         <button
           onClick={() => {

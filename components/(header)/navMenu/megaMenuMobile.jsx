@@ -16,7 +16,7 @@ export default function MegaMenuMobile({
 
   useEffect(() => {
     setCategories(dataCategories);
-  }, []);
+  }, [dataCategories]);
 
   const toggleCategory = (categoryId) => {
     setExpandedCategories((prev) => ({

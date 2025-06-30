@@ -4,12 +4,30 @@ import Carousel from "./components/carousel";
 import BtnBack from "./components/btnBack";
 import { getProduct } from "@/lib/actions/products";
 
-export default async function ProductPage(props) {
-  const searchParams = await props.searchParams;
-  const { id } = searchParams;
+//http://localhost:3000/Audio-y-Parlantes/Aro-Led/Luz-Emergencia?id=68190a3f6045433e860337b3
+
+export default async function ProductPage({ searchParams }) {
+  const { id } = await searchParams;
   const product = await getProduct(id);
+  console.log("product: ", product);
+
+  if (product === "El producto no existe") {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-2xl font-bold text-red-600">
+          Producto no encontrado
+        </h1>
+        <p className="text-gray-500">
+          Lo sentimos, el producto que estás buscando no existe o ha sido
+          eliminado.
+        </p>
+      </div>
+    );
+  }
+
   const { name, description, price, stock, images, category, outlet } = product;
 
+  // return <p>{id}</p>;
   return (
     <div className="min-h-[100svh]">
       <div className="container mx-auto px-4 py-12">
@@ -51,9 +69,7 @@ export default async function ProductPage(props) {
                 className={`mb-6 text-sm font-medium absolute -top-6 ${
                   stock ? "text-green-500" : "text-red-500"
                 }`}
-              >
-                {stock ? "En stock" : "Sin stock"}
-              </p>
+              ></p>
               <ActionButton
                 product={JSON.parse(JSON.stringify(product))}
                 stock={stock}
@@ -61,6 +77,7 @@ export default async function ProductPage(props) {
                 className={
                   "w-full bg-indigo-600 text-white px-5 py-3 hover:bg-indigo-700 hover:outline outline-1 outline-gray-200 rounded-md"
                 }
+                ss
               />
             </div>
           </div>
