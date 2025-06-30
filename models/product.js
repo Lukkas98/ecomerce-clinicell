@@ -167,7 +167,7 @@ ProductSchema.statics.byCategoryWithFilters = async function (
       {
         $or: [{ category: categoryId }, { additionalCategories: categoryId }],
       },
-      { stock: true },
+      // { stock: true },
     ],
   };
 

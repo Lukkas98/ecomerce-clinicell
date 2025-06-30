@@ -13,8 +13,12 @@ export default async function ProductCard({ product, searchParams }) {
   return (
     <div
       className={`bg-gray-800 relative p-4 rounded-md shadow-lg 
-        flex gap-1 flex-col justify-between transition-all hover:bg-gray-900 hover:outline hover:outline-green-700
-      `}
+        flex gap-1 flex-col justify-between transition-all
+      ${
+        stock
+          ? "outline-1 outline-green-500 hover:bg-gray-900 hover:outline hover:outline-green-700"
+          : "outline-1 outline-red-500 cursor-not-allowed opacity-50"
+      }`}
     >
       <Link
         href={`${await getPathnameProduct(product)}`}
@@ -62,6 +66,7 @@ export default async function ProductCard({ product, searchParams }) {
       ) : (
         <p className="font-bold text-lg text-gray-100 mb-4">$ {price}</p>
       )}
+      {!stock ?? <p className="text-center text-red-600">Sin Stock</p>}
       <div className="flex flex-col gap-1">
         <ActionButton
           product={JSON.parse(JSON.stringify(product))}
