@@ -12,26 +12,26 @@
     "@headlessui/react": "2.2.1",
     "@heroicons/react": "2.2.0",
     "axios": "1.8.4",
-    "cloudinary": "^2.6.0",
-    "jose": "^6.0.10",
+    "cloudinary": "^2.7.0",
+    "jose": "^6.0.11",
     "mongoose": "8.13.2",
-    "next": "15.3.1",
+    "next": "15.3.4",
     "qrcode": "^1.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
-    "sharp": "^0.34.1",
-    "sweetalert2": "^11.17.2",
-    "use-debounce": "^10.0.4",
-    "zod": "^3.24.2"
+    "sharp": "^0.34.2",
+    "sweetalert2": "^11.22.1",
+    "use-debounce": "^10.0.5",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.3",
+    "@tailwindcss/postcss": "^4.1.11",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.24.0",
+    "eslint": "^9.29.0",
     "eslint-config-next": "15.3.0",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.3"
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
   },
   "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
 }

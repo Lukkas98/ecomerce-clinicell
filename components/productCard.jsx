@@ -13,8 +13,12 @@ export default async function ProductCard({ product, searchParams }) {
   return (
     <div
       className={`bg-gray-800 relative p-4 rounded-md shadow-lg 
-        flex gap-1 flex-col justify-between transition-all hover:bg-gray-900 hover:outline hover:outline-green-700
-      `}
+        flex gap-1 flex-col justify-between transition-all
+      ${
+        stock
+          ? "outline-1 outline-green-700 hover:bg-gray-900 hover:outline hover:outline-green-700"
+          : "outline-1 outline-red-700 opacity-50"
+      }`}
     >
       <Link
         href={`${await getPathnameProduct(product)}`}

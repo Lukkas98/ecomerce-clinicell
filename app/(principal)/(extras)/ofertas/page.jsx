@@ -18,7 +18,7 @@ export default async function OffertsPage({ searchParams }) {
 
   return (
     <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
-      <div className="">
+      <div className=" space-y-5">
         <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
           !!Ofertas de la Semana¡¡
         </h1>

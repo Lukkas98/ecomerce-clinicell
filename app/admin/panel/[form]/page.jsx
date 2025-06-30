@@ -3,6 +3,16 @@ import Link from "next/link";
 import { getProduct } from "@/lib/actions/products";
 import Form from "./components/form";
 
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const formRoutes = ["create", "edit"];
+
+  return formRoutes.map((form) => ({
+    form: form,
+  }));
+}
+
 export default async function FormPage({ params, searchParams }) {
   const { form } = await params;
   const { id } = await searchParams;
