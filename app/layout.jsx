@@ -8,8 +8,8 @@ const font = Poppins({
   weight: ["200", "400", "500", "600", "800"],
 });
 
-export const metadataBase = new URL("https://ecomerce-clinicell.vercel.app");
 export const metadata = {
+  metadataBase: new URL("https://ecomerce-clinicell.vercel.app"),
   title:
     "Clinic-Cell / Venta de repuestos, accesorios en telefonía y artículos del hogar",
   description:
