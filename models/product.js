@@ -197,6 +197,7 @@ ProductSchema.statics.byCategoryWithFilters = async function (
   return {
     products,
     totalPages: Math.ceil(total / limit),
+    totalProducts: total,
   };
 };
 

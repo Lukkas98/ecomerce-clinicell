@@ -9,6 +9,7 @@ const font = Poppins({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://ecomerce-clinicell.vercel.app"),
   title:
     "Clinic-Cell / Venta de repuestos, accesorios en telefonía y artículos del hogar",
   description:
@@ -18,16 +19,8 @@ export const metadata = {
       "Clinic-Cell / Venta y reparación de celulares y artículos del hogar",
     description:
       "Tu tienda de confianza para comprar celulares, repuestos y artículos del hogar. Calidad garantizada.",
-    url: "https://clinic-cell.com", // URL completa del sitio
+    url: "https://ecomerce-clinicell.vercel.app",
     siteName: "Clinic-Cell",
-    // images: [
-    //   {
-    //     url: process.env.URL_IMAGE_LOGO,
-    //     width: 500,
-    //     height: 500,
-    //     alt: "Clinic-Cell - Venta de celulares y accesorios",
-    //   },
-    // ],
     type: "website",
   },
 };
