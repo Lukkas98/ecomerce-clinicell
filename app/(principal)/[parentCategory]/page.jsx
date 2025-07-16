@@ -1,9 +1,17 @@
+import OffertsPage from "@/components/(extras)/ofertas";
+import OutletPage from "@/components/(extras)/outlet";
 import { getCategoryName } from "@/lib/actions/categories";
 import Link from "next/link";
 
-export default async function ParentCategoryPage({ params }) {
+export default async function ParentCategoryPage({ params, searchParams }) {
   const { parentCategory } = await params;
   const category = await getCategoryName(decodeURIComponent(parentCategory));
+
+  if (parentCategory === "ofertas")
+    return <OffertsPage searchParams={searchParams} />;
+
+  if (parentCategory === "outlet")
+    return <OutletPage searchParams={searchParams} />;
 
   return (
     <div className=" bg-gray-900 m-5">

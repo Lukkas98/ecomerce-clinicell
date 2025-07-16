@@ -47,7 +47,7 @@ export const deleteFromCloudinary = async (publicId) => {
 
     // Considerar "not found" como éxito para eliminar de la UI
     if (result.result === "not found") {
-      console.log("Imagen no existente en Cloudinary");
+      // console.log("Imagen no existente en Cloudinary");
       return { success: true };
     }
 

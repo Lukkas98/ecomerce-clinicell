@@ -4,12 +4,9 @@ import Carousel from "./components/carousel";
 import BtnBack from "./components/btnBack";
 import { getProduct } from "@/lib/actions/products";
 
-//http://localhost:3000/Audio-y-Parlantes/Aro-Led/Luz-Emergencia?id=68190a3f6045433e860337b3
-
 export default async function ProductPage({ searchParams }) {
   const { id } = await searchParams;
   const product = await getProduct(id);
-  console.log("product: ", product);
 
   if (product === "El producto no existe") {
     return (
@@ -27,7 +24,6 @@ export default async function ProductPage({ searchParams }) {
 
   const { name, description, price, stock, images, category, outlet } = product;
 
-  // return <p>{id}</p>;
   return (
     <div className="min-h-[100svh]">
       <div className="container mx-auto px-4 py-12">
@@ -35,7 +31,7 @@ export default async function ProductPage({ searchParams }) {
         <div className="flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-3/4 h-80 md:h-96 mb-6 md:mb-0 rounded-lg">
             <div className="aspect-square h-full rounded-lg relative max-w-[500px] mx-auto shadow-lg">
-              <Carousel images={images} />
+              <Carousel images={JSON.parse(JSON.stringify(images))} />
             </div>
           </div>
 

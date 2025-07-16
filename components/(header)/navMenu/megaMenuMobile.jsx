@@ -25,15 +25,16 @@ export default function MegaMenuMobile({
     }));
   };
 
-  // Organizar categorías
-  const parentCategories =
-    categories?.filter((cat) => !cat.parentCategory) || [];
   const getSubcategories = (parentId) =>
     categories.filter(
       (cat) =>
         String(cat.parentCategory) === String(parentId) &&
         cat.products.some((prod) => prod.stock === true)
     );
+  // Organizar categorías
+  const parentCategories = categories?.filter((cat) => {
+    return (!cat.parentCategory || []) && getSubcategories(cat._id).length > 0;
+  });
 
   return (
     <div
@@ -85,28 +86,22 @@ export default function MegaMenuMobile({
 
           {/* Categorías principales */}
           {parentCategories.map((parentCat) => {
-            const hasSubcategories = getSubcategories(parentCat._id).length > 0;
-
             return (
               <div key={parentCat._id} className="border-b border-gray-800">
                 <div
-                  className={`flex justify-between items-center px-4 py-3 ${
-                    hasSubcategories ? "cursor-pointer" : ""
-                  }`}
-                  onClick={() =>
-                    hasSubcategories && toggleCategory(parentCat._id)
-                  }
+                  className={`flex justify-between items-center px-4 py-3 cursor-pointer
+                  `}
+                  onClick={() => toggleCategory(parentCat._id)}
                 >
                   <span className="font-medium hover:text-blue-400 transition-colors">
                     {parentCat.name}
                   </span>
-                  {hasSubcategories && (
-                    <ChevronDownIcon
-                      className={`w-5 h-5 transition-transform ${
-                        expandedCategories[parentCat._id] ? "rotate-180" : ""
-                      }`}
-                    />
-                  )}
+
+                  <ChevronDownIcon
+                    className={`w-5 h-5 transition-transform ${
+                      expandedCategories[parentCat._id] ? "rotate-180" : ""
+                    }`}
+                  />
                 </div>
 
                 {/* Subcategorías */}
