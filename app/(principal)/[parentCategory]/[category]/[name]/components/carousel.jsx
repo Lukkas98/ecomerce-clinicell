@@ -6,8 +6,8 @@ import {
   ArrowRightCircleIcon,
 } from "@heroicons/react/24/outline";
 
-const noImage =
-  "https://fakeimg.pl/450x450/c2c2c2/808080?text=Sin+Imagen&font=bebas";
+const noImage = "https://dummyimage.com/2000x2000?text=Sin+Imagen";
+// "https://fakeimg.pl/450x450/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 function Carousel({ images = [] }) {
   const [currentSlide, setCurrentSlide] = useState(1);

@@ -31,7 +31,7 @@ export default function Form({
     price: 0,
     description: "",
     category: "",
-    stock: true,
+    units: 0,
     additionalCategories: [], // Las categorías adicionales
     imagesForUpload: [],
     imagesSelected: [], //para subirlas a claudinary - array de objetos {url, publicId}
@@ -65,7 +65,9 @@ export default function Form({
           imagesSelected: [...oldValues.imagesSelected, ...newImages],
         };
       }
-      let updatedValue = name === "price" ? Number(value) : value;
+
+      const numberFields = ["price", "units"];
+      let updatedValue = numberFields.includes(name) ? Number(value) : value;
 
       return {
         ...oldValues,
@@ -189,6 +191,22 @@ export default function Form({
         />
         <span className="text-red-500 text-sm mt-1">{errors.price ?? ""}</span>
       </div>
+
+      {mode === "create" && (
+        <div className="flex flex-col">
+          <input
+            className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
+            type="number"
+            name="units"
+            placeholder="Unidades Disponibles"
+            value={data.units || ""}
+            onChange={handleOnChange}
+          />
+          <span className="text-red-500 text-sm mt-1">
+            {errors.units ?? ""}
+          </span>
+        </div>
+      )}
 
       <div className="flex flex-col">
         <textarea

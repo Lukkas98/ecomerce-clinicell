@@ -30,10 +30,12 @@ export const productSchema = z.object({
       invalid_type_error: "Las imágenes deben ser un array de objetos",
     }
   ),
-  stock: z.boolean({
-    required_error: "Stock es requerido",
-    invalid_type_error: "Stock debe ser un Boleano",
-  }),
+  units: z
+    .number({
+      required_error: "Las unidades son requeridas",
+      invalid_type_error: "Las unidades deben ser un número",
+    })
+    .min(-1, "Las unidades no pueden ser negativas"),
   category: z
     .string({
       required_error: "La categoria es requerida",

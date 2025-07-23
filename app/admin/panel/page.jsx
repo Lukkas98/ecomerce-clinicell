@@ -13,9 +13,8 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { getProductsAdmin } from "@/lib/actions/products";
 import AdminFilter from "./components/filter-admin/adminFilter";
 
-export default async function AdminPanel(props) {
-  const searchParams = await props.searchParams;
-  const { tab, page, search, stock, discount, outlet } = searchParams;
+export default async function AdminPanel({ searchParams }) {
+  const { tab, page, search, stock, discount, outlet } = await searchParams;
 
   const allPayments = await getAllPayments();
   const pendingPayments = allPayments.filter((payment) => !payment.approved);

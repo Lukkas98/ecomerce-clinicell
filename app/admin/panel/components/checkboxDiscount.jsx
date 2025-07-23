@@ -75,12 +75,10 @@ export default function CheckboxDiscount({ item }) {
   return (
     <div
       className={`flex items-center justify-center text-white gap-3 rounded-md h-fit px-2 py-1 ${
-        item.discount ? "bg-blue-800" : "bg-gray-500/50"
+        item.discount ? "bg-blue-800/50" : "bg-gray-500/50"
       }`}
     >
-      <p className="whitespace-nowrap">
-        {item.discount ? "En oferta" : "Sin oferta"}
-      </p>
+      <p className="whitespace-nowrap">Oferta</p>
       <input
         type="checkbox"
         checked={!!item.discount}

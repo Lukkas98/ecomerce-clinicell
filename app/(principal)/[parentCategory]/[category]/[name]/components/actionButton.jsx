@@ -1,52 +1,53 @@
 "use client";
 
 import { CartContext } from "@/components/providers/cartProvider";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
-//modificar más adelante para soportar cantidades de producto y no solo 1
-//cart, cartProvider, cartContext
-export default function ActionButton({
-  stock,
-  product,
-  typeButton,
-  className = "",
-}) {
+export default function ActionButton({ product, className = "" }) {
   const { dispatch, cart } = useContext(CartContext);
-  const [label, setLabel] = useState("Cargando");
+  const itemInCart = cart.items.find((p) => p._id === product._id);
+  const count = itemInCart?.unitsInCart || 0;
+  const maxUnits = product.units;
 
-  const isInCart = cart.items.find((prod) => prod._id === product._id);
-  useEffect(() => {
-    if (!stock) return setLabel("Sin stock");
+  const handleAdd = () => {
+    if (count < maxUnits) {
+      dispatch({ type: "ADD_PRODUCT", payload: product });
+    }
+  };
 
-    if (isInCart) return setLabel("Quitar del carro");
-
-    setLabel("Añadir al carro");
-  }, [stock, isInCart]);
+  const handleRemove = () => {
+    if (count > 0) {
+      dispatch({ type: "REMOVE_PRODUCT", payload: product });
+    }
+  };
 
   return (
-    <>
-      {!stock && <p className=" text-red-500 font-bold text-sm">Sin Stock</p>}
-      {stock && !isInCart && (
-        <button
-          onClick={() => {
-            dispatch({ type: typeButton, payload: product });
-          }}
-          // disabled={!stock || isInCart}
-          className={`${className} z-20 bg-blue-800 text-sm hover:bg-blue-900 disabled:bg-gray-400 disabled:text-black disabled:opacity-80 disabled:cursor-not-allowed transition-all text-white px-2 py-1 rounded-md shadow-black shadow`}
-        >
-          {label}
-        </button>
-      )}
-      {stock && isInCart && (
-        <button
-          onClick={() => {
-            dispatch({ type: "REMOVE_PRODUCT", payload: product });
-          }}
-          className={`${className} z-20 text-sm bg-red-800 hover:bg-red-900 text-white opacity-80 transition-all px-2 py-1 rounded-md shadow-black shadow`}
-        >
-          {label}
-        </button>
-      )}
-    </>
+    <div className={`flex items-center justify-center gap-1 ${className}`}>
+      <button
+        onClick={handleRemove}
+        disabled={count <= 0}
+        className={`p-1 rounded-md shadow transition-all text-white ${
+          count <= 0
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-red-800 hover:bg-red-900"
+        }`}
+      >
+        –
+      </button>
+
+      <span className="text-white w-6 text-base text-center">{count}</span>
+
+      <button
+        onClick={handleAdd}
+        disabled={count >= maxUnits}
+        className={`p-1 rounded-md shadow transition-all text-white ${
+          count >= maxUnits
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-800 hover:bg-blue-900"
+        }`}
+      >
+        +
+      </button>
+    </div>
   );
 }

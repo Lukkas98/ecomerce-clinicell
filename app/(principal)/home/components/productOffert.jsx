@@ -3,8 +3,8 @@ import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 
-const noImage =
-  "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
+const noImage = "https://dummyimage.com/200x200?text=Sin+Imagen";
+// "https://fakeimg.pl/96x96/c2c2c2/808080?text=Sin+Imagen&font=bebas";
 
 export default async function ProductOffer({ product }) {
   return (
@@ -37,6 +37,9 @@ export default async function ProductOffer({ product }) {
             </p>
           </div>
         </div>
+        <p className=" whitespace-nowrap mx-auto w-fit text-xs text-gray-300">
+          Disponibles: {product.units}
+        </p>
       </div>
     </Link>
   );
