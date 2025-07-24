@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 
 export default async function OutletPage({ searchParams }) {
-  const { page, filter } = searchParams;
+  const { page, filter } = await searchParams;
 
   const { products, totalPages } = await getProductsAdmin(
     "",
@@ -15,15 +15,12 @@ export default async function OutletPage({ searchParams }) {
 
   return (
     <Suspense fallback={<Loading />} key={Date.now()}>
-      <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
+      <section className="mb-6 ">
         <div className="">
-          <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-200 text-center mb-4">
             Outlet - Liquidación
-          </h1>
-          <div className="below-320:col-span-1 col-span-2">
-            <Paginate totalPages={totalPages} />
-          </div>
-          <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5">
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-3 lg:mx-5">
             {products?.map((product, i) => (
               <ProductCard product={product} key={i} />
             ))}
