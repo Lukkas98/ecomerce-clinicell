@@ -9,7 +9,7 @@ export default function CategoryLayout({ children }) {
     >
       <Header />
 
-      <div className="max-w-dvw 2xl:max-w-[2000px] 2xl:mx-auto p-4">
+      <div className="max-w-dvw 2xl:max-w-[2000px] 2xl:mx-auto p-4 mt-24">
         {children}
       </div>
 

@@ -13,7 +13,7 @@ export default async function Navbar() {
   const { hasOutlet, hasOffers } = boleans;
 
   return (
-    <header className="bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white sticky top-0 z-50 w-full shadow-sm shadow-gray-950">
+    <header className="bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white fixed top-0 z-50 w-full shadow-sm shadow-gray-950">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo y nombre */}
         <div className="flex items-center gap-3">
