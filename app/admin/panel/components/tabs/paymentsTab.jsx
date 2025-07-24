@@ -24,7 +24,18 @@ export default function PaymentsTab({ data }) {
                     <p className="font-semibold text-base whitespace-nowrap">
                       {payment.id}
                     </p>
-                    <p className="text-xs">Productos: {payment.items.length}</p>
+                    <div className="text-sm">
+                      Pedido:{" "}
+                      {payment.items.map((prod) => (
+                        <span
+                          key={prod.name}
+                          className="text-gray-300 font-medium"
+                        >
+                          {prod.units} {prod.name}--${prod.price * prod.units}
+                          {payment.items.length > 1 ? ", " : ""}
+                        </span>
+                      ))}
+                    </div>
                     <p className="text-sm mt-2">
                       Total:{" "}
                       <span className="font-semibold text-base text-green-400">

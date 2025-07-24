@@ -21,11 +21,19 @@ export default function QrImage({ isMovil }) {
   const orderId = useMemo(generateSimpleOrderId, []);
 
   useEffect(() => {
-    const productList = cart.items?.map((product) => product.name).join(", ");
-    const totalAmount = cart.items.reduce((acc, item) => acc + item.price, 0);
-    const message = `_Hola! Quiero confirmar mi compra:_
-*#${orderId}* por *$${totalAmount}*.
-Productos: ${productList}.`;
+    const productList = cart.items
+      .map(
+        (prod) =>
+          `${prod.unitsInCart} ${prod.name}--$${
+            prod.price * prod.unitsInCart
+          }\n`
+      )
+      .join("");
+    const totalAmount = cart.items.reduce(
+      (acc, item) => acc + item.price * item.unitsInCart,
+      0
+    );
+    const message = `Hola! Quiero confirmar mi compra: *#${orderId}* por *$${totalAmount}*\nPedido:\n${productList}`;
 
     const link = `https://wa.me/5492657210777?text=${encodeURIComponent(
       message

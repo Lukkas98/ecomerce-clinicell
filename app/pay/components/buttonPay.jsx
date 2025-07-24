@@ -9,7 +9,10 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
   const router = useRouter();
 
   const handleConfirmClick = () => {
-    const total = cart.items.reduce((acc, item) => (acc += item.price), 0);
+    const total = cart.items.reduce(
+      (acc, item) => (acc += item.price * item.unitsInCart),
+      0
+    );
     const items = cart.items;
 
     if (!isMobile) {
