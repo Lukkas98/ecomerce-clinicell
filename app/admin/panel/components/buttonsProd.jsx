@@ -58,19 +58,17 @@ export default function ButtonsProd({ itemId }) {
   return (
     <div className="flex flex-col gap-1 justify-center bg-gray-800 h-full px-1">
       <button
-        className="text-teal-100 py-1 px-2 group bg-red-800 transition-all flex justify-between rounded"
+        className="text-teal-100 p-2 group bg-red-800 transition-all flex justify-between rounded w-fit"
         onClick={() => handleDelete(itemId)}
         title="Eliminar producto"
       >
-        Eliminar
         <TrashIcon className="h-5 w-5 inline-block group-hover:scale-[1.20]" />
       </button>
       <button
-        className="bg-green-700 hover:bg-blue-700 text-teal-100 p-1 flex justify-between transition-all group rounded"
+        className="bg-green-700 text-teal-100 p-2 flex justify-center transition-all group rounded w-fit"
         onClick={() => handleEdit(itemId)}
         title="Editar producto"
       >
-        Editar
         <PencilSquareIcon className="h-5 w-5 inline-block group-hover:scale-[1.20]" />
       </button>
     </div>

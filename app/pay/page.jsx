@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import Image from "next/image";
 import QrImage from "./components/qr";
 import logo from "@/public/logo.png";
@@ -7,12 +5,15 @@ import { headers } from "next/headers";
 import Link from "next/link";
 
 const isMobileDevice = async () => {
+  "use server";
   const header = await headers();
   const userAgent = header.get("user-agent") || "";
   return /Mobi|Android/i.test(userAgent);
 };
 
 export default async function OrderConfirmation() {
+  const isMobile = await isMobileDevice();
+
   return (
     <section className="text-center bg-gradient-to-b from-gray-900 to-gray-800">
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -34,7 +35,7 @@ export default async function OrderConfirmation() {
         </h1>
 
         <div className="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-xl max-w-lg w-full">
-          {(await isMobileDevice()) ? (
+          {isMobile ? (
             <>
               <h2 className="text-lg font-medium text-gray-300 mb-2">
                 Haz click en el botón para completar la compra por WhatsApp
@@ -56,7 +57,7 @@ export default async function OrderConfirmation() {
             </>
           )}
 
-          <QrImage isMovil={await isMobileDevice()} />
+          <QrImage isMovil={isMobile} />
         </div>
 
         <Link

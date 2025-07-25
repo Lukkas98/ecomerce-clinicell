@@ -80,7 +80,7 @@ export default function AdminFilter() {
   }
 
   return (
-    <div className="w-full md:relative bg-gray-800 z-50 shadow-lg md:rounded-lg md:max-w-4xl md:mx-auto md:p-4">
+    <div className="w-10 md:relative bg-gray-800 z-50 shadow-lg md:rounded-lg md:max-w-4xl md:mx-auto md:p-4">
       <FilterMobileToggle
         filterCount={filterCount}
         isOpen={isMobileOpen}
@@ -88,8 +88,8 @@ export default function AdminFilter() {
       />
       <div
         className={`${
-          isMobileOpen ? "block" : "hidden"
-        } md:block transition-all duration-300 overflow-hidden`}
+          isMobileOpen ? "block fixed left-0 w-full" : "hidden"
+        } md:block transition-all duration-300 overflow-hidden bg-gray-800`}
       >
         <div className="p-4 md:p-0">
           <div className="flex flex-col md:flex-row md:flex-wrap gap-4 items-end">

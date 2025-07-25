@@ -41,6 +41,18 @@ const ProductSchema = new mongoose.Schema(
         publicId: String,
       },
     ],
+    units: {
+      type: Number,
+      default: 1,
+      set(v) {
+        this.stock = v > 0;
+        return v;
+      },
+    },
+    restock: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
@@ -55,6 +67,9 @@ ProductSchema.pre("save", function (next) {
   if (this.isModified("description")) {
     this.description =
       this.description.charAt(0).toUpperCase() + this.description.slice(1);
+  }
+  if (this.isModified("units")) {
+    this.stock = this.units > 0;
   }
   next();
 });

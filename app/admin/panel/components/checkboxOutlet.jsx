@@ -16,8 +16,8 @@ export default function CheckboxOutlet({ item }) {
             : `Estás a punto de añadir ${name} a "Outlet"`,
       }}
       onLabel="Outlet"
-      offLabel="No Outlet"
-      onClass="bg-red-800/80"
+      offLabel="Outlet"
+      onClass="bg-orange-800/80"
       offClass="bg-gray-500/50"
     />
   );

@@ -1,5 +1,6 @@
 "use client";
-import { approvePay, deletePay } from "@/lib/actions/payments";
+import { approvePay, deletePay, updateStock } from "@/lib/actions/payments";
+import { changeUnits } from "@/lib/actions/products";
 import {
   CheckIcon,
   ExclamationCircleIcon,
@@ -18,13 +19,14 @@ const Toast = Swal.mixin({
 });
 
 export default function BtnPayment({ approved, payment }) {
+  const totalItems = payment.items.reduce((acc, item) => acc + item.units, 0);
   const handleOnClick = () => {
     Swal.fire({
       icon: "question",
       title: `¿Aprobar Orden?`,
       html: `<div class="p-4 bg-gray-800 rounded-xl">
          <h2 class="text-lg font-semibold text-gray-200">${payment.id}</h2>
-         <p class="mt-2 text-gray-400">Productos: ${payment.items.length}</p>
+         <p class="mt-2 text-gray-400">Productos: ${totalItems}</p>
          <p class="text-gray-400">Total: $${payment.total}</p>
          <p class="mt-4 text-sm text-gray-300 italic">
            Una vez aprobada se eliminará a los 7 días
@@ -64,15 +66,16 @@ export default function BtnPayment({ approved, payment }) {
     Swal.fire({
       icon: "question",
       title: `¿Eliminar Orden ${payment.id}?`,
-      text: "Esta acción es irreversible",
+      text: "Esta acción es irreversible, el stock de los productos será actualizado.",
       showDenyButton: true,
-      confirmButtonText: "Si, Eliminar",
+      confirmButtonText: "Si, Eliminar y Actualizar",
       showLoaderOnConfirm: true,
       denyButtonText: `No`,
       background: "#374151",
       color: "#E5E7EB",
       preConfirm: async () => {
         try {
+          await updateStock(payment.items, payment);
           const response = await deletePay(payment._id);
 
           if (!response.success)

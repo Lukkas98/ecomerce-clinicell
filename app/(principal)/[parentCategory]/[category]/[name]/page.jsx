@@ -22,7 +22,8 @@ export default async function ProductPage({ searchParams }) {
     );
   }
 
-  const { name, description, price, stock, images, category, outlet } = product;
+  const { name, description, price, stock, images, category, outlet, units } =
+    product;
 
   return (
     <div className="min-h-[100svh]">
@@ -61,20 +62,21 @@ export default async function ProductPage({ searchParams }) {
             </div>
 
             <div className="mt-8 relative">
-              <p
-                className={`mb-6 text-sm font-medium absolute -top-6 ${
-                  stock ? "text-green-500" : "text-red-500"
-                }`}
-              ></p>
-              <ActionButton
-                product={JSON.parse(JSON.stringify(product))}
-                stock={stock}
-                typeButton={"ADD_PRODUCT"}
-                className={
-                  "w-full bg-indigo-600 text-white px-5 py-3 hover:bg-indigo-700 hover:outline outline-1 outline-gray-200 rounded-md"
-                }
-                ss
-              />
+              {stock ? (
+                <>
+                  <p className="text-sm text-green-500">Unidades: {units}</p>
+                  <ActionButton
+                    product={JSON.parse(JSON.stringify(product))}
+                    stock={stock}
+                    typeButton={"ADD_PRODUCT"}
+                    className={
+                      "mt-4 bg-gray-800 w-fit px-2 py-1 rounded-md text-xl"
+                    }
+                  />
+                </>
+              ) : (
+                <p className="text-sm text-red-500">Sin Stock</p>
+              )}
             </div>
           </div>
         </div>

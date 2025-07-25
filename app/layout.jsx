@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import CartProvider from "@/components/providers/cartProvider";
 import { MenuProvider } from "@/components/providers/menuContext";
+import { Analytics } from "@vercel/analytics/next";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <CartProvider>
           <MenuProvider>{children}</MenuProvider>
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );

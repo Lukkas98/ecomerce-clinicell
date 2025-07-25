@@ -9,6 +9,7 @@ const PaymentSchema = new Schema(
     items: [
       {
         name: { type: String, required: true },
+        units: { type: Number, required: true },
         price: { type: Number, required: true },
       },
     ],

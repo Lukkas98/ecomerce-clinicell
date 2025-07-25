@@ -13,7 +13,7 @@ export default async function Navbar() {
   const { hasOutlet, hasOffers } = boleans;
 
   return (
-    <header className="bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white sticky top-0 z-50 w-full shadow-sm shadow-gray-950">
+    <header className="bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white fixed top-0 z-50 w-full shadow-sm shadow-gray-950">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo y nombre */}
         <div className="flex items-center gap-3">
@@ -37,14 +37,14 @@ export default async function Navbar() {
         </div>
 
         {/* Barra de búsqueda (desktop) */}
-        <div className="flex-1 mx-4 hidden md:block">
+        <div className="flex-1 mx-4 hidden lg:block">
           <ClientSearch />
         </div>
 
         {/* Carrito y menú */}
         <div className="flex items-center gap-6">
           {/* Navegación principal (desktop) */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6">
             <Link
               href="/home"
               className="text-sm hover:text-blue-400 transition-colors"
@@ -70,7 +70,7 @@ export default async function Navbar() {
 
             <MegaMenu dataCategories={JSON.parse(JSON.stringify(categories))} />
           </nav>
-          <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden md:flex">
+          <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden lg:flex">
             <Cart />
           </button>
 

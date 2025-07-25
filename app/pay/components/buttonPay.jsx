@@ -1,15 +1,31 @@
 "use client";
-
 import { createPay } from "@/lib/actions/payments";
+import { changeUnits } from "@/lib/actions/products";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+
+const updateStock = async function name(items) {
+  const changeUnitsItems = items.map(async (item) => {
+    return await changeUnits(item._id, item.units - item.unitsInCart);
+  });
+  await Promise.all(changeUnitsItems).then((responses) => {
+    responses.forEach((response) => {
+      if (!response.success) {
+        console.error(`Error: ${response.message}`);
+      }
+    });
+  });
+};
 
 export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
   const { orderId, cart } = data;
   const router = useRouter();
 
   const handleConfirmClick = () => {
-    const total = cart.items.reduce((acc, item) => (acc += item.price), 0);
+    const total = cart.items.reduce(
+      (acc, item) => (acc += item.price * item.unitsInCart),
+      0
+    );
     const items = cart.items;
 
     if (!isMobile) {
@@ -34,6 +50,7 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
             if (!response.success)
               return Swal.showValidationMessage(response.message);
 
+            await updateStock(items);
             dispatch({ type: "EMPTY_CART" });
             return { message: response.message, link: response.to };
           } catch (error) {
@@ -94,6 +111,7 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
             if (!response.success)
               return Swal.showValidationMessage(response.message);
 
+            await updateStock(items);
             dispatch({ type: "EMPTY_CART" });
             return { message: response.message, link: response.to };
           } catch (error) {

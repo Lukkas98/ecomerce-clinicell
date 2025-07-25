@@ -23,14 +23,14 @@ export default function Category({
     );
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container px-2 py-3">
       <section className="mb-6">
         <div className="flex flex-col justify-center items-center gap-5 mb-4">
           <TitleCategory />
           <Filter />
         </div>
 
-        <div className="grid below-320:grid-cols-1 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           <Suspense fallback={<LoadingProducts />} key={Date.now()}>
             {products.map((product) => (
               <ProductCard
