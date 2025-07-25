@@ -18,7 +18,7 @@ export default async function LatestProducts() {
       <h2 className="text-xl lg:text-2xl font-semibold text-center mb-4">
         📦 Ultimos reingresos
       </h2>
-      <div className="grid md:grid-cols-4 gap-6 p-1">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-1">
         <Suspense fallback={<div className="text-center">Cargando...</div>}>
           {latestProd.map((product) => (
             <ProductCard key={product._id} product={product} />

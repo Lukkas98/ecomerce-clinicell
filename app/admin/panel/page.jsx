@@ -36,40 +36,37 @@ export default async function AdminPanel({ searchParams }) {
         );
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900 text-white">
+    <div className="grid bg-gray-800 text-white relative">
       {/* Notificación de pagos pendientes */}
-      {pendingPayments.length > 0 && (
-        <div className="fixed top-0 w-full bg-amber-600 text-white z-20 p-2 flex items-center justify-center gap-2 text-sm">
-          <ExclamationTriangleIcon className="w-5 h-5" />
-          <span>{pendingPayments.length} pagos pendientes de aprobación</span>
-        </div>
-      )}
 
-      <header
-        className="px-4 py-2 bg-gray-800 fixed w-full z-10 flex flex-col items-center space-y-2"
-        style={{ top: pendingPayments.length > 0 ? "2rem" : "0" }}
-      >
-        {!tab || tab === "products" ? (
-          <>
+      {(!tab || tab === "products") && (
+        <header className="px-4 py-2 bg-gray-800 fixed top-0 w-full z-10 flex flex-col items-center gap-2">
+          {pendingPayments.length > 0 && (
+            <div className="w-full bg-amber-600 text-white z-50 p-2 flex items-center justify-center gap-2 text-sm">
+              <ExclamationTriangleIcon className="w-5 h-5" />
+              <span>
+                {pendingPayments.length}{" "}
+                {pendingPayments.length > 1
+                  ? "pagos pendientes"
+                  : "pago pendiente"}{" "}
+                de aprobación
+              </span>
+            </div>
+          )}
+          <div className="flex">
             <AdminSearch className="bg-gray-700 text-white rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
             <AdminFilter />
-          </>
-        ) : (
-          <p className="py-2 text-center text-gray-400 text-sm">
-            No se puede buscar ni filtrar en esta pestaña, todavia 😉
-          </p>
-        )}
-      </header>
+          </div>
+        </header>
+      )}
 
       <main
         className={`flex-1 overflow-auto p-4 ${
           tab === "products" || !tab
-            ? pendingPayments.length > 0
-              ? "mt-40"
-              : "mt-32"
-            : pendingPayments.length > 0
-            ? "mt-20"
-            : "mt-12"
+            ? pendingPayments.length
+              ? "mt-25"
+              : "mt-15"
+            : ""
         }`}
       >
         {(!tab || tab === "products") && <ProductsTab data={data} />}

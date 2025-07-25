@@ -37,14 +37,14 @@ export default async function Navbar() {
         </div>
 
         {/* Barra de búsqueda (desktop) */}
-        <div className="flex-1 mx-4 hidden md:block">
+        <div className="flex-1 mx-4 hidden lg:block">
           <ClientSearch />
         </div>
 
         {/* Carrito y menú */}
         <div className="flex items-center gap-6">
           {/* Navegación principal (desktop) */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6">
             <Link
               href="/home"
               className="text-sm hover:text-blue-400 transition-colors"
@@ -70,7 +70,7 @@ export default async function Navbar() {
 
             <MegaMenu dataCategories={JSON.parse(JSON.stringify(categories))} />
           </nav>
-          <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden md:flex">
+          <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden lg:flex">
             <Cart />
           </button>
 
