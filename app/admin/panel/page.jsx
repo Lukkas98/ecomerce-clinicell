@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { getCategories } from "@/lib/actions/categories";
 import { getAllPayments } from "@/lib/actions/payments";
 import Link from "next/link";
@@ -72,6 +70,15 @@ export default async function AdminPanel({ searchParams }) {
         {(!tab || tab === "products") && <ProductsTab data={data} />}
         {tab === "categories" && <CategoriesTab data={data} />}
         {tab === "payments" && <PaymentsTab data={data} />}
+        {tab === "restock" && (
+          <div className="text-center text-gray-400">
+            <p className="text-lg font-semibold">Reingresos 🧠</p>
+            <p className="mt-2">
+              Tranquilo, está en la lista de cosas por hacer. <br />
+              Justo después de colonizar Marte.
+            </p>
+          </div>
+        )}
       </main>
 
       <Link
@@ -86,10 +93,11 @@ export default async function AdminPanel({ searchParams }) {
           { tab: "products", label: "Productos" },
           { tab: "categories", label: "Categorías" },
           { tab: "payments", label: "Pedidos" },
+          { tab: "restock", label: "Reingresos" },
         ].map((tabButton, i) => (
           <TabButton
             key={i}
-            active={tab === tabButton.tab}
+            active={tab === tabButton.tab || (!tab && i === 0)}
             label={tabButton.label}
             pending={tabButton.tab === "payments" && pendingPayments.length > 0}
             link={`/admin/panel?tab=${tabButton.tab}`}
@@ -103,7 +111,7 @@ export default async function AdminPanel({ searchParams }) {
 const TabButton = ({ active, label, link, pending }) => (
   <Link
     href={link}
-    className={`flex flex-col items-center justify-center px-4 py-1 rounded-md transition-all relative ${
+    className={`flex flex-col items-center justify-center px-4 py-1 rounded-md transition-all relative font-semibold ${
       active
         ? "text-blue-400 bg-gray-700/50"
         : "text-gray-400 hover:text-blue-300"

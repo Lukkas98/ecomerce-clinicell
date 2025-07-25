@@ -49,6 +49,10 @@ const ProductSchema = new mongoose.Schema(
         return v;
       },
     },
+    restock: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
