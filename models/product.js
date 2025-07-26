@@ -54,7 +54,7 @@ const ProductSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 ProductSchema.index({ name: "text" });
@@ -91,7 +91,7 @@ ProductSchema.query.byFilters = async function (
     discount: [], // ['with-discount', 'without-discount']
     outlet: [], // ['outlet']
   },
-  page = 1
+  page = 1,
 ) {
   const limit = 8;
   let query = this;
@@ -168,7 +168,7 @@ ProductSchema.statics.byCategoryWithFilters = async function (
   categoryId,
   filter = "az",
   page = 1,
-  limit = 10
+  limit = 10,
 ) {
   const sortStage = {};
 

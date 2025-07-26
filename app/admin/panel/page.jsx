@@ -6,8 +6,10 @@ import ProductsTab from "./components/tabs/productsTab";
 import CategoriesTab from "./components/tabs/Categories/categoriesTab";
 import AdminSearch from "@/components/adminSearch";
 
-import { PlusIcon } from "@heroicons/react/24/outline";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import { FaBoxOpen, FaTags, FaCreditCard, FaBox } from "react-icons/fa";
+import { HiOutlinePlus } from "react-icons/hi";
+import { CgDanger } from "react-icons/cg";
+
 import { getProductsAdmin } from "@/lib/actions/products";
 import AdminFilter from "./components/filter-admin/adminFilter";
 
@@ -21,27 +23,27 @@ export default async function AdminPanel({ searchParams }) {
     tab === "categories"
       ? await getCategories()
       : tab === "payments"
-      ? allPayments
-      : await getProductsAdmin(
-          search,
-          {
-            sort: "az",
-            stock: [stock],
-            discount: [discount],
-            outlet: [outlet],
-          },
-          page
-        );
+        ? allPayments
+        : await getProductsAdmin(
+            search,
+            {
+              sort: "az",
+              stock: [stock],
+              discount: [discount],
+              outlet: [outlet],
+            },
+            page,
+          );
 
   return (
-    <div className="grid bg-gray-800 text-white relative">
+    <div className="relative grid bg-gray-800 text-white">
       {/* Notificación de pagos pendientes */}
 
       {(!tab || tab === "products") && (
-        <header className="px-4 py-2 bg-gray-800 fixed top-0 w-full z-10 flex flex-col items-center gap-2">
+        <header className="fixed top-0 z-10 flex w-full flex-col items-center gap-2 bg-gray-800 px-4 py-2">
           {pendingPayments.length > 0 && (
-            <div className="w-full bg-amber-600 text-white z-50 p-2 flex items-center justify-center gap-2 text-sm">
-              <ExclamationTriangleIcon className="w-5 h-5" />
+            <div className="z-50 flex w-full items-center justify-center gap-2 bg-amber-600 p-2 text-sm text-white">
+              <CgDanger className="h-5 w-5" />
               <span>
                 {pendingPayments.length}{" "}
                 {pendingPayments.length > 1
@@ -52,7 +54,7 @@ export default async function AdminPanel({ searchParams }) {
             </div>
           )}
           <div className="flex">
-            <AdminSearch className="bg-gray-700 text-white rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+            <AdminSearch className="w-full rounded-lg bg-gray-700 p-2 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500" />
             <AdminFilter />
           </div>
         </header>
@@ -83,17 +85,21 @@ export default async function AdminPanel({ searchParams }) {
 
       <Link
         href={"/admin/panel/create"}
-        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full fixed bottom-15 right-2 shadow-xl transition-all z-10"
+        className="fixed right-2 bottom-17 z-10 rounded-full bg-blue-600 p-3 text-white shadow-xl transition-all hover:bg-blue-700"
       >
-        <PlusIcon className="w-6 h-6" />
+        <HiOutlinePlus className="h-6 w-6" />
       </Link>
 
-      <nav className="bg-gray-800 fixed bottom-0 w-full flex justify-around py-3 border-t border-gray-700">
+      <nav className="fixed bottom-0 flex w-full justify-around border-t border-gray-700 bg-gray-800 px-1 py-3">
         {[
-          { tab: "products", label: "Productos" },
-          { tab: "categories", label: "Categorías" },
-          { tab: "payments", label: "Pedidos" },
-          { tab: "restock", label: "Reingresos" },
+          { tab: "products", label: "Productos", Icon: <FaBoxOpen /> },
+          { tab: "categories", label: "Categorías", Icon: <FaTags /> },
+          { tab: "payments", label: "Pedidos", Icon: <FaCreditCard /> },
+          {
+            tab: "restock",
+            label: "Reingresos",
+            Icon: <FaBox />,
+          },
         ].map((tabButton, i) => (
           <TabButton
             key={i}
@@ -101,6 +107,7 @@ export default async function AdminPanel({ searchParams }) {
             label={tabButton.label}
             pending={tabButton.tab === "payments" && pendingPayments.length > 0}
             link={`/admin/panel?tab=${tabButton.tab}`}
+            icon={tabButton.Icon}
           />
         ))}
       </nav>
@@ -108,18 +115,19 @@ export default async function AdminPanel({ searchParams }) {
   );
 }
 
-const TabButton = ({ active, label, link, pending }) => (
+const TabButton = ({ active, label, link, pending, icon }) => (
   <Link
     href={link}
-    className={`flex flex-col items-center justify-center px-4 py-1 rounded-md transition-all relative font-semibold ${
+    className={`relative flex flex-col items-center justify-center rounded-md px-2 py-1 text-sm font-semibold transition-all ${
       active
-        ? "text-blue-400 bg-gray-700/50"
+        ? "bg-gray-700/50 text-blue-400"
         : "text-gray-400 hover:text-blue-300"
     }`}
   >
+    {icon}
     {label}
     {pending && (
-      <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+      <span className="absolute -top-1 right-3 h-3 w-3 animate-pulse rounded-full bg-red-500"></span>
     )}
   </Link>
 );

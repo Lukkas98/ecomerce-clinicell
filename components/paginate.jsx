@@ -19,16 +19,13 @@ export default function Paginate({ totalPages = 1 }) {
     content,
     page,
     isActive = false,
-    isDisabled = false
+    isDisabled = false,
   ) => (
     <button
       key={`${content}-${page}`}
       onClick={() => !isDisabled && handlePageChange(page)}
-      className={`min-w-10 h-10 flex items-center justify-center rounded-md text-sm font-medium transition-all
-        ${isActive ? "bg-blue-600 text-white" : "bg-gray-800 hover:bg-gray-700"}
-        ${isDisabled ? "opacity-20 pointer-events-none" : "cursor-pointer"}
-        mx-0.5`}
-      disabled={isDisabled}
+      className={`flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium transition-all ${isActive ? "bg-blue-600 text-white" : "bg-gray-800 hover:bg-gray-700"} ${isDisabled ? "pointer-events-none opacity-20" : "cursor-pointer"}`}
+      disabled={isDisabled || page === currentPage}
     >
       {content}
     </button>
@@ -44,20 +41,20 @@ export default function Paginate({ totalPages = 1 }) {
       direction === "prev" ? "-5" : "+5",
       Math.max(1, Math.min(totalPages, targetPage)),
       false,
-      isDisabled
+      isDisabled,
     );
   };
 
   return (
     totalPages > 1 && (
-      <div className="w-full overflow-x-auto pb-2">
-        <div className="flex gap-1 justify-center min-w-max px-4">
+      <div className="w-full">
+        <div className="flex min-w-max justify-center gap-1">
           {/* Botón Anterior */}
           {renderButton(
-            <ChevronLeftIcon className="w-5 h-5" />,
+            <ChevronLeftIcon className="h-5 w-5" />,
             currentPage - 1,
             false,
-            currentPage === 1
+            currentPage === 1,
           )}
 
           {/* Botón -5 */}
@@ -77,10 +74,10 @@ export default function Paginate({ totalPages = 1 }) {
 
           {/* Botón Siguiente */}
           {renderButton(
-            <ChevronRightIcon className="w-5 h-5" />,
+            <ChevronRightIcon className="h-5 w-5" />,
             currentPage + 1,
             false,
-            currentPage === totalPages
+            currentPage === totalPages,
           )}
         </div>
       </div>
