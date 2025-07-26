@@ -10,20 +10,17 @@ export default async function SearchPage({ searchParams }) {
   const { products, totalPages } = await getProductsAdmin(
     q,
     { sort: "az", stock: ["in-stock"], discount: [], outlet: [] },
-    page
+    page,
   );
 
   return (
     <Suspense fallback={<Loading />} key={Date.now()}>
-      <section className="mb-6 gap-3 below-320:grid-cols-1 grid place-content-center">
+      <section className="below-320:grid-cols-1 mb-6 grid place-content-center gap-3">
         <div className="">
-          <h1 className="text-2xl font-bold text-gray-200 text-center mb-4">
+          <h1 className="mb-4 text-center text-2xl font-bold text-gray-200">
             Busqueda - {q}
           </h1>
-          <div className="below-320:col-span-1 col-span-2">
-            <Paginate totalPages={totalPages} />
-          </div>
-          <div className="grid below-320:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 mx-3 lg:mx-5 my-4">
+          <div className="mx-3 my-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:mx-5 lg:grid-cols-3 xl:grid-cols-4">
             {products.map(async (product, i) => (
               <ProductCard product={product} key={i} />
             ))}

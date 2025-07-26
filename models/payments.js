@@ -26,7 +26,7 @@ const PaymentSchema = new Schema(
       type: Date,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 PaymentSchema.index(
@@ -34,7 +34,7 @@ PaymentSchema.index(
   {
     expireAfterSeconds: 604800, // 7 días = 604800 segundos
     partialFilterExpression: { approved: true },
-  }
+  },
 );
 
 export const PaymentModel =
