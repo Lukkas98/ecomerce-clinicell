@@ -4,12 +4,5 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {
-    extend: {
-      screens: {
-        "below-320": { max: "320px" },
-      },
-    },
-  },
   plugins: [],
 };
