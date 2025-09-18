@@ -6,7 +6,7 @@ import ProductsTab from "./components/tabs/productsTab";
 import CategoriesTab from "./components/tabs/Categories/categoriesTab";
 import AdminSearch from "@/components/adminSearch";
 
-import { FaBoxOpen, FaTags, FaCreditCard, FaBox } from "react-icons/fa";
+import { FaBoxOpen, FaTags, FaCreditCard } from "react-icons/fa";
 import { HiOutlinePlus } from "react-icons/hi";
 import { CgDanger } from "react-icons/cg";
 
@@ -95,11 +95,11 @@ export default async function AdminPanel({ searchParams }) {
           { tab: "products", label: "Productos", Icon: <FaBoxOpen /> },
           { tab: "categories", label: "Categorías", Icon: <FaTags /> },
           { tab: "payments", label: "Pedidos", Icon: <FaCreditCard /> },
-          {
-            tab: "restock",
-            label: "Reingresos",
-            Icon: <FaBox />,
-          },
+          // {
+          //   tab: "restock",
+          //   label: "Reingresos",
+          //   Icon: <FaBox />,
+          // },
         ].map((tabButton, i) => (
           <TabButton
             key={i}
