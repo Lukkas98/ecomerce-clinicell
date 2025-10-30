@@ -2,51 +2,46 @@
 
 import { CartContext } from "@/components/providers/cartProvider";
 import { useContext } from "react";
+import { FiMinus, FiPlus } from "react-icons/fi";
 
-export default function ActionButton({ product, className = "" }) {
+export default function ActionButton({ product }) {
   const { dispatch, cart } = useContext(CartContext);
   const itemInCart = cart.items.find((p) => p._id === product._id);
-  const count = itemInCart?.unitsInCart || 0;
+  const inCart = itemInCart?.unitsInCart || 0;
   const maxUnits = product.units;
 
   const handleAdd = () => {
-    if (count < maxUnits) {
+    if (inCart < maxUnits) {
       dispatch({ type: "ADD_PRODUCT", payload: product });
     }
   };
 
   const handleRemove = () => {
-    if (count > 0) {
+    if (inCart > 0) {
       dispatch({ type: "REMOVE_PRODUCT", payload: product });
     }
   };
 
   return (
-    <div className={`flex items-center justify-center gap-1 ${className}`}>
+    <div className="flex items-center gap-1">
       <button
+        className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+        disabled={inCart <= 0}
         onClick={handleRemove}
-        disabled={count <= 0}
-        className={`p-1 rounded-md shadow transition-all text-white ${
-          count <= 0
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-red-800 hover:bg-red-900"
-        }`}
       >
-        –
+        <FiMinus className="h-2.5 w-2.5" />
       </button>
 
-      <span className="text-white w-6 text-base text-center">{count}</span>
+      <span className="min-w-[16px] text-center text-xs font-bold text-white">
+        {inCart}
+      </span>
 
       <button
+        className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+        disabled={product.stock <= 0}
         onClick={handleAdd}
-        disabled={count >= maxUnits}
-        className={`p-1 rounded-md shadow transition-all text-white ${
-          count >= maxUnits
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-800 hover:bg-blue-900"
-        }`}
       >
-        +
+        <FiPlus className="h-2.5 w-2.5" />
       </button>
     </div>
   );
