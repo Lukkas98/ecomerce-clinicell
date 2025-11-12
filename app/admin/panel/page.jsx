@@ -72,15 +72,6 @@ export default async function AdminPanel({ searchParams }) {
         {(!tab || tab === "products") && <ProductsTab data={data} />}
         {tab === "categories" && <CategoriesTab data={data} />}
         {tab === "payments" && <PaymentsTab data={data} />}
-        {tab === "restock" && (
-          <div className="text-center text-gray-400">
-            <p className="text-lg font-semibold">Reingresos 🧠</p>
-            <p className="mt-2">
-              Tranquilo, está en la lista de cosas por hacer. <br />
-              Justo después de colonizar Marte.
-            </p>
-          </div>
-        )}
       </main>
 
       <Link
@@ -95,11 +86,6 @@ export default async function AdminPanel({ searchParams }) {
           { tab: "products", label: "Productos", Icon: <FaBoxOpen /> },
           { tab: "categories", label: "Categorías", Icon: <FaTags /> },
           { tab: "payments", label: "Pedidos", Icon: <FaCreditCard /> },
-          // {
-          //   tab: "restock",
-          //   label: "Reingresos",
-          //   Icon: <FaBox />,
-          // },
         ].map((tabButton, i) => (
           <TabButton
             key={i}
