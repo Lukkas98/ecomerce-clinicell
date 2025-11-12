@@ -3,6 +3,7 @@ import "./globals.css";
 import CartProvider from "@/components/providers/cartProvider";
 import { MenuProvider } from "@/components/providers/menuContext";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -28,7 +29,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className="bg-gray-900 overflow-x-hidden">
+    <html lang="es" className="overflow-x-hidden bg-gray-900">
       <body className={font.className}>
         <CartProvider>
           <MenuProvider>{children}</MenuProvider>

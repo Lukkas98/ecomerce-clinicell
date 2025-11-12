@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifySession } from "./lib/auth";
 
-export async function middleware(request) {
+export async function proxy(request) {
   const { pathname } = request.nextUrl;
   const maintenanceMode = process.env.MAINTENANCE_MODE === "true";
 
