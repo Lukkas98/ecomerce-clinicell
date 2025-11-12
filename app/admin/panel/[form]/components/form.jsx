@@ -39,6 +39,7 @@ export default function Form({
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setData({
         ...initialData,
         imagesSelected:
@@ -152,7 +153,7 @@ export default function Form({
         setData((old) => ({
           ...old,
           imagesSelected: old.imagesSelected.filter(
-            (img) => img.url !== image.url
+            (img) => img.url !== image.url,
           ),
         }));
 
@@ -166,43 +167,43 @@ export default function Form({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 w-full mx-auto px-4 py-4 bg-gray-800 rounded-lg shadow-lg"
+      className="mx-auto flex w-full flex-col gap-6 rounded-lg bg-gray-800 px-4 py-4 shadow-lg"
     >
       <div className="flex flex-col">
         <input
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
+          className="w-full rounded border-2 border-gray-500 bg-transparent px-3 py-2 text-gray-100 transition-all outline-none focus:border-blue-500"
           type="text"
           name="name"
           placeholder="Nombre"
           value={data.name}
           onChange={handleOnChange}
         />
-        <span className="text-red-500 text-sm mt-1">{errors.name ?? ""}</span>
+        <span className="mt-1 text-sm text-red-500">{errors.name ?? ""}</span>
       </div>
 
       <div className="flex flex-col">
         <input
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
+          className="w-full rounded border-2 border-gray-500 bg-transparent px-3 py-2 text-gray-100 transition-all outline-none focus:border-blue-500"
           type="number"
           name="price"
           placeholder="Precio"
           value={data.price || ""}
           onChange={handleOnChange}
         />
-        <span className="text-red-500 text-sm mt-1">{errors.price ?? ""}</span>
+        <span className="mt-1 text-sm text-red-500">{errors.price ?? ""}</span>
       </div>
 
       {mode === "create" && (
         <div className="flex flex-col">
           <input
-            className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all"
+            className="w-full rounded border-2 border-gray-500 bg-transparent px-3 py-2 text-gray-100 transition-all outline-none focus:border-blue-500"
             type="number"
             name="units"
             placeholder="Unidades Disponibles"
             value={data.units || ""}
             onChange={handleOnChange}
           />
-          <span className="text-red-500 text-sm mt-1">
+          <span className="mt-1 text-sm text-red-500">
             {errors.units ?? ""}
           </span>
         </div>
@@ -210,25 +211,25 @@ export default function Form({
 
       <div className="flex flex-col">
         <textarea
-          className="w-full border-2 px-3 py-2 border-gray-500 rounded focus:border-blue-500 bg-transparent text-gray-100 outline-none transition-all max-h-60 h-52"
+          className="h-52 max-h-60 w-full rounded border-2 border-gray-500 bg-transparent px-3 py-2 text-gray-100 transition-all outline-none focus:border-blue-500"
           type="text"
           name="description"
           placeholder="Descripción"
           value={data.description}
           onChange={handleOnChange}
         />
-        <span className="text-red-500 text-sm mt-1">
+        <span className="mt-1 text-sm text-red-500">
           {errors.description ?? ""}
         </span>
       </div>
 
-      <div className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         <SelectCategories
           data={data}
           categories={categories}
           handleOnChange={handleOnChange}
         />
-        <span className="text-red-500 text-sm mt-1">
+        <span className="mt-1 text-sm text-red-500">
           {errors.category ?? ""}
         </span>
       </div>
@@ -240,18 +241,13 @@ export default function Form({
           onChange={handleOnChange}
           accept="image/*"
           multiple
-          className="block w-full text-sm text-gray-300 transition-all
-          file:mr-4 file:py-2 file:px-4
-          file:rounded-lg file:border-0
-          file:text-sm file:font-semibold
-          file:bg-violet-600 file:text-white
-          hover:file:bg-violet-700"
+          className="block w-full text-sm text-gray-300 transition-all file:mr-4 file:rounded-lg file:border-0 file:bg-violet-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-violet-700"
         />
 
         <div className="mt-4 flex flex-wrap gap-4">
           {data.imagesSelected.map((image, i) => (
             <div key={i} className="relative mt-5">
-              <div className="relative w-20 aspect-square rounded-lg overflow-hidden shadow-md shadow-black">
+              <div className="relative aspect-square w-20 overflow-hidden rounded-lg shadow-md shadow-black">
                 <Image
                   src={image.url}
                   alt={`Selected preview ${i}`}
@@ -264,7 +260,7 @@ export default function Form({
                   deleteImage(image);
                 }}
                 title="Borrar"
-                className="absolute z-10 bg-red-500 rounded px-2 right-0 -top-5 cursor-pointer"
+                className="absolute -top-5 right-0 z-10 cursor-pointer rounded bg-red-500 px-2"
               >
                 X
               </div>
@@ -276,13 +272,13 @@ export default function Form({
       {!isLoading && (
         <button
           type="submit"
-          className="bg-blue-800 hover:bg-blue-900 font-semibold text-gray-100 px-4 py-2 rounded-md w-full"
+          className="w-full rounded-md bg-blue-800 px-4 py-2 font-semibold text-gray-100 hover:bg-blue-900"
         >
           {mode === "create" ? "Crear" : "Actualizar"}
         </button>
       )}
       {isLoading && (
-        <span className="bg-blue-700 opacity-80 font-semibold text-gray-100 px-4 py-2 rounded-md w-full text-center">
+        <span className="w-full rounded-md bg-blue-700 px-4 py-2 text-center font-semibold text-gray-100 opacity-80">
           Procesando, por favor espere...
         </span>
       )}
