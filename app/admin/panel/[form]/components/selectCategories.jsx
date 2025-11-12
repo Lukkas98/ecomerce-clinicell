@@ -1,26 +1,9 @@
 "use client";
 import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function SelectCategories({ data, categories, handleOnChange }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    if (!data.category && data.additionalCategories.length > 0) {
-      handleOnChange({
-        target: {
-          name: "category",
-          value: data.additionalCategories[0],
-        },
-      });
-      handleOnChange({
-        target: {
-          name: "additionalCategories",
-          value: data.additionalCategories.slice(1),
-        },
-      });
-    }
-  }, [data.category, data.additionalCategories, handleOnChange]);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -68,7 +51,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
 
   return (
     <div className="relative w-full">
-      {/* Selector */}
+      {/* Selector principal */}
       <div
         onClick={toggleDropdown}
         className="flex cursor-pointer items-center justify-between rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white shadow-md transition-all hover:shadow-lg"
@@ -81,12 +64,10 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
         <ChevronDownIcon className="h-6 w-6" />
       </div>
 
-      {/* Modal */}
+      {/* Modal de categorías */}
       {dropdownOpen && (
         <div className="bg-opacity-50 fixed inset-0 z-30 flex items-center justify-center bg-black">
-          {/* Contenido del modal */}
           <div className="relative w-3/4 max-w-3xl rounded-lg bg-gray-800 p-6 text-gray-200 shadow-xl">
-            {/* Botón cerrar */}
             <button
               onClick={toggleDropdown}
               className="absolute top-4 right-4 text-gray-400 hover:text-white"
@@ -96,10 +77,10 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
             <h2 className="mb-4 text-xl font-bold text-white">
               Selecciona tus categorías
             </h2>
+
             <div className="mx-auto grid max-h-96 gap-4 overflow-x-hidden overflow-y-auto">
               {mainCategories.map((cat, i) => (
                 <div key={i} className="mb-4">
-                  {/* Categoría principal */}
                   <p className="text-lg font-bold text-indigo-400">
                     {cat.name}
                   </p>
@@ -119,7 +100,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
                               : "bg-gray-700 hover:bg-gray-600"
                           }`}
                         >
-                          <span className="">{subcategory.name}</span>
+                          <span>{subcategory.name}</span>
                           {isSelected && (
                             <CheckIcon
                               width={20}
@@ -134,7 +115,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
                 </div>
               ))}
             </div>
-            {/* Botón confirmar */}
+
             <div className="mt-6 flex justify-end">
               <button
                 onClick={toggleDropdown}
