@@ -14,7 +14,7 @@ export default async function SearchPage({ searchParams }) {
   );
 
   return (
-    <Suspense fallback={<Loading />} key={Date.now()}>
+    <Suspense fallback={<Loading />}>
       <section className="below-320:grid-cols-1 mb-6 grid place-content-center gap-3">
         <div className="">
           <h1 className="mb-4 text-center text-2xl font-bold text-gray-200">

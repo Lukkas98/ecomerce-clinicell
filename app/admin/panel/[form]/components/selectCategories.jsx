@@ -47,7 +47,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
           target: {
             name: "additionalCategories",
             value: data.additionalCategories.filter(
-              (name) => name !== categoryName
+              (name) => name !== categoryName,
             ),
           },
         });
@@ -63,7 +63,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
   };
 
   const mainCategories = categories.filter(
-    (category) => !category.parentCategory
+    (category) => !category.parentCategory,
   );
 
   return (
@@ -71,21 +71,21 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
       {/* Selector */}
       <div
         onClick={toggleDropdown}
-        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-lg cursor-pointer flex justify-between items-center shadow-md hover:shadow-lg transition-all"
+        className="flex cursor-pointer items-center justify-between rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white shadow-md transition-all hover:shadow-lg"
       >
         <span className="font-semibold">
           {data.category || data.additionalCategories.length > 0
             ? `Categorías seleccionadas: ${getSelectedCategoriesText()}`
             : "Selecciona una o varias categorías"}
         </span>
-        <ChevronDownIcon className="w-6 h-6" />
+        <ChevronDownIcon className="h-6 w-6" />
       </div>
 
       {/* Modal */}
       {dropdownOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center">
+        <div className="bg-opacity-50 fixed inset-0 z-30 flex items-center justify-center bg-black">
           {/* Contenido del modal */}
-          <div className="bg-gray-800 text-gray-200 rounded-lg shadow-xl w-3/4 max-w-3xl p-6 relative">
+          <div className="relative w-3/4 max-w-3xl rounded-lg bg-gray-800 p-6 text-gray-200 shadow-xl">
             {/* Botón cerrar */}
             <button
               onClick={toggleDropdown}
@@ -93,17 +93,17 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
             >
               ✕
             </button>
-            <h2 className="text-xl font-bold mb-4 text-white">
+            <h2 className="mb-4 text-xl font-bold text-white">
               Selecciona tus categorías
             </h2>
-            <div className="max-h-96 grid gap-4 overflow-y-auto overflow-x-hidden mx-auto">
+            <div className="mx-auto grid max-h-96 gap-4 overflow-x-hidden overflow-y-auto">
               {mainCategories.map((cat, i) => (
                 <div key={i} className="mb-4">
                   {/* Categoría principal */}
                   <p className="text-lg font-bold text-indigo-400">
                     {cat.name}
                   </p>
-                  <div className="ml-6 mt-2 flex flex-wrap gap-2">
+                  <div className="mt-2 ml-6 flex flex-wrap gap-2">
                     {cat.subcategories.map((subcategory) => {
                       const isSelected =
                         subcategory.name === data.category ||
@@ -113,7 +113,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
                         <div
                           key={subcategory.name}
                           onClick={() => handleCategoryClick(subcategory.name)}
-                          className={`flex w-fit gap-4 items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition-colors duration-200 ${
+                          className={`flex w-fit cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-2 transition-colors duration-200 ${
                             isSelected
                               ? "bg-indigo-600 text-white"
                               : "bg-gray-700 hover:bg-gray-600"
@@ -135,10 +135,10 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
               ))}
             </div>
             {/* Botón confirmar */}
-            <div className="flex justify-end mt-6">
+            <div className="mt-6 flex justify-end">
               <button
                 onClick={toggleDropdown}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg shadow-md"
+                className="rounded-lg bg-indigo-600 px-6 py-2 text-white shadow-md hover:bg-indigo-500"
               >
                 Confirmar selección
               </button>

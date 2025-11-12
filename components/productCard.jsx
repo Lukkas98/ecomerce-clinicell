@@ -1,94 +1,100 @@
 import Image from "next/image";
 import Link from "next/link";
 import ActionButton from "../app/(principal)/[parentCategory]/[category]/[name]/components/actionButton";
-import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { getPathnameProduct } from "@/lib/func";
 
-const noImage = "https://dummyimage.com/200x200?text=Sin+Imagen";
-// "https://fakeimg.pl/300x300/c2c2c2/808080?text=Sin+Imagen&font=bebas";
+const noImage = "https://dummyimage.com/500x500?text=Sin+Imagen";
 
 export default async function ProductCard({ product, searchParams }) {
   const { images, name, price, stock, description, outlet, discount, units } =
     product;
 
+  const onSale = discount > 0;
+  const discountPercentage = Math.round(((price - discount) / price) * 100);
+  const linkTo = await getPathnameProduct(product);
+
   return (
     <div
-      className={`bg-gray-800 relative p-2 rounded-md shadow-lg 
-        grid-cols-2 grid gap-1 justify-between transition-all
-      ${
-        stock
-          ? "outline-1 outline-green-700/50 hover:bg-gray-900 hover:outline hover:outline-green-700"
-          : "outline-1 outline-red-700/50 opacity-50"
-      }`}
+      className={`group flex h-fit w-full rounded-xl border border-gray-700 bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-500 hover:shadow-2xl ${stock ? "" : "opacity-50"}`}
     >
-      <Link
-        href={`${await getPathnameProduct(product)}`}
-        className="h-[130px] aspect-square relative inline-block"
-      >
-        <Image
-          src={images[0]?.url || noImage}
-          fill={true}
-          alt="imgProduct"
-          sizes="(max-width: 768px) 150px, (max-width: 1200px) 200px, 500px"
-          quality={80}
-          priority={true}
-          className="object-contain rounded-md outline-1 outline-gray-600 bg-gray-900"
-        />
-      </Link>
+      <div className="relative aspect-square w-1/3 flex-shrink-0 overflow-hidden">
+        {onSale && (
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-purple-900/30">
+            Oferta
+          </div>
+        )}
+        {outlet && (
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-gradient-to-r from-orange-500 to-red-700 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-purple-900/30">
+            Outlet
+          </div>
+        )}
 
-      <Link
-        className="inline-block"
-        href={`${await getPathnameProduct(product)}`}
-      >
-        <p
-          className={`text-base font-semibold mb-2 line-clamp-2 ${
-            outlet ? "text-orange-400" : "text-gray-200"
-          }`}
-          title={name}
+        <Link
+          href={linkTo}
+          className="relative flex h-full w-full items-center justify-center"
         >
-          {name}
-        </p>
+          <Image
+            src={images[0]?.url || noImage}
+            fill={true}
+            alt="imgProduct"
+            sizes="(max-width: 768px) 150px, (max-width: 1200px) 200px, 500px"
+            priority={true}
+            className="rounded-2xl bg-gray-900 object-contain"
+          />
+        </Link>
+      </div>
 
-        <p className="text-xs line-clamp-2 text-gray-400 mb-2">{description}</p>
-        {outlet ? (
-          <div>
-            <p className={`text-sm text-orange-400 mt-1`}>Liquidación</p>
-            <p className="text-xs line-through text-gray-400">$ {price}</p>
-            <p className="text-sm font-bold text-green-500 flex items-center gap-2">
-              $ {Math.ceil(price - price * 0.3)}
-              <CheckBadgeIcon width={20} height={20} color="green" />
+      <div className="flex flex-grow flex-col justify-between p-3">
+        <div>
+          <Link href={linkTo} className="mb-1.5">
+            <h3 className="line-clamp-1 text-sm font-bold text-white transition-colors group-hover:text-cyan-300">
+              {name}
+            </h3>
+            <p className="mt-1 mb-2 line-clamp-1 text-xs text-gray-400 transition-colors group-hover:text-gray-300">
+              {description}
             </p>
-          </div>
-        ) : discount ? (
-          <div>
-            <p className={`text-sm text-blue-400 mt-1`}>Oferta</p>
-            <p className="text-xs line-through text-gray-400">$ {price}</p>
-            <p className="text-sm font-bold text-blue-400 flex items-center gap-1">
-              $ {discount}
-              <CheckBadgeIcon width={20} height={20} color="green" />
-            </p>
-          </div>
-        ) : (
-          <p className="font-bold text-sm text-gray-100 mb-4">$ {price}</p>
-        )}
-      </Link>
+          </Link>
 
-      <div className="grid grid-cols-[140px_minmax(80px,_1fr)_100px] w-full col-span-2 items-center">
-        {stock && (
-          <div className="mt-2 w-fit mx-auto bg-gray-900 px-1.5 py-1 rounded-md">
-            <ActionButton
-              product={JSON.parse(JSON.stringify(product))}
-              typeButton="ADD_PRODUCT"
-            />
+          <div className="mt-1.5">
+            {onSale || outlet ? (
+              <div className="flex flex-wrap items-baseline gap-1.5">
+                <span className="text-sm font-bold text-white">
+                  {outlet ? Math.ceil(product.price * 0.7) : `${discount}`}
+                </span>
+                <span className="text-[10px] text-gray-400 line-through">
+                  ${price}
+                </span>
+                <span className="ml-1 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-[10px] font-bold text-transparent">
+                  {onSale ? `${discountPercentage} % OFF` : "30% OFF"}
+                </span>
+              </div>
+            ) : (
+              <span className="text-sm font-bold text-white">${price}</span>
+            )}
           </div>
-        )}
-        {stock ? (
-          <p className="text-xs text-green-400 mt-3">Unidades: {units}</p>
-        ) : (
-          <p className="text-xs text-red-500 mt-3 font-bold w-fit mx-auto">
-            Sin Stock
-          </p>
-        )}
+        </div>
+
+        <div className="mt-3 flex items-center justify-between">
+          <div className="flex items-center">
+            {stock ? (
+              <div className="flex items-center">
+                <div className="mr-1.5 h-2 w-2 animate-pulse rounded-full bg-gradient-to-r from-green-400 to-emerald-500"></div>
+                <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-[10px] font-medium text-transparent">
+                  {units === 1 ? "Última unidad" : `${units} disponibles`}
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <div className="mr-1.5 h-2 w-2 rounded-full bg-gradient-to-r from-red-400 to-red-500"></div>
+                <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-[10px] font-medium text-transparent">
+                  Agotado
+                </span>
+              </div>
+            )}
+          </div>
+
+          <ActionButton product={JSON.parse(JSON.stringify(product))} />
+        </div>
       </div>
     </div>
   );

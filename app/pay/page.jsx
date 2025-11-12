@@ -15,41 +15,39 @@ export default async function OrderConfirmation() {
   const isMobile = await isMobileDevice();
 
   return (
-    <section className="text-center bg-gradient-to-b from-gray-900 to-gray-800">
-      <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        {/* Logo y Nombre del e-Commerce */}
-        <div className="flex items-center mb-6">
+    <section className="bg-gradient-to-b from-gray-900 to-gray-800 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center p-4">
+        <div className="mb-6 flex items-center">
           <Image
             width={70}
             height={70}
-            src={logo ?? "https://fakeimg.pl/70x70"}
+            src={logo}
             alt="Logo Clinic-Cell"
             className="mr-3 rounded-full border-2 border-blue-500 shadow-lg"
           />
           <h1 className="text-4xl font-extrabold text-blue-400">Clinic-Cell</h1>
         </div>
 
-        {/* Título Principal */}
-        <h1 className="text-2xl font-semibold text-center mb-6 text-white">
+        <h2 className="mb-6 text-center text-2xl font-semibold text-white">
           ¡Falta poco para completar tu compra! 🎉
-        </h1>
+        </h2>
 
-        <div className="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-xl max-w-lg w-full">
+        <div className="flex w-full max-w-lg flex-col items-center rounded-lg bg-gray-800 p-6 shadow-xl">
           {isMobile ? (
             <>
-              <h2 className="text-lg font-medium text-gray-300 mb-2">
+              <h2 className="mb-2 text-lg font-medium text-gray-300">
                 Haz click en el botón para completar la compra por WhatsApp
               </h2>
-              <p className="text-sm text-gray-400 mb-4 text-center leading-relaxed">
+              <p className="mb-4 text-center text-sm leading-relaxed text-gray-400">
                 Muchas gracias por confiar en nosotros 😊🤝
               </p>
             </>
           ) : (
             <>
-              <h2 className="text-lg font-medium text-gray-300 mb-2">
+              <h2 className="mb-2 text-lg font-medium text-gray-300">
                 📱 Escanea el código QR para confirmar tu compra en WhatsApp
               </h2>
-              <p className="text-sm text-gray-400 mb-4 text-center leading-relaxed">
+              <p className="mb-4 text-center text-sm leading-relaxed text-gray-400">
                 Por favor haz click en el botón una vez mandes el mensaje.{" "}
                 <br />
                 Muchas gracias por confiar en nosotros 😊🤝
@@ -61,7 +59,7 @@ export default async function OrderConfirmation() {
         </div>
 
         <Link
-          className="mt-6 text-sm text-blue-400 hover:text-blue-300 underline"
+          className="mt-6 text-sm text-blue-400 underline hover:text-blue-300"
           href={"/"}
         >
           Volver a la tienda

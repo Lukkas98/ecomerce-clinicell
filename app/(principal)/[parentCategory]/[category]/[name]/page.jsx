@@ -3,24 +3,13 @@ import ActionButton from "./components/actionButton";
 import Carousel from "./components/carousel";
 import BtnBack from "./components/btnBack";
 import { getProduct } from "@/lib/actions/products";
+import { notFound } from "next/navigation";
 
 export default async function ProductPage({ searchParams }) {
   const { id } = await searchParams;
   const product = await getProduct(id);
 
-  if (product === "El producto no existe") {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold text-red-600">
-          Producto no encontrado
-        </h1>
-        <p className="text-gray-500">
-          Lo sentimos, el producto que estás buscando no existe o ha sido
-          eliminado.
-        </p>
-      </div>
-    );
-  }
+  if (product === "El producto no existe") return notFound();
 
   const { name, description, price, stock, images, category, outlet, units } =
     product;
@@ -29,16 +18,16 @@ export default async function ProductPage({ searchParams }) {
     <div className="min-h-[100svh]">
       <div className="container mx-auto px-4 py-12">
         <BtnBack />
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="w-full md:w-3/4 h-80 md:h-96 mb-6 md:mb-0 rounded-lg">
-            <div className="aspect-square h-full rounded-lg relative max-w-[500px] mx-auto shadow-lg">
+        <div className="flex flex-col gap-8 md:flex-row">
+          <div className="mb-6 h-80 w-full rounded-lg md:mb-0 md:h-96 md:w-3/4">
+            <div className="relative mx-auto aspect-square h-full max-w-[500px] rounded-lg shadow-lg">
               <Carousel images={JSON.parse(JSON.stringify(images))} />
             </div>
           </div>
 
-          <div className="flex flex-col justify-between w-full md:w-1/2">
-            <h1 className="text-3xl font-semibold mb-4">{name}</h1>
-            <p className="text-sm text-gray-400 mb-6">{description}</p>
+          <div className="flex w-full flex-col justify-between md:w-1/2">
+            <h1 className="mb-4 text-3xl font-semibold">{name}</h1>
+            <p className="mb-6 text-sm text-gray-400">{description}</p>
 
             <div className="mb-6">
               {outlet ? (
@@ -51,7 +40,7 @@ export default async function ProductPage({ searchParams }) {
                       Outlet
                     </p>
                   </div>
-                  <p className="text-3xl font-semibold text-green-500 flex items-center gap-2">
+                  <p className="flex items-center gap-2 text-3xl font-semibold text-green-500">
                     $ {Math.ceil(price - price * 0.3)}
                     <CheckBadgeIcon width={24} height={24} color="green" />
                   </p>
@@ -61,7 +50,7 @@ export default async function ProductPage({ searchParams }) {
               )}
             </div>
 
-            <div className="mt-8 relative">
+            <div className="relative mt-8">
               {stock ? (
                 <>
                   <p className="text-sm text-green-500">Unidades: {units}</p>
@@ -70,7 +59,7 @@ export default async function ProductPage({ searchParams }) {
                     stock={stock}
                     typeButton={"ADD_PRODUCT"}
                     className={
-                      "mt-4 bg-gray-800 w-fit px-2 py-1 rounded-md text-xl"
+                      "mt-4 w-fit rounded-md bg-gray-800 px-2 py-1 text-xl"
                     }
                   />
                 </>

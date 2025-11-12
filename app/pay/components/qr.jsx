@@ -14,33 +14,30 @@ const generateSimpleOrderId = () => {
 
 export default function QrImage({ isMovil }) {
   const { cart, dispatch } = useContext(CartContext);
-  const [qr, setQr] = useState("https://fakeimg.pl/200x200");
-  const [whatsappLink, setWhatsappLink] = useState("#");
+  const [qr, setQr] = useState("https://dummyimage.com/200x200");
 
-  // Generate the orderId only once
-  const orderId = useMemo(generateSimpleOrderId, []);
+  const orderId = useMemo(() => generateSimpleOrderId(), []);
 
-  useEffect(() => {
+  const link = useMemo(() => {
     const productList = cart.items
       .map(
         (prod) =>
           `${prod.unitsInCart} ${prod.name}--$${
             prod.price * prod.unitsInCart
-          }\n`
+          }\n`,
       )
       .join("");
     const totalAmount = cart.items.reduce(
       (acc, item) => acc + item.price * item.unitsInCart,
-      0
+      0,
     );
     const message = `Hola! Quiero confirmar mi compra: *#${orderId}* por *$${totalAmount}*\nPedido:\n${productList}`;
-
-    const link = `https://wa.me/5492657210777?text=${encodeURIComponent(
-      message
-    )}`;
-    setWhatsappLink(link);
-    QRcode.toDataURL(link).then(setQr);
+    return `https://wa.me/5492657210777?text=${encodeURIComponent(message)}`;
   }, [orderId, cart]);
+
+  useEffect(() => {
+    QRcode.toDataURL(link).then(setQr);
+  }, [link]);
 
   const handleOnClick = () => {
     Swal.fire({
@@ -53,17 +50,17 @@ export default function QrImage({ isMovil }) {
       background: "#374151",
       color: "#E5E7EB",
       willClose: () => {
-        window.open(whatsappLink, "_blank");
+        window.open(link, "_blank");
       },
     });
   };
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-[80%] mb-6">
+      <div className="mb-6 flex w-[80%] flex-col items-center justify-center">
         {!isMovil && (
           <>
-            <div className="bg-gray-700 p-4 rounded-lg shadow-lg">
+            <div className="rounded-lg bg-gray-700 p-4 shadow-lg">
               <Image
                 width={200}
                 height={200}
@@ -72,8 +69,8 @@ export default function QrImage({ isMovil }) {
                 className="rounded-lg"
               />
             </div>
-            <p className="text-xs text-gray-400 mt-2">Pedido: {orderId}</p>
-            <p className="text-sm text-gray-300 font-medium">
+            <p className="mt-2 text-xs text-gray-400">Pedido: {orderId}</p>
+            <p className="text-sm font-medium text-gray-300">
               ¿No puedes escanear? Haz click{" "}
               <button
                 onClick={handleOnClick}
@@ -92,7 +89,7 @@ export default function QrImage({ isMovil }) {
         isMobile={isMovil}
         data={{ orderId, cart }}
         dispatch={dispatch}
-        whatsappLink={whatsappLink}
+        whatsappLink={link}
       />
     </>
   );
