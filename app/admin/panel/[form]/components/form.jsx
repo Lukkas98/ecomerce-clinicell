@@ -1,11 +1,11 @@
 "use client";
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { productSchema } from "./validation";
 import SelectCategories from "./selectCategories";
-import { uploadToCloudinary, deleteFromCloudinary } from "./actionCloudinary";
+import { deleteFromCloudinary } from "./actionCloudinary";
 import { createProduct, editProduct } from "@/lib/actions/products";
 
 const Toast = Swal.mixin({
@@ -26,30 +26,28 @@ export default function Form({
   const router = useRouter();
   const [isLoading, startTransition] = useTransition();
   const [errors, setErrors] = useState({});
-  const [data, setData] = useState({
-    name: "",
-    price: 0,
-    description: "",
-    category: "",
-    units: 0,
-    additionalCategories: [], // Las categorías adicionales
-    imagesForUpload: [],
-    imagesSelected: [], //para subirlas a claudinary - array de objetos {url, publicId}
-  });
-
-  useEffect(() => {
+  const [data, setData] = useState(() => {
     if (mode === "edit" && initialData) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setData({
+      return {
         ...initialData,
         imagesSelected:
           initialData?.images?.map((img) => ({
             url: img.url,
             publicId: img.publicId,
           })) || [],
-      });
+      };
     }
-  }, [mode, initialData]);
+    return {
+      name: "",
+      price: 0,
+      description: "",
+      category: "",
+      units: 0,
+      additionalCategories: [],
+      imagesForUpload: [],
+      imagesSelected: [],
+    };
+  });
 
   const handleOnChange = (e) => {
     const { name, value, files } = e.target;
@@ -94,7 +92,20 @@ export default function Form({
             reader.readAsDataURL(blob);
           });
 
-          return await uploadToCloudinary(base64, i, data.name, data.category);
+          const res = await fetch("/api/upload", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              base64Image: base64,
+              index: i,
+              name: data.name,
+              category: data.category,
+            }),
+          });
+          const result = await res.json();
+          if (!res.ok) throw new Error(result.error || "Error subiendo imagen");
+
+          return result; // { url, publicId }
         };
 
         const Imgs = await Promise.all(data.imagesSelected.map(uploadImages));
