@@ -7,7 +7,8 @@ export const productSchema = z.object({
       invalid_type_error: "El nombre debe ser un String",
     })
     .max(200, "El nombre no debe exceder los 200 caracteres")
-    .min(5, "El nombre es muy corto (mínimo 5 letras)"),
+    .min(5, "El nombre es muy corto (mínimo 5 letras)")
+    .regex(/^[^/]+$/, 'El nombre no puede contener "/"'),
   price: z
     .number({
       required_error: "El precio es requerido",
@@ -28,7 +29,7 @@ export const productSchema = z.object({
     }),
     {
       invalid_type_error: "Las imágenes deben ser un array de objetos",
-    }
+    },
   ),
   units: z
     .number({
@@ -46,6 +47,6 @@ export const productSchema = z.object({
     z.string({ invalid_type_error: "Debe ser texto" }),
     {
       invalid_type_error: "Debe ser un Array",
-    }
+    },
   ),
 });
