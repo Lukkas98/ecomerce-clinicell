@@ -19,7 +19,7 @@ export async function proxy(request) {
   }
   // Si no está en modo de mantenimiento
   if (pathname === "/maintenance") {
-    return NextResponse.redirect(new URL("/home", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // (solo si no está en mantenimiento)
