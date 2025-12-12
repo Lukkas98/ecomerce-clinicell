@@ -13,48 +13,48 @@ export default async function Navbar() {
   const { hasOutlet, hasOffers } = boleans;
 
   return (
-    <header className="bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white fixed top-0 z-50 w-full shadow-sm shadow-gray-950">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="fixed top-0 z-50 w-full bg-gradient-to-r from-gray-800 from-55% to-blue-900 text-white shadow-sm shadow-gray-950">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
         {/* Logo y nombre */}
         <div className="flex items-center gap-3">
-          <Link href="/home">
+          <Link href="/">
             <Image
               src="/logo.png"
               alt="Logo Clinic-Cell"
               width={50}
               height={50}
-              className="rounded-lg hover:opacity-90 transition-opacity"
+              className="rounded-lg transition-opacity hover:opacity-90"
               priority
             />
           </Link>
 
           <div>
             <h1 className="text-lg font-bold">Clinic-Cell</h1>
-            <p className="text-xs lg:text-sm text-gray-400">
+            <p className="text-xs text-gray-400 lg:text-sm">
               Repuestos y Accesorios
             </p>
           </div>
         </div>
 
         {/* Barra de búsqueda (desktop) */}
-        <div className="flex-1 mx-4 hidden lg:block">
+        <div className="mx-4 hidden flex-1 lg:block">
           <ClientSearch />
         </div>
 
         {/* Carrito y menú */}
         <div className="flex items-center gap-6">
           {/* Navegación principal (desktop) */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden items-center gap-6 lg:flex">
             <Link
-              href="/home"
-              className="text-sm hover:text-blue-400 transition-colors"
+              href="/"
+              className="text-sm transition-colors hover:text-blue-400"
             >
               Home
             </Link>
             {hasOutlet && (
               <Link
                 href="/outlet"
-                className="text-sm hover:text-blue-400 transition-colors"
+                className="text-sm transition-colors hover:text-blue-400"
               >
                 Outlet
               </Link>
@@ -62,7 +62,7 @@ export default async function Navbar() {
             {hasOffers && (
               <Link
                 href="/ofertas"
-                className="text-sm hover:text-blue-400 transition-colors"
+                className="text-sm transition-colors hover:text-blue-400"
               >
                 Ofertas de la semana
               </Link>
@@ -70,7 +70,7 @@ export default async function Navbar() {
 
             <MegaMenu dataCategories={JSON.parse(JSON.stringify(categories))} />
           </nav>
-          <button className="relative p-1 rounded-md hover:bg-gray-800 transition-colors hidden lg:flex">
+          <button className="relative hidden rounded-md p-1 transition-colors hover:bg-gray-800 lg:flex">
             <Cart />
           </button>
 

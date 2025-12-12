@@ -29,7 +29,7 @@ export default function MegaMenuMobile({
     categories.filter(
       (cat) =>
         String(cat.parentCategory) === String(parentId) &&
-        cat.products.some((prod) => prod.stock === true)
+        cat.products.some((prod) => prod.stock === true),
     );
   // Organizar categorías
   const parentCategories = categories?.filter((cat) => {
@@ -38,18 +38,18 @@ export default function MegaMenuMobile({
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-gray-900 text-gray-100 flex flex-col transition-all duration-300 ${
-        isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      className={`fixed inset-0 z-50 flex flex-col bg-gray-900 text-gray-100 transition-all duration-300 ${
+        isMenuOpen ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
-      <div className="flex justify-between items-center p-4 border-b border-gray-800">
+      <div className="flex items-center justify-between border-b border-gray-800 p-4">
         <h2 className="text-xl font-semibold">Menú</h2>
         <button
           onClick={closeMenu}
-          className="p-1 rounded-full hover:bg-gray-800 transition-colors"
+          className="rounded-full p-1 transition-colors hover:bg-gray-800"
           aria-label="Cerrar menú"
         >
-          <XMarkIcon className="w-6 h-6" />
+          <XMarkIcon className="h-6 w-6" />
         </button>
       </div>
 
@@ -58,7 +58,7 @@ export default function MegaMenuMobile({
       <div className="flex-1 overflow-y-auto">
         <nav className="py-2">
           <Link
-            href="/home"
+            href="/"
             onClick={closeMenu}
             className="block px-4 py-2 font-medium"
           >
@@ -89,16 +89,15 @@ export default function MegaMenuMobile({
             return (
               <div key={parentCat._id} className="border-b border-gray-800">
                 <div
-                  className={`flex justify-between items-center px-4 py-3 cursor-pointer
-                  `}
+                  className={`flex cursor-pointer items-center justify-between px-4 py-3`}
                   onClick={() => toggleCategory(parentCat._id)}
                 >
-                  <span className="font-medium hover:text-blue-400 transition-colors">
+                  <span className="font-medium transition-colors hover:text-blue-400">
                     {parentCat.name}
                   </span>
 
                   <ChevronDownIcon
-                    className={`w-5 h-5 transition-transform ${
+                    className={`h-5 w-5 transition-transform ${
                       expandedCategories[parentCat._id] ? "rotate-180" : ""
                     }`}
                   />
@@ -112,7 +111,7 @@ export default function MegaMenuMobile({
                         key={subCat._id}
                         href={`/${parentCat.name}/${subCat.name}`}
                         onClick={closeMenu}
-                        className="block px-4 py-3 text-sm hover:bg-gray-700/50 hover:text-blue-400 transition-colors"
+                        className="block px-4 py-3 text-sm transition-colors hover:bg-gray-700/50 hover:text-blue-400"
                       >
                         {subCat.name}
                       </Link>

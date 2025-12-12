@@ -59,6 +59,6 @@ export const deleteFromCloudinary = async (publicId) => {
       message: error.message.replace("Cloudinary error: ", ""),
     };
   } finally {
-    revalidatePath("/home", "page");
+    revalidatePath("/", "page");
   }
 };

@@ -1,9 +1,10 @@
-export default function MaintenancePage() {
+"use cache";
+export default async function MaintenancePage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-900 text-gray-100">
-      <div className="space-y-6 p-8 max-w-lg text-center">
+      <div className="max-w-lg space-y-6 p-8 text-center">
         {/* Emoji como reemplazo del ícono */}
-        <div className="text-6xl animate-pulse">🔧</div>
+        <div className="animate-pulse text-6xl">🔧</div>
 
         <h1 className="text-5xl font-extrabold">¡Tienda en mantenimiento!</h1>
         <p className="text-lg">
