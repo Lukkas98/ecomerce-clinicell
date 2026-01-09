@@ -12,7 +12,7 @@ export default function LoginAdmin() {
   }, [state?.href, router]);
 
   return (
-    <section className="flex min-h-[100dvh] items-center justify-center p-4 pb-[300px]">
+    <section className="flex min-h-dvh items-center justify-center p-4 pb-75">
       {/* Espacio extra para móvil */}
       <div className="mx-auto w-full max-w-xl rounded-lg border bg-gray-800 p-5 shadow-lg shadow-black">
         <h4 className="text-center text-xl font-semibold text-gray-100 md:text-2xl">

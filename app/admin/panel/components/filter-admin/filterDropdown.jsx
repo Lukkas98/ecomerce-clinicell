@@ -12,18 +12,18 @@ export default function FilterDropdown({
   onToggle,
 }) {
   return (
-    <div className="relative w-full md:flex-1 min-w-[200px]">
-      <label className="block text-sm font-medium text-gray-300 mb-1">
+    <div className="relative w-full min-w-50 md:flex-1">
+      <label className="mb-1 block text-sm font-medium text-gray-300">
         {label}
       </label>
       <div className="relative">
         <button
           onClick={() => !disableWhile && onToggle()}
           disabled={disableWhile}
-          className={`w-full px-4 py-2 border rounded-lg text-left flex justify-between items-center ${
+          className={`flex w-full items-center justify-between rounded-lg border px-4 py-2 text-left ${
             disableWhile
-              ? "bg-gray-900 text-gray-500 border-gray-700 cursor-not-allowed"
-              : "bg-gray-700 text-gray-200 border-gray-600"
+              ? "cursor-not-allowed border-gray-700 bg-gray-900 text-gray-500"
+              : "border-gray-600 bg-gray-700 text-gray-200"
           }`}
         >
           {selectedValue
@@ -38,7 +38,7 @@ export default function FilterDropdown({
           />
         </button>
         {isOpen && !disableWhile && (
-          <ul className="absolute z-10 w-full mt-1 bg-gray-700 border border-gray-600 rounded-lg shadow-lg">
+          <ul className="absolute z-10 mt-1 w-full rounded-lg border border-gray-600 bg-gray-700 shadow-lg">
             {options.map((option) => {
               const isNoneOption = option.value === "";
               const disabledOption = isNoneOption && !allowNone;
@@ -48,10 +48,10 @@ export default function FilterDropdown({
                   onClick={() =>
                     !disabledOption && onSelect(filterType, option.value)
                   }
-                  className={`px-4 py-2 cursor-pointer hover:bg-gray-600 ${
+                  className={`cursor-pointer px-4 py-2 hover:bg-gray-600 ${
                     selectedValue === option.value ? "bg-gray-600" : ""
                   } ${
-                    disabledOption ? "text-gray-500 cursor-not-allowed" : ""
+                    disabledOption ? "cursor-not-allowed text-gray-500" : ""
                   }`}
                 >
                   {option.label}

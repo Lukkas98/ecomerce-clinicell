@@ -80,7 +80,7 @@ export default function AdminFilter() {
   }
 
   return (
-    <div className="w-10 md:relative bg-gray-800 z-50 shadow-lg md:rounded-lg md:max-w-4xl md:mx-auto md:p-4">
+    <div className="z-50 w-10 bg-gray-800 shadow-lg md:relative md:mx-auto md:max-w-4xl md:rounded-lg md:p-4">
       <FilterMobileToggle
         filterCount={filterCount}
         isOpen={isMobileOpen}
@@ -88,11 +88,11 @@ export default function AdminFilter() {
       />
       <div
         className={`${
-          isMobileOpen ? "block fixed left-0 w-full" : "hidden"
-        } md:block transition-all duration-300 overflow-hidden bg-gray-800`}
+          isMobileOpen ? "fixed left-0 block w-full" : "hidden"
+        } overflow-hidden bg-gray-800 transition-all duration-300 md:block`}
       >
         <div className="p-4 md:p-0">
-          <div className="flex flex-col md:flex-row md:flex-wrap gap-4 items-end">
+          <div className="flex flex-col items-end gap-4 md:flex-row md:flex-wrap">
             {Object.keys(filterOptions).map((type) => (
               <FilterDropdown
                 key={type}
@@ -101,8 +101,8 @@ export default function AdminFilter() {
                   type === "stock"
                     ? "Stock"
                     : type === "discount"
-                    ? "Descuento"
-                    : "Outlet"
+                      ? "Descuento"
+                      : "Outlet"
                 }
                 options={filterOptions[type]}
                 selectedValue={selectedFilters[type]}
@@ -111,8 +111,8 @@ export default function AdminFilter() {
                   type === "discount"
                     ? !!selectedFilters.outlet
                     : type === "outlet"
-                    ? selectedFilters.discount === "with-discount"
-                    : false
+                      ? selectedFilters.discount === "with-discount"
+                      : false
                 }
                 allowNone={hasAnyFilter}
                 isOpen={openDropdown === type}

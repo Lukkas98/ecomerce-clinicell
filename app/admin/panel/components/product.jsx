@@ -14,13 +14,10 @@ export default function Product({ product }) {
 
   return (
     <div
-      className={`relative bg-gray-800 rounded-lg p-3 shadow-lg border-2
-      ${inStock ? "border-green-500" : "border-red-500 opacity-85"}
-      ${isOutlet && "border-orange-500"}
-      grid gap-2 min-w-[90%]`}
+      className={`relative rounded-lg border-2 bg-gray-800 p-3 shadow-lg ${inStock ? "border-green-500" : "border-red-500 opacity-85"} ${isOutlet && "border-orange-500"} grid min-w-[90%] gap-2`}
     >
-      <div className="flex gap-3 items-start">
-        <div className="aspect-square w-14 relative shrink-0">
+      <div className="flex items-start gap-3">
+        <div className="relative aspect-square w-14 shrink-0">
           <Image
             src={product.images[0]?.url || noImage}
             alt={product.name}
@@ -31,12 +28,12 @@ export default function Product({ product }) {
           />
         </div>
 
-        <div className="flex-1 min-w-0">
-          <h2 className="text-sm font-semibold text-gray-100 line-clamp-2">
+        <div className="min-w-0 flex-1">
+          <h2 className="line-clamp-2 text-sm font-semibold text-gray-100">
             {product.name}
           </h2>
 
-          <div className="flex items-baseline gap-2 mt-2">
+          <div className="mt-2 flex items-baseline gap-2">
             <>
               {isOutlet && (
                 <div className="flex gap-2">
@@ -67,63 +64,60 @@ export default function Product({ product }) {
               )}
             </>
           </div>
-          <p className="text-xs mt-1.5">Unidades: {product.units}</p>
+          <p className="mt-1.5 text-xs">Unidades: {product.units}</p>
         </div>
       </div>
 
       {/* Status Tags */}
-      <div className="flex gap-2 items-center mt-3">
+      <div className="mt-3 flex items-center gap-2">
         <div
-          className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors
-            ${
-              inStock
-                ? "bg-green-900/50 text-green-400"
-                : "bg-red-900/50 text-red-400"
-            }`}
+          className={`cursor-pointer rounded-full px-2 py-1 text-xs font-medium transition-colors ${
+            inStock
+              ? "bg-green-900/50 text-green-400"
+              : "bg-red-900/50 text-red-400"
+          }`}
         >
           {inStock ? "En stock" : "Sin stock"}
         </div>
 
         <div
-          className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors
-            ${
-              isOutlet
-                ? "bg-orange-900/50 text-orange-400"
-                : "bg-gray-700/50 text-gray-400 opacity-50"
-            }`}
+          className={`cursor-pointer rounded-full px-2 py-1 text-xs font-medium transition-colors ${
+            isOutlet
+              ? "bg-orange-900/50 text-orange-400"
+              : "bg-gray-700/50 text-gray-400 opacity-50"
+          }`}
         >
           Outlet
         </div>
 
         <div
-          className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors
-            ${
-              isDiscount && !isOutlet
-                ? "bg-blue-900/50 text-blue-400"
-                : "bg-gray-700/50 text-gray-400 opacity-50"
-            }`}
+          className={`cursor-pointer rounded-full px-2 py-1 text-xs font-medium transition-colors ${
+            isDiscount && !isOutlet
+              ? "bg-blue-900/50 text-blue-400"
+              : "bg-gray-700/50 text-gray-400 opacity-50"
+          }`}
         >
           Oferta
         </div>
       </div>
 
       {/* Controles */}
-      <div className="flex gap-2 border-t border-gray-700 pt-2 justify-between">
+      <div className="flex justify-between gap-2 border-t border-gray-700 pt-2">
         <div className="flex flex-wrap gap-1.5">
           <CheckboxStock
             item={JSON.parse(JSON.stringify(product))}
-            className="text-xs py-1 px-2"
+            className="px-2 py-1 text-xs"
           />
           {!product.discount && (
             <CheckboxOutlet
               item={JSON.parse(JSON.stringify(product))}
-              className="text-xs py-1 px-2"
+              className="px-2 py-1 text-xs"
             />
           )}
           {!product.outlet && (
             <CheckboxDiscount
               item={JSON.parse(JSON.stringify(product))}
-              className="text-xs py-1 px-2"
+              className="px-2 py-1 text-xs"
             />
           )}
         </div>

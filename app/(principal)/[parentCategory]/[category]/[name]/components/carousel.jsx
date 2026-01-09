@@ -29,7 +29,7 @@ function Carousel({ images = [] }) {
   return (
     <div
       id="default-carousel"
-      className="relative w-full h-full overflow-hidden rounded-xl border border-gray-950"
+      className="relative h-full w-full overflow-hidden rounded-xl border border-gray-950"
       data-carousel="slide"
     >
       <div className="relative overflow-hidden">
@@ -43,7 +43,7 @@ function Carousel({ images = [] }) {
           >
             <Image
               src={img?.url ?? noImage}
-              className="block w-full object-contain bg-gray-700"
+              className="block w-full bg-gray-700 object-contain"
               alt="..."
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 400px, 500px"
@@ -62,12 +62,12 @@ function Carousel({ images = [] }) {
           />
         )}
       </div>
-      <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+      <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse">
         {images?.map((_, i) => (
           <button
             key={i}
             type="button"
-            className={`w-3 h-3 rounded-full ${
+            className={`h-3 w-3 rounded-full ${
               currentSlide === i + 1 ? "bg-blue-500" : "bg-gray-800"
             }`}
             aria-current={currentSlide === i ? "true" : "false"}
@@ -80,7 +80,7 @@ function Carousel({ images = [] }) {
       {currentSlide > 1 && (
         <button
           type="button"
-          className="absolute top-0 start-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
+          className="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center focus:outline-none"
           data-carousel-prev
           onClick={prevSlide}
         >
@@ -90,7 +90,7 @@ function Carousel({ images = [] }) {
       {currentSlide > 0 && currentSlide < images.length && (
         <button
           type="button"
-          className="absolute top-0 end-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
+          className="group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center focus:outline-none"
           data-carousel-next
           onClick={nextSlide}
         >

@@ -12,10 +12,10 @@ export default function Category({
 }) {
   if (!products.length)
     return (
-      <section className="container mx-auto px-4 py-6 flex flex-col items-center">
+      <section className="container mx-auto flex flex-col items-center px-4 py-6">
         <TitleCategory />
-        <div className=" flex justify-center items-center my-20 w-[85%] mx-auto">
-          <p className=" font-semibold text-base lg:text-xl text-center h-fit text-gray-200 bg-red-700 py-2 px-3 rounded-lg">
+        <div className="mx-auto my-20 flex w-[85%] items-center justify-center">
+          <p className="h-fit rounded-lg bg-red-700 px-3 py-2 text-center text-base font-semibold text-gray-200 lg:text-xl">
             Ups... No encontramos nada por aquí
           </p>
         </div>
@@ -25,13 +25,13 @@ export default function Category({
   return (
     <div className="container px-2 py-3">
       <section className="mb-6">
-        <div className="flex flex-col justify-center items-center gap-5 mb-4">
+        <div className="mb-4 flex flex-col items-center justify-center gap-5">
           <TitleCategory />
           <Filter />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-          <Suspense fallback={<LoadingProducts />} key={Date.now()}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <Suspense fallback={<LoadingProducts />}>
             {products.map((product) => (
               <ProductCard
                 key={product._id}
