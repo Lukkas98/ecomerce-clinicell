@@ -15,10 +15,10 @@ export default async function LatestProducts() {
 
   return (
     <section className="mb-10">
-      <h2 className="text-xl lg:text-2xl font-semibold text-center mb-4">
+      <h2 className="mb-4 text-center text-xl font-semibold lg:text-2xl">
         📦 Ultimos reingresos
       </h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-1">
+      <div className="grid gap-6 p-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Suspense fallback={<div className="text-center">Cargando...</div>}>
           {latestProd.map((product) => (
             <ProductCard key={product._id} product={product} />

@@ -29,7 +29,7 @@ export default function Button({ category, subcategories = [] }) {
         try {
           if (subcategories.length)
             return Swal.showValidationMessage(
-              "No puedes eliminar una categoría principal con subcategorías"
+              "No puedes eliminar una categoría principal con subcategorías",
             );
 
           const response = await DeleteCategory(id);
@@ -100,30 +100,30 @@ export default function Button({ category, subcategories = [] }) {
     <div
       className={
         subcategories.length
-          ? " scale-110 bg-blue-950 px-2 py-1 rounded-lg"
+          ? "scale-110 rounded-lg bg-blue-950 px-2 py-1"
           : "flex items-center space-x-2"
       }
     >
       <button
         onClick={() => handleEdit(category._id)}
         title="Editar"
-        className="text-green-400 font-bold p-2 rounded group hover:bg-green-600 transition-all duration-[400ms]"
+        className="group rounded p-2 font-bold text-green-400 transition-all duration-400 hover:bg-green-600"
       >
         <PencilSquareIcon
           width={20}
           height={20}
-          className="inline-block group-hover:text-green-400 group-hover:scale-110"
+          className="inline-block group-hover:scale-110 group-hover:text-green-400"
         />
       </button>
       <button
-        className="text-red-400 font-bold p-2 rounded group hover:bg-red-600 hover:text-white transition-all duration-[400ms]"
+        className="group rounded p-2 font-bold text-red-400 transition-all duration-400 hover:bg-red-600 hover:text-white"
         onClick={() => handleDelete(category._id)}
         title="Eliminar"
       >
         <TrashIcon
           width={20}
           height={20}
-          className="inline-block group-hover:text-red-400 group-hover:scale-110"
+          className="inline-block group-hover:scale-110 group-hover:text-red-400"
         />
       </button>
     </div>

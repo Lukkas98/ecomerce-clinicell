@@ -9,7 +9,7 @@ export default async function CategoryPage({ params, searchParams }) {
     page,
     filter,
     category === "Todos" ? null : category,
-    10
+    10,
   );
 
   return (

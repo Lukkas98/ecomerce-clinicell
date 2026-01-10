@@ -20,17 +20,17 @@ export default async function FormPage({ params, searchParams }) {
 
   if (!categories.length) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-red-600 mb-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+        <div className="rounded-lg bg-white p-6 text-center shadow-md">
+          <h2 className="mb-4 text-2xl font-semibold text-red-600">
             No se pueden crear productos
           </h2>
-          <p className="text-gray-700 mb-6">
+          <p className="mb-6 text-gray-700">
             Primero debes crear una categoría antes de poder subir un producto.
           </p>
           <Link
             href="/admin/panel?tab=categories"
-            className="inline-block px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-all"
+            className="inline-block rounded bg-blue-500 px-4 py-2 font-semibold text-white transition-all hover:bg-blue-600"
           >
             Crear Categoría
           </Link>
@@ -54,17 +54,17 @@ export default async function FormPage({ params, searchParams }) {
   }
 
   return (
-    <div className="border border-gray-700 p-3 rounded-lg bg-gray-700 shadow-lg mx-4 my-8 max-w-5xl lg:mx-auto">
+    <div className="mx-4 my-8 max-w-5xl rounded-lg border border-gray-700 bg-gray-700 p-3 shadow-lg lg:mx-auto">
       <Link
-        className="inline-block px-4 py-2 bg-red-600 text-sm rounded-lg text-white font-semibold hover:bg-red-700 transition-all"
+        className="inline-block rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-red-700"
         href={"/admin/panel"}
       >
         Volver
       </Link>
-      <h2 className="text-xl font-bold my-6 text-center text-gray-100">
+      <h2 className="my-6 text-center text-xl font-bold text-gray-100">
         {form === "edit" ? "Actualizar Producto" : "Subir Producto"}
       </h2>
-      <div className="p-1 rounded-lg shadow-md">
+      <div className="rounded-lg p-1 shadow-md">
         <Form
           categories={categories}
           mode={form}

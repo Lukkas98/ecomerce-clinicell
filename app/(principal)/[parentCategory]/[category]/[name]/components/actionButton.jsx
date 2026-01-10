@@ -25,19 +25,19 @@ export default function ActionButton({ product }) {
   return (
     <div className="flex items-center gap-1">
       <button
-        className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex h-6 w-6 items-center justify-center rounded-lg bg-linear-to-br from-gray-700 to-gray-800 text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
         disabled={inCart <= 0}
         onClick={handleRemove}
       >
         <FiMinus className="h-2.5 w-2.5" />
       </button>
 
-      <span className="min-w-[16px] text-center text-xs font-bold text-white">
+      <span className="min-w-4 text-center text-xs font-bold text-white">
         {inCart}
       </span>
 
       <button
-        className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex h-6 w-6 items-center justify-center rounded-lg bg-linear-to-br from-gray-700 to-gray-800 text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
         disabled={product.stock <= 0}
         onClick={handleAdd}
       >

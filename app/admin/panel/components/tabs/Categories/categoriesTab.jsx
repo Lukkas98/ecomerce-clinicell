@@ -6,7 +6,7 @@ export default async function CategoriesTab({ data }) {
   const mainCategories = data.filter((cat) => cat.parentCategory === null);
 
   return (
-    <div className="space-y-4 mt-5 mb-16">
+    <div className="mt-5 mb-16 space-y-4">
       <div className="flex justify-center">
         <BtnCreateCategory
           categories={JSON.parse(JSON.stringify(mainCategories))}
@@ -16,11 +16,11 @@ export default async function CategoriesTab({ data }) {
       {mainCategories.map((mainCat, i) => (
         <div
           key={i}
-          className="bg-gray-800 text-white rounded-lg shadow-lg overflow-hidden"
+          className="overflow-hidden rounded-lg bg-gray-800 text-white shadow-lg"
         >
-          <div className="flex justify-between items-center px-4 py-3 bg-blue-700">
+          <div className="flex items-center justify-between bg-blue-700 px-4 py-3">
             <div>
-              <p className="font-bold text-lg">{mainCat.name}</p>
+              <p className="text-lg font-bold">{mainCat.name}</p>
               <p className="text-sm text-gray-300">
                 Subcategorías: {mainCat.subcategories.length}
               </p>
@@ -40,7 +40,7 @@ export default async function CategoriesTab({ data }) {
                 />
               ))
             ) : (
-              <p className="text-gray-400 text-sm">Sin subcategorías</p>
+              <p className="text-sm text-gray-400">Sin subcategorías</p>
             )}
           </div>
         </div>

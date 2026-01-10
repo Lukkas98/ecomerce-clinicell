@@ -2,26 +2,26 @@ import BtnPayment from "../btnPayment";
 
 export default function PaymentsTab({ data }) {
   return (
-    <main className="my-4 mx-2">
+    <main className="mx-2 my-4">
       {["Pedidos pendientes", "Pedidos aprobados"].map((title, index) => (
         <details className="mb-6" key={index} open={!index}>
-          <summary className="font-semibold text-xl text-gray-100 cursor-pointer">
+          <summary className="cursor-pointer text-xl font-semibold text-gray-100">
             {title}
           </summary>
-          <div className="grid gap-3 mt-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
             {data
               ?.filter((payment) => payment.approved === !!index)
               .map((payment, i) => (
                 <div
                   className={`${
                     payment.approved
-                      ? "bg-green-800 hover:bg-green-900 text-gray-100"
-                      : "bg-blue-900 hover:bg-blue-950 text-white"
-                  } px-3 py-2 max-w-xl mx-5 rounded-lg shadow-md shadow-black transition-all flex justify-between items-center`}
+                      ? "bg-green-800 text-gray-100 hover:bg-green-900"
+                      : "bg-blue-900 text-white hover:bg-blue-950"
+                  } mx-5 flex max-w-xl items-center justify-between rounded-lg px-3 py-2 shadow-md shadow-black transition-all`}
                   key={i}
                 >
                   <div className="mb-3">
-                    <p className="font-semibold text-base whitespace-nowrap">
+                    <p className="text-base font-semibold whitespace-nowrap">
                       {payment.id}
                     </p>
                     <div className="text-sm">
@@ -29,20 +29,20 @@ export default function PaymentsTab({ data }) {
                       {payment.items.map((prod) => (
                         <span
                           key={prod.name}
-                          className="text-gray-300 font-medium"
+                          className="font-medium text-gray-300"
                         >
                           {prod.units} {prod.name}--${prod.price * prod.units}
                           {payment.items.length > 1 ? ", " : ""}
                         </span>
                       ))}
                     </div>
-                    <p className="text-sm mt-2">
+                    <p className="mt-2 text-sm">
                       Total:{" "}
-                      <span className="font-semibold text-base text-green-400">
+                      <span className="text-base font-semibold text-green-400">
                         ${payment.total}
                       </span>
                     </p>
-                    <p className="text-gray-300 text-sm mt-2">
+                    <p className="mt-2 text-sm text-gray-300">
                       {new Date(payment.updatedAt).toLocaleString("es-AR", {
                         year: "numeric",
                         month: "2-digit",
@@ -52,12 +52,12 @@ export default function PaymentsTab({ data }) {
                       })}
                     </p>
                     {payment.approved && (
-                      <span className="text-xs whitespace-nowrap text-gray-200 font-medium italic mt-2 block">
+                      <span className="mt-2 block text-xs font-medium whitespace-nowrap text-gray-200 italic">
                         Se eliminará automáticamente en 7 días
                       </span>
                     )}
                   </div>
-                  <div className="flex flex-col gap-2 justify-center items-center">
+                  <div className="flex flex-col items-center justify-center gap-2">
                     <BtnPayment
                       approved={payment.approved}
                       payment={JSON.parse(JSON.stringify(payment))}

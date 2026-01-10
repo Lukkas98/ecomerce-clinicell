@@ -54,7 +54,7 @@ export default function SelectCategories({ data, categories, handleOnChange }) {
       {/* Selector principal */}
       <div
         onClick={toggleDropdown}
-        className="flex cursor-pointer items-center justify-between rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white shadow-md transition-all hover:shadow-lg"
+        className="flex cursor-pointer items-center justify-between rounded-lg bg-linear-to-r from-indigo-600 to-purple-600 p-4 text-white shadow-md transition-all hover:shadow-lg"
       >
         <span className="font-semibold">
           {data.category || data.additionalCategories.length > 0

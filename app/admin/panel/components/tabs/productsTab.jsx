@@ -11,7 +11,7 @@ export default async function ProductsTab({ data }) {
       <Paginate totalPages={totalPages} />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Suspense key={Date.now()} fallback={<LoadingProducts />}>
+        <Suspense fallback={<LoadingProducts />}>
           {data.products?.map((item) => (
             <Product key={item._id} product={item} />
           ))}

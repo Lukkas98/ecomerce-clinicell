@@ -38,29 +38,29 @@ const gadgets = [
 
 export default async function Home() {
   return (
-    <main className="flex flex-col gap-10 p-4 lg:p-10 bg-gray-900 text-white">
+    <main className="flex flex-col gap-10 bg-gray-900 p-4 text-white lg:p-10">
       <HeroSection />
       <OffertSection />
 
       <section>
-        <h2 className="text-2xl lg:text-3xl font-semibold mb-4 text-center">
+        <h2 className="mb-4 text-center text-2xl font-semibold lg:text-3xl">
           Nuestros Servicios y Productos
         </h2>
-        <div className="grid grid-cols-1 animate-min-pulse md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="animate-min-pulse grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {gadgets.map((item, index) => (
             <div
               key={index}
-              className="p-6 bg-gradient-to-r from-gray-700/80 to-gray-900/80 border border-blue-900 rounded-lg shadow-lg flex flex-col items-center"
+              className="flex flex-col items-center rounded-lg border border-blue-900 bg-linear-to-r from-gray-700/80 to-gray-900/80 p-6 shadow-lg"
             >
               <div
-                className={`w-16 h-16 ${item.color} rounded-full mb-4 flex justify-center items-center`}
+                className={`h-16 w-16 ${item.color} mb-4 flex items-center justify-center rounded-full`}
               >
                 {item.icon}
               </div>
-              <h3 className="text-lg font-medium mb-2 text-center">
+              <h3 className="mb-2 text-center text-lg font-medium">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-400 text-center">
+              <p className="text-center text-sm text-gray-400">
                 {item.description}
               </p>
             </div>
@@ -68,9 +68,9 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="text-gray-100 my-4">
-        <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="bg-indigo-600 text-base hover:bg-indigo-700 px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-center">
+      <section className="my-4 text-gray-100">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
+          <div className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-center text-base font-semibold hover:bg-indigo-700">
             <FaPhone className="text-xl" />
             <a
               target="_blank"
@@ -81,8 +81,8 @@ export default async function Home() {
             </a>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-green-700 text-green-50 px-4 py-2 rounded-xl text-base font-semibold text-center">
-            <FaTruck className="text-xl text-green-50 animate-bounce" />
+          <div className="flex items-center gap-1.5 rounded-xl bg-green-700 px-4 py-2 text-center text-base font-semibold text-green-50">
+            <FaTruck className="animate-bounce text-xl text-green-50" />
             <span>¡Envíos gratis a todo el país!</span>
           </div>
         </div>

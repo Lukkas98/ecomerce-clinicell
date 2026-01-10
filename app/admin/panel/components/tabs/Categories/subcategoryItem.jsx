@@ -10,9 +10,7 @@ const SubcategoryItem = ({ subcategory }) => {
     <div className="w-full">
       <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex justify-between items-center px-3 py-2 bg-gray-800 rounded shadow 
-                 hover:bg-gray-700 transition-all hover:outline outline-2 outline-blue-800 
-                 cursor-pointer"
+        className="flex cursor-pointer items-center justify-between rounded bg-gray-800 px-3 py-2 shadow outline-2 outline-blue-800 transition-all hover:bg-gray-700 hover:outline"
       >
         <div>
           <p className="font-medium">{subcategory.name}</p>
@@ -21,7 +19,7 @@ const SubcategoryItem = ({ subcategory }) => {
           </p>
         </div>
 
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
           <Button category={subcategory} />
           <span
             className={`transform transition-transform ${
@@ -34,8 +32,8 @@ const SubcategoryItem = ({ subcategory }) => {
       </div>
 
       {isExpanded && (
-        <div className="mt-2 ml-4 bg-gray-900 rounded-lg p-3 animate-fadeIn">
-          <h4 className="text-sm font-semibold mb-2 text-blue-400">
+        <div className="animate-fadeIn mt-2 ml-4 rounded-lg bg-gray-900 p-3">
+          <h4 className="mb-2 text-sm font-semibold text-blue-400">
             Productos:
           </h4>
           <div className="space-y-2">
@@ -43,11 +41,11 @@ const SubcategoryItem = ({ subcategory }) => {
               <Link
                 href={`/admin/panel/edit?id=${product._id}`}
                 key={k}
-                className="flex items-center gap-2 text-sm px-2 py-1 bg-gray-800 rounded"
+                className="flex items-center gap-2 rounded bg-gray-800 px-2 py-1 text-sm"
               >
                 <span className="text-blue-400">•</span>
                 <span>{product.name}</span>
-                <span className="text-gray-400 ml-auto text-xs">
+                <span className="ml-auto text-xs text-gray-400">
                   ${product.price}
                 </span>
               </Link>

@@ -10,10 +10,10 @@ export default async function ProductOffer({ product }) {
   return (
     <Link
       href={`${await getPathnameProduct(product)}`}
-      className="bg-gray-900/80 rounded-lg px-4 py-2 flex shadow shadow-black"
+      className="flex rounded-lg bg-gray-900/80 px-4 py-2 shadow shadow-black"
     >
-      <div className="grid grid-cols-2 gap-2 w-full">
-        <div className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] relative">
+      <div className="grid w-full grid-cols-2 gap-2">
+        <div className="relative h-25 w-25 lg:h-37.5 lg:w-37.5">
           <Image
             src={product.images[0]?.url ?? noImage}
             alt={product.name}
@@ -24,20 +24,20 @@ export default async function ProductOffer({ product }) {
           />
         </div>
         <div className="flex flex-col justify-between">
-          <h3 className=" text-sm text-blue-400 font-semibold line-clamp-2">
+          <h3 className="line-clamp-2 text-sm font-semibold text-blue-400">
             {product.name}
           </h3>
           <div className="grid place-content-start">
             <p className="text-xs text-gray-400 line-through">
               ${product.price}
             </p>
-            <p className="text-base font-semibold text-blue-500 flex items-center gap-1">
+            <p className="flex items-center gap-1 text-base font-semibold text-blue-500">
               ${product.discount}
               <CheckBadgeIcon width={20} height={20} color="blue" />
             </p>
           </div>
         </div>
-        <p className=" whitespace-nowrap mx-auto w-fit text-xs text-gray-300">
+        <p className="mx-auto w-fit text-xs whitespace-nowrap text-gray-300">
           Disponibles: {product.units}
         </p>
       </div>

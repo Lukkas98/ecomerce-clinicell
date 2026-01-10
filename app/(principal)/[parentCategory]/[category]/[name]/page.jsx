@@ -15,12 +15,12 @@ export default async function ProductPage({ searchParams }) {
     product;
 
   return (
-    <div className="min-h-[100svh]">
+    <div className="min-h-svh">
       <div className="container mx-auto px-4 py-12">
         <BtnBack />
         <div className="flex flex-col gap-8 md:flex-row">
           <div className="mb-6 h-80 w-full rounded-lg md:mb-0 md:h-96 md:w-3/4">
-            <div className="relative mx-auto aspect-square h-full max-w-[500px] rounded-lg shadow-lg">
+            <div className="relative mx-auto aspect-square h-full max-w-125 rounded-lg shadow-lg">
               <Carousel images={JSON.parse(JSON.stringify(images))} />
             </div>
           </div>

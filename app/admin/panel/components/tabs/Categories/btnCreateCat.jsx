@@ -43,7 +43,7 @@ export default function BtnCreateCategory({ categories }) {
 
   return (
     <>
-      <div className="flex gap-4 w-[90%] mx-auto max-w-xl">
+      <div className="mx-auto flex w-[90%] max-w-xl gap-4">
         <CategoryButton
           onClick={() => handleOpen("parent")}
           label="Crear Principal"
@@ -73,9 +73,7 @@ export default function BtnCreateCategory({ categories }) {
                   ? "Nombre categoría principal"
                   : "Nombre de subcategoría"
               }
-              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-md
-                text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                placeholder-gray-500 transition-all"
+              className="w-full rounded-md border border-gray-700 bg-gray-800 px-4 py-2.5 text-gray-200 placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-blue-500"
               onFocus={(e) => {
                 setTimeout(() => {
                   document.getElementById("submit-button")?.scrollIntoView({
@@ -88,7 +86,7 @@ export default function BtnCreateCategory({ categories }) {
 
             {mode === "child" && (
               <div className="space-y-2">
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="mb-2 block text-sm text-gray-400">
                   Categoría Padre
                 </label>
                 <CustomSelect
@@ -130,8 +128,7 @@ export default function BtnCreateCategory({ categories }) {
 const CategoryButton = ({ onClick, label, colorClass }) => (
   <button
     onClick={onClick}
-    className={`${colorClass} px-6 py-3 rounded-lg text-sm font-medium 
-      transition-all flex-1 text-center shadow-md hover:shadow-lg`}
+    className={`${colorClass} flex-1 rounded-lg px-6 py-3 text-center text-sm font-medium shadow-md transition-all hover:shadow-lg`}
   >
     {label}
   </button>
@@ -141,10 +138,10 @@ const ModalWrapper = ({ children, onClose }) => (
   <>
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-black bg-opacity-55 z-40"
+      className="bg-opacity-55 fixed inset-0 z-40 bg-black"
     />
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-gray-800 text-white rounded-lg p-6 w-96 max-w-[95%]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="w-96 max-w-[95%] rounded-lg bg-gray-800 p-6 text-white">
         {children}
       </div>
     </div>
@@ -152,7 +149,7 @@ const ModalWrapper = ({ children, onClose }) => (
 );
 
 const FormActions = ({ isPending, onClose, mode }) => (
-  <div className="flex justify-end gap-3 pt-4 border-t border-gray-700">
+  <div className="flex justify-end gap-3 border-t border-gray-700 pt-4">
     {isPending ? (
       <div className="text-sm text-gray-400">
         Creando {mode === "parent" ? "categoría" : "subcategoría"}...
@@ -162,13 +159,13 @@ const FormActions = ({ isPending, onClose, mode }) => (
         <button
           type="button"
           onClick={onClose}
-          className="px-4 py-2 text-sm bg-gray-600 rounded-md hover:bg-gray-700"
+          className="rounded-md bg-gray-600 px-4 py-2 text-sm hover:bg-gray-700"
         >
           Cancelar
         </button>
         <button
           type="submit"
-          className="px-4 py-2 text-sm bg-blue-600 rounded-md hover:bg-blue-700"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm hover:bg-blue-700"
         >
           {mode === "parent" ? "Crear Principal" : "Crear Subcategoría"}
         </button>
@@ -198,22 +195,22 @@ const CustomSelect = ({ options, value, onChange, placeholder }) => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-4 py-2 text-left bg-gray-700 border ${
+        className={`w-full border bg-gray-700 px-4 py-2 text-left ${
           isOpen ? "border-blue-500" : "border-gray-600"
-        } rounded-md flex items-center justify-between`}
+        } flex items-center justify-between rounded-md`}
       >
         <span className={value ? "text-gray-200" : "text-gray-400"}>
           {selectedOption?.name || placeholder}
         </span>
         <ChevronDownIcon
-          className={`w-4 h-4 transform transition-transform ${
+          className={`h-4 w-4 transform transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 w-full mt-2 bg-gray-800 border border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded-md border border-gray-700 bg-gray-800 shadow-lg">
           {options.map((option) => (
             <div
               key={option._id}
@@ -221,7 +218,7 @@ const CustomSelect = ({ options, value, onChange, placeholder }) => {
                 onChange(option._id);
                 setIsOpen(false);
               }}
-              className={`px-4 py-3 cursor-pointer hover:bg-gray-700/50 ${
+              className={`cursor-pointer px-4 py-3 hover:bg-gray-700/50 ${
                 value === option._id ? "bg-blue-600/20" : ""
               }`}
             >

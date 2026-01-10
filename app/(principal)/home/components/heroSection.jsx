@@ -20,20 +20,17 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative w-full h-[400px] bg-gray-700 rounded-lg overflow-hidden bg-cover bg-center animate-zoomBg"
+      className="animate-zoomBg relative h-100 w-full overflow-hidden rounded-lg bg-gray-700 bg-cover bg-center"
       style={{ backgroundImage: `url(${images[currentImage]})` }}
     >
       <div className="absolute inset-0 bg-black/50"></div>
       <div className="absolute inset-0 flex items-center justify-center text-center">
-        <h1
-          className="text-4xl lg:text-6xl font-bold bg-gradient-to-r
-         from-blue-300 to-cyan-500 bg-clip-text text-transparent animate-bounce"
-        >
+        <h1 className="animate-bounce bg-linear-to-r from-blue-300 to-cyan-500 bg-clip-text text-4xl font-bold text-transparent lg:text-6xl">
           ¡Reparación & Tecnología!
         </h1>
       </div>
-      <div className="absolute -top-4 -left-3 w-1/4 h-1/4 bg-blue-500/70 rotate-12"></div>
-      <div className="absolute -bottom-8 -right-5 w-1/3 h-1/3 bg-cyan-400/60 rotate-6"></div>
+      <div className="absolute -top-4 -left-3 h-1/4 w-1/4 rotate-12 bg-blue-500/70"></div>
+      <div className="absolute -right-5 -bottom-8 h-1/3 w-1/3 rotate-6 bg-cyan-400/60"></div>
     </section>
   );
 }

@@ -15,7 +15,7 @@ export default async function OrderConfirmation() {
   const isMobile = await isMobileDevice();
 
   return (
-    <section className="bg-gradient-to-b from-gray-900 to-gray-800 text-center">
+    <section className="bg-linear-to-b from-gray-900 to-gray-800 text-center">
       <div className="flex min-h-screen flex-col items-center justify-center p-4">
         <div className="mb-6 flex items-center">
           <Image

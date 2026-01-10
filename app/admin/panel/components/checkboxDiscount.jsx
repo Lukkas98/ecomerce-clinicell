@@ -74,7 +74,7 @@ export default function CheckboxDiscount({ item }) {
 
   return (
     <div
-      className={`flex items-center justify-center text-white gap-3 rounded-md h-fit px-2 py-1 ${
+      className={`flex h-fit items-center justify-center gap-3 rounded-md px-2 py-1 text-white ${
         item.discount ? "bg-blue-800/50" : "bg-gray-500/50"
       }`}
     >
