@@ -15,16 +15,16 @@ export default async function ProductCard({ product, searchParams }) {
 
   return (
     <div
-      className={`group flex h-fit w-full rounded-xl border border-gray-700 bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-500 hover:shadow-2xl ${stock ? "" : "opacity-50"}`}
+      className={`group flex h-fit w-full rounded-xl border border-gray-700 bg-linear-to-br from-gray-800 to-gray-900 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-500 hover:shadow-2xl ${stock ? "" : "opacity-50"}`}
     >
-      <div className="relative aspect-square w-1/3 flex-shrink-0 overflow-hidden">
+      <div className="relative aspect-square w-1/3 shrink-0 overflow-hidden">
         {onSale && (
-          <div className="absolute top-2 right-2 z-10 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-purple-900/30">
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-linear-to-r from-pink-500 via-purple-500 to-indigo-500 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-purple-900/30">
             Oferta
           </div>
         )}
         {outlet && (
-          <div className="absolute top-2 right-2 z-10 rounded-full bg-gradient-to-r from-orange-500 to-red-700 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-purple-900/30">
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-linear-to-r from-orange-500 to-red-700 px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-purple-900/30">
             Outlet
           </div>
         )}
@@ -44,7 +44,7 @@ export default async function ProductCard({ product, searchParams }) {
         </Link>
       </div>
 
-      <div className="flex flex-grow flex-col justify-between p-3">
+      <div className="flex grow flex-col justify-between p-3">
         <div>
           <Link href={linkTo} className="mb-1.5">
             <h3 className="line-clamp-1 text-sm font-bold text-white transition-colors group-hover:text-cyan-300">
@@ -64,7 +64,7 @@ export default async function ProductCard({ product, searchParams }) {
                 <span className="text-[10px] text-gray-400 line-through">
                   ${price}
                 </span>
-                <span className="ml-1 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-[10px] font-bold text-transparent">
+                <span className="ml-1 bg-linear-to-r from-pink-500 to-purple-500 bg-clip-text text-[10px] font-bold text-transparent">
                   {onSale ? `${discountPercentage} % OFF` : "30% OFF"}
                 </span>
               </div>
@@ -78,15 +78,15 @@ export default async function ProductCard({ product, searchParams }) {
           <div className="flex items-center">
             {stock ? (
               <div className="flex items-center">
-                <div className="mr-1.5 h-2 w-2 animate-pulse rounded-full bg-gradient-to-r from-green-400 to-emerald-500"></div>
-                <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-[10px] font-medium text-transparent">
+                <div className="mr-1.5 h-2 w-2 animate-pulse rounded-full bg-linear-to-r from-green-400 to-emerald-500"></div>
+                <span className="bg-linear-to-r from-green-400 to-emerald-500 bg-clip-text text-[10px] font-medium text-transparent">
                   {units === 1 ? "Última unidad" : `${units} disponibles`}
                 </span>
               </div>
             ) : (
               <div className="flex items-center">
-                <div className="mr-1.5 h-2 w-2 rounded-full bg-gradient-to-r from-red-400 to-red-500"></div>
-                <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-[10px] font-medium text-transparent">
+                <div className="mr-1.5 h-2 w-2 rounded-full bg-linear-to-r from-red-400 to-red-500"></div>
+                <span className="bg-linear-to-r from-red-400 to-red-500 bg-clip-text text-[10px] font-medium text-transparent">
                   Agotado
                 </span>
               </div>

@@ -26,16 +26,16 @@ export default async function OffertSection() {
   if (products.length === 0) return null;
 
   return (
-    <section className="w-full rounded-lg bg-linear-to-r from-red-600/90 to-orange-500/90 p-4 shadow-lg md:p-6 lg:p-8">
+    <section className="w-full rounded-lg bg-linear-to-r from-red-800/70 to-orange-600/90 p-4 shadow-lg md:p-6 lg:p-8">
       <div className="space-y-2 text-center md:space-y-3">
         <h2 className="text-xl font-semibold md:text-2xl lg:text-3xl">
           <Link
             href="/ofertas"
-            className="text-lg transition-colors hover:text-blue-300"
+            className="text-lg whitespace-nowrap transition-colors hover:text-blue-300"
           >
-            <span className="animate-pulse text-2xl md:text-3xl">🔥</span>
+            <span className="animate-pulse text-xl md:text-3xl">🔥</span>
             ¡Ofertas De La Semana!
-            <span className="animate-pulse text-2xl md:text-3xl">🔥</span>
+            <span className="animate-pulse text-xl md:text-3xl">🔥</span>
           </Link>
         </h2>
 
