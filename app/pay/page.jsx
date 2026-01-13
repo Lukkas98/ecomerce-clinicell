@@ -8,7 +8,7 @@ const isMobileDevice = async () => {
   "use server";
   const header = await headers();
   const userAgent = header.get("user-agent") || "";
-  return /Mobi|Android/i.test(userAgent);
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(userAgent);
 };
 
 export default async function OrderConfirmation() {
