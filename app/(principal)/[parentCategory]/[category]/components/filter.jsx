@@ -21,7 +21,9 @@ export default function Filter() {
   useEffect(() => {
     const currentFilter = searchParams.get("filter");
     if (currentFilter) {
-      setSelectedOption(currentFilter);
+      setTimeout(() => {
+        setSelectedOption(currentFilter);
+      }, 0);
     }
   }, [searchParams]);
 
@@ -44,12 +46,12 @@ export default function Filter() {
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto md:max-w-full">
+    <div className="mx-auto w-full max-w-sm md:max-w-full">
       {/* Vista móvil: menú desplegable */}
-      <div className="relative block md:hidden my-4">
+      <div className="relative my-4 block md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-2 border border-gray-600 rounded bg-gray-800 text-left text-base text-gray-100 flex justify-between items-center"
+          className="flex w-full items-center justify-between rounded border border-gray-600 bg-gray-800 px-4 py-2 text-left text-base text-gray-100"
         >
           {selectedOption
             ? options.find((option) => option.value === selectedOption).label
@@ -57,12 +59,12 @@ export default function Filter() {
           <ArrowDownIcon width={20} height={20} className="text-gray-300" />
         </button>
         {isOpen && (
-          <ul className="absolute z-10 w-full bg-gray-700 border border-gray-600 rounded mt-2 text-gray-100">
+          <ul className="absolute z-10 mt-2 w-full rounded border border-gray-600 bg-gray-700 text-gray-100">
             {options.map((option) => (
               <li
                 key={option.value}
                 onClick={() => handleSelect(option.value)}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-600"
+                className="cursor-pointer px-4 py-2 hover:bg-gray-600"
               >
                 {option.label}
               </li>
@@ -72,7 +74,7 @@ export default function Filter() {
         {selectedOption && (
           <button
             onClick={handleClearFilter}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-red-500 text-white p-2 rounded"
+            className="absolute top-1/2 right-4 -translate-y-1/2 transform rounded bg-red-500 p-2 text-white"
           >
             <XMarkIcon width={20} height={20} />
           </button>
@@ -80,12 +82,12 @@ export default function Filter() {
       </div>
 
       {/* Vista de escritorio: botones horizontales */}
-      <div className="hidden md:flex justify-center gap-2 w-full my-4">
+      <div className="my-4 hidden w-full justify-center gap-2 md:flex">
         {options.map((option) => (
           <button
             key={option.value}
             onClick={() => handleSelect(option.value)}
-            className={`px-4 py-2 border border-gray-600 rounded ${
+            className={`rounded border border-gray-600 px-4 py-2 ${
               selectedOption === option.value
                 ? "bg-blue-600 text-white"
                 : "bg-gray-700 text-gray-300 hover:bg-gray-600"
@@ -97,7 +99,7 @@ export default function Filter() {
         {selectedOption && (
           <button
             onClick={handleClearFilter}
-            className="bg-red-500 text-white p-2 rounded"
+            className="rounded bg-red-500 p-2 text-white"
           >
             <XMarkIcon width={30} height={30} />
           </button>

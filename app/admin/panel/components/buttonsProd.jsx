@@ -56,20 +56,20 @@ export default function ButtonsProd({ itemId }) {
   };
 
   return (
-    <div className="flex flex-col gap-1 justify-center bg-gray-800 h-full px-1">
+    <div className="flex h-full flex-col justify-center gap-1 bg-gray-800 px-1">
       <button
-        className="text-teal-100 p-2 group bg-red-800 transition-all flex justify-between rounded w-fit"
+        className="group flex w-fit justify-between rounded bg-red-800 p-2 text-teal-100 transition-all"
         onClick={() => handleDelete(itemId)}
         title="Eliminar producto"
       >
-        <TrashIcon className="h-5 w-5 inline-block group-hover:scale-[1.20]" />
+        <TrashIcon className="inline-block h-5 w-5 group-hover:scale-[1.20]" />
       </button>
       <button
-        className="bg-green-700 text-teal-100 p-2 flex justify-center transition-all group rounded w-fit"
+        className="group flex w-fit justify-center rounded bg-green-700 p-2 text-teal-100 transition-all"
         onClick={() => handleEdit(itemId)}
         title="Editar producto"
       >
-        <PencilSquareIcon className="h-5 w-5 inline-block group-hover:scale-[1.20]" />
+        <PencilSquareIcon className="inline-block h-5 w-5 group-hover:scale-[1.20]" />
       </button>
     </div>
   );

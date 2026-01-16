@@ -12,7 +12,7 @@ export default function LoginAdmin() {
   }, [state?.href, router]);
 
   return (
-    <section className="flex min-h-[100dvh] items-center justify-center p-4 pb-[300px]">
+    <section className="flex min-h-dvh items-center justify-center p-4 pb-75">
       {/* Espacio extra para móvil */}
       <div className="mx-auto w-full max-w-xl rounded-lg border bg-gray-800 p-5 shadow-lg shadow-black">
         <h4 className="text-center text-xl font-semibold text-gray-100 md:text-2xl">
@@ -22,12 +22,11 @@ export default function LoginAdmin() {
           action={formAction}
           className="mt-4 mb-2 flex w-full flex-col gap-4 md:mt-6"
         >
-          {/* Input Email con auto-scroll */}
           <label className="w-full">
-            <span className="text-gray-200">Email</span>
+            <span className="text-gray-200">Usuario</span>
             <input
               name="user"
-              type="email"
+              type="text"
               required
               onFocus={(e) => {
                 setTimeout(() => {
@@ -41,7 +40,6 @@ export default function LoginAdmin() {
             />
           </label>
 
-          {/* Input Contraseña con auto-scroll */}
           <label className="w-full">
             <span className="text-gray-200">Contraseña</span>
             <input
@@ -60,7 +58,6 @@ export default function LoginAdmin() {
             />
           </label>
 
-          {/* Botón con ID para el scroll */}
           <button
             id="submit-button"
             disabled={isPending}

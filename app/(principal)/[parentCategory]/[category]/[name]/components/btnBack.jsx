@@ -7,7 +7,7 @@ export default function BtnBack() {
   return (
     <button
       type="button"
-      className="cursor-pointer mb-4 focus:outline-none px-2 py-1 bg-blue-700 rounded-md text-gray-200 hover:text-gray-300"
+      className="mb-4 cursor-pointer rounded-md bg-blue-700 px-2 py-1 text-gray-200 hover:text-gray-300 focus:outline-none"
       data-cart-prev
       onClick={() => router.back()}
     >

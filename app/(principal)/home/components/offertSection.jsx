@@ -26,16 +26,16 @@ export default async function OffertSection() {
   if (products.length === 0) return null;
 
   return (
-    <section className="w-full bg-gradient-to-r from-red-600/90 to-orange-500/90 p-4 md:p-6 lg:p-8 rounded-lg shadow-lg">
-      <div className="text-center space-y-2 md:space-y-3">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold">
+    <section className="w-full rounded-lg bg-linear-to-r from-red-800/70 to-orange-600/90 p-4 shadow-lg md:p-6 lg:p-8">
+      <div className="space-y-2 text-center md:space-y-3">
+        <h2 className="text-xl font-semibold md:text-2xl lg:text-3xl">
           <Link
             href="/ofertas"
-            className="hover:text-blue-300 transition-colors text-lg"
+            className="text-lg whitespace-nowrap transition-colors hover:text-blue-300"
           >
-            <span className="animate-pulse text-2xl md:text-3xl">🔥</span>
+            <span className="animate-pulse text-xl md:text-3xl">🔥</span>
             ¡Ofertas De La Semana!
-            <span className="animate-pulse text-2xl md:text-3xl">🔥</span>
+            <span className="animate-pulse text-xl md:text-3xl">🔥</span>
           </Link>
         </h2>
 
@@ -43,19 +43,16 @@ export default async function OffertSection() {
           Descuentos exclusivos -
           <Link
             href="/ofertas"
-            className="underline font-medium hover:text-blue-300"
+            className="font-medium underline hover:text-blue-300"
           >
             Ver todos ({total})
           </Link>
         </p>
       </div>
 
-      <div className="mt-4 md:mt-6 lg:mt-8 mx-auto flex flex-col items-center justify-center gap-2 md:flex-row flex-wrap">
+      <div className="mx-auto mt-4 flex flex-col flex-wrap items-center justify-center gap-2 md:mt-6 md:flex-row lg:mt-8">
         {products.map((product) => (
-          <div
-            key={product._id}
-            className="w-full max-w-[250px] lg:max-w-[350px]"
-          >
+          <div key={product._id} className="w-full max-w-62.5 lg:max-w-87.5">
             <ProductOffer product={product} />
           </div>
         ))}

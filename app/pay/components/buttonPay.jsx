@@ -24,7 +24,7 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
   const handleConfirmClick = () => {
     const total = cart.items.reduce(
       (acc, item) => (acc += item.price * item.unitsInCart),
-      0
+      0,
     );
     const items = cart.items;
 
@@ -105,7 +105,7 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
           try {
             const response = await createPay(
               { orderId, items, total },
-              whatsappLink
+              whatsappLink,
             );
 
             if (!response.success)
@@ -146,7 +146,7 @@ export default function ButtonPay({ isMobile, data, dispatch, whatsappLink }) {
   return (
     <button
       onClick={handleConfirmClick}
-      className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      className="focus:ring-opacity-75 rounded-lg bg-blue-700 px-6 py-3 font-semibold text-white shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none"
     >
       {isMobile ? "✅ Completar compra" : "✅ Ya mandé el WhatsApp"}
     </button>

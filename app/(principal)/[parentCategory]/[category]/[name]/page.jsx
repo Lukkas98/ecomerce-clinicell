@@ -11,16 +11,25 @@ export default async function ProductPage({ searchParams }) {
 
   if (product === "El producto no existe") return notFound();
 
-  const { name, description, price, stock, images, category, outlet, units } =
-    product;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    images,
+    category,
+    outlet,
+    units,
+    discount,
+  } = product;
 
   return (
-    <div className="min-h-[100svh]">
+    <div className="min-h-svh">
       <div className="container mx-auto px-4 py-12">
         <BtnBack />
         <div className="flex flex-col gap-8 md:flex-row">
           <div className="mb-6 h-80 w-full rounded-lg md:mb-0 md:h-96 md:w-3/4">
-            <div className="relative mx-auto aspect-square h-full max-w-[500px] rounded-lg shadow-lg">
+            <div className="relative mx-auto aspect-square h-full max-w-125 rounded-lg shadow-lg">
               <Carousel images={JSON.parse(JSON.stringify(images))} />
             </div>
           </div>
@@ -30,19 +39,19 @@ export default async function ProductPage({ searchParams }) {
             <p className="mb-6 text-sm text-gray-400">{description}</p>
 
             <div className="mb-6">
-              {outlet ? (
+              {discount ? (
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="text-lg font-semibold text-gray-400 line-through">
                       $ {price}
                     </p>
-                    <p className="text-sm font-medium text-orange-400">
-                      Outlet
+                    <p className="text-sm font-medium text-blue-400">
+                      {discount}
                     </p>
                   </div>
-                  <p className="flex items-center gap-2 text-3xl font-semibold text-green-500">
-                    $ {Math.ceil(price - price * 0.3)}
-                    <CheckBadgeIcon width={24} height={24} color="green" />
+                  <p className="flex items-center text-3xl font-semibold text-green-500">
+                    $ {discount}
+                    <CheckBadgeIcon width={30} height={30} color="green" />
                   </p>
                 </div>
               ) : (
@@ -59,7 +68,7 @@ export default async function ProductPage({ searchParams }) {
                     stock={stock}
                     typeButton={"ADD_PRODUCT"}
                     className={
-                      "mt-4 w-fit rounded-md bg-gray-800 px-2 py-1 text-xl"
+                      "mt-4 w-[50%] max-w-lg rounded-md px-2 py-1 text-xl"
                     }
                   />
                 </>

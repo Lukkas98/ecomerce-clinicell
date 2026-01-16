@@ -4,7 +4,7 @@ export default function FilterMobileToggle({ filterCount, isOpen, onToggle }) {
   return (
     <button
       onClick={onToggle}
-      className="md:hidden w-full p-3 flex items-center justify-between bg-gray-700 text-white border-b border-gray-600"
+      className="flex w-full items-center justify-between border-b border-gray-600 bg-gray-700 p-3 text-white md:hidden"
     >
       <div className="flex items-center gap-2">
         <FunnelIcon
@@ -13,7 +13,7 @@ export default function FilterMobileToggle({ filterCount, isOpen, onToggle }) {
           }`}
         />
         {filterCount > 0 && (
-          <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-xs">
+          <span className="rounded-full bg-blue-500 px-2 py-0.5 text-xs text-white">
             {filterCount}
           </span>
         )}
