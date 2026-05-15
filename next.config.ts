@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["cloudinary"],
+  cacheComponents: true,
   reactCompiler: true,
   typedRoutes: true,
   images: {
