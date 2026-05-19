@@ -9,7 +9,7 @@ import {
   Severity,
 } from "@typegoose/typegoose";
 import mongoose, { Types } from "mongoose";
-import { Product } from "./productModel";
+import type { Product } from "./productModel";
 
 @modelOptions({
   schemaOptions: {
@@ -32,7 +32,7 @@ export class Category {
   @prop({ ref: () => Category, default: null })
   public parentCategory?: Ref<Category> | null;
 
-  @prop({ ref: () => Product, type: () => Types.ObjectId, default: [] })
+  @prop({ ref: "Product", type: () => Types.ObjectId, default: [] })
   public products!: Ref<Product>[];
 
   @prop({

@@ -11,7 +11,7 @@ import {
 } from "@typegoose/typegoose";
 import paginate from "mongoose-paginate-v2";
 import mongoose, { Types, PaginateModel, QueryFilter } from "mongoose";
-import { Category } from "./categoryModel";
+import type { Category } from "./categoryModel";
 
 class ProductImage {
   @prop() public url?: string;
@@ -73,8 +73,9 @@ export class Product {
   @prop({ required: true, min: 0 }) public price!: number;
   @prop({ required: true }) public description!: string;
 
-  @prop({ ref: () => Category, type: () => [Types.ObjectId], default: [] })
+  @prop({ ref: 'Category', type: () => [Types.ObjectId], default: [] })
   public categories!: Ref<Category>[];
+
 
   @prop({ default: 0, min: 0 }) public stock!: number;
   @prop({ _id: false, default: () => ({ isActive: false, price: 0 }) })

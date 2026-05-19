@@ -1,3 +1,5 @@
+import { CategoryDTO } from "./categories";
+
 export interface ProductImage {
   url?: string;
   publicId?: string;
@@ -10,11 +12,10 @@ export interface ProductOutlet {
 
 export interface ProductDTO {
   _id: string;
-  __v: number;
   name: string;
   price: number;
   description: string;
-  categories: string[];
+  categories: CategoryDTO["_id"][];
   stock: number;
   outlet: ProductOutlet;
   offert: number;

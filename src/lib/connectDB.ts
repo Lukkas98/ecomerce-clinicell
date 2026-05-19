@@ -13,7 +13,12 @@ declare global {
 
 let cached = global.mongoose;
 
-if (!cached) cached = global.mongoose = { conn: null, promise: null };
+if (!cached) {
+  cached = global.mongoose = {
+    conn: null,
+    promise: null,
+  };
+}
 
 export default async function connectDB() {
   if (cached!.conn) {
@@ -21,6 +26,10 @@ export default async function connectDB() {
   }
 
   if (!cached!.promise) {
+    if (!MONGODB_URI) {
+      throw new Error("Please define the MONGO_URI environment variable");
+    }
+
     const opts: ConnectOptions = {
       bufferCommands: false,
       maxPoolSize: 2,
@@ -29,12 +38,9 @@ export default async function connectDB() {
       serverSelectionTimeoutMS: 5000,
     };
 
-    if (!MONGODB_URI)
-      throw new Error("Please define the MONGO_URI environment variable");
-
-    cached!.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached!.promise = mongoose
+      .connect(MONGODB_URI, opts)
+      .then((mongoose) => mongoose);
   }
 
   try {
