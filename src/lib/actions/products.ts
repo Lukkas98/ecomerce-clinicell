@@ -5,13 +5,17 @@ import connectDB from "../connectDB";
 import { ProductDTO } from "../types/products";
 import { Types } from "mongoose";
 
+type ProductDocument = Omit<ProductDTO, "categories"> & {
+  categories: Types.ObjectId[];
+};
+
 const convertProductData = (
   data: Partial<ProductDTO>,
-): Record<string, unknown> => {
-  const converted: Record<string, unknown> = { ...data };
-  if (data.categories) {
-    converted.categories = data.categories.map((id) => new Types.ObjectId(id));
-  }
+): Partial<ProductDocument> => {
+  const converted: Partial<ProductDocument> = {
+    ...data,
+    categories: data.categories?.map((id) => new Types.ObjectId(id)),
+  };
   return converted;
 };
 

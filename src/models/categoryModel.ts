@@ -10,6 +10,21 @@ import {
 } from "@typegoose/typegoose";
 import mongoose, { Types } from "mongoose";
 import type { Product } from "./productModel";
+import type { CategoryDTO } from "@/lib/types/categories";
+import type { ProductDTO } from "@/lib/types/products";
+
+type LeanProduct = Omit<ProductDTO, "_id" | "categories"> & {
+  _id: Types.ObjectId;
+  categories: Types.ObjectId[];
+};
+
+type LeanCategory = {
+  _id: Types.ObjectId;
+  name: string;
+  parentCategory: LeanCategory | null;
+  products: LeanProduct[];
+  subcategories: LeanCategory[];
+};
 
 @modelOptions({
   schemaOptions: {
@@ -49,6 +64,43 @@ export class Category {
   ) {
     const decodedName = decodeURIComponent(name);
     return this.findOne({ name: decodedName });
+  }
+
+  public static async getCategoriesWithStringIds(
+    this: CategoryModelType,
+  ): Promise<CategoryDTO[]> {
+    const categories = (await this.find({})
+      .populate("products")
+      .populate("subcategories")
+      .populate("parentCategory")
+      .lean()) as LeanCategory[];
+
+    return categories.map((c) => this.transformCategoryToDTO(c));
+  }
+
+  private static transformCategoryToDTO(category: LeanCategory): CategoryDTO {
+    return {
+      _id: category._id.toString(),
+      name: category.name,
+      parentCategory: category.parentCategory
+        ? this.transformCategoryToDTO(category.parentCategory)
+        : null,
+      products: category.products.map((p: LeanProduct) => ({
+        _id: p._id.toString(),
+        name: p.name,
+        price: p.price,
+        description: p.description,
+        categories: p.categories.map((id) => id.toString()),
+        stock: p.stock,
+        outlet: p.outlet,
+        offert: p.offert,
+        images: p.images,
+        calculatedPrice: p.calculatedPrice,
+      })),
+      subcategories: category.subcategories.map((s: LeanCategory) =>
+        this.transformCategoryToDTO(s),
+      ),
+    };
   }
 }
 

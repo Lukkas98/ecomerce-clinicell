@@ -1,15 +1,11 @@
 import { CategoryModel } from "@/models/categoryModel";
+import type { CategoryDTO } from "../types/categories";
 import connectDB from "../connectDB";
 import { cacheTag } from "next/cache";
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (): Promise<CategoryDTO[]> => {
   "use cache";
-  cacheTag("products");
+  cacheTag("categories");
   await connectDB();
-  const categories = await CategoryModel.find({});
-
-  return categories.map((c) => ({
-    ...c,
-    _id: c._id.toString(),
-  }));
+  return CategoryModel.getCategoriesWithStringIds();
 };
