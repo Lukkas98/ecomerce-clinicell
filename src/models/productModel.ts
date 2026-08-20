@@ -73,9 +73,8 @@ export class Product {
   @prop({ required: true, min: 0 }) public price!: number;
   @prop({ required: true }) public description!: string;
 
-  @prop({ ref: 'Category', type: () => [Types.ObjectId], default: [] })
+  @prop({ ref: "Category", type: () => [Types.ObjectId], default: [] })
   public categories!: Ref<Category>[];
-
 
   @prop({ default: 0, min: 0 }) public stock!: number;
   @prop({ _id: false, default: () => ({ isActive: false, price: 0 }) })
