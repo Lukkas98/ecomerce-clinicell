@@ -1,1 +1,112 @@
 @import "tailwindcss";
+
+:root {
+  --ink: #14213d;
+  --muted: #718096;
+  --line: #e7edf5;
+  --surface: #ffffff;
+  --background: #f6f8fc;
+  --primary: #315efb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--ink);
+}
+
+.dashboard-shell {
+  min-height: 100dvh;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+}
+
+.dashboard-content {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  padding: 24px 20px 12px;
+}
+
+.dashboard-nav {
+  position: fixed;
+  z-index: 10;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  width: min(100%, 720px);
+  margin: 0 auto;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  border-radius: 22px 22px 0 0;
+  background: rgb(255 255 255 / 95%);
+  box-shadow: 0 -8px 30px rgb(20 33 61 / 7%);
+  backdrop-filter: blur(16px);
+}
+
+.dashboard-nav-link {
+  display: flex;
+  min-height: 54px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dashboard-nav-link.active {
+  color: var(--primary);
+  background: #edf2ff;
+}
+
+.dashboard-nav-link.create {
+  color: white;
+  background: var(--primary);
+  box-shadow: 0 7px 16px rgb(49 94 251 / 25%);
+}
+
+.dashboard-card {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgb(20 33 61 / 4%);
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px 12px;
+  background: white;
+  color: var(--ink);
+  font-size: 14px;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #8ba5ff;
+  box-shadow: 0 0 0 4px #edf2ff;
+}
+
+@media (min-width: 640px) {
+  .dashboard-content {
+    padding-top: 36px;
+  }
+
+  .dashboard-nav {
+    bottom: 18px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+  }
+}
