@@ -15,7 +15,15 @@ export const getAllProducts = async (): Promise<ProductDTO[]> => {
   return products.map((p) => ({
     ...p,
     _id: p._id.toString(),
-    categories: p.categories.map((c) => c!.toString()),
-    calculatedPrice: getCalculatedPrice(p),
+    categories: (p.categories ?? []).map((c) => c!.toString()),
+    outlet: p.outlet ?? { isActive: false, price: 0 },
+    offert: p.offert ?? 0,
+    images: p.images ?? [],
+    stock: p.stock ?? 0,
+    calculatedPrice: getCalculatedPrice({
+      price: p.price,
+      offert: p.offert ?? 0,
+      outlet: p.outlet ?? { isActive: false, price: 0 },
+    }),
   }));
 };
