@@ -24,6 +24,7 @@ export const updateProduct = async (id: string, data: Partial<ProductDTO>) => {
   const convertedData = convertProductData(data);
   await ProductModel.findByIdAndUpdate(id, convertedData);
   updateTag("products");
+  updateTag("categories");
 };
 
 export const createProduct = async (data: ProductDTO) => {
@@ -31,10 +32,12 @@ export const createProduct = async (data: ProductDTO) => {
   const convertedData = convertProductData(data);
   await ProductModel.create(convertedData);
   updateTag("products");
+  updateTag("categories");
 };
 
 export const deleteProduct = async (id: string) => {
   await connectDB();
   await ProductModel.findByIdAndDelete(id);
   updateTag("products");
+  updateTag("categories");
 };
