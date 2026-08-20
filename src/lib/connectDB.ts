@@ -1,4 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
+import "../models/categoryModel";
+import "../models/productModel";
 
 const MONGODB_URI = process.env.MONGO_URI;
 
