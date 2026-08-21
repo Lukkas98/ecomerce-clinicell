@@ -48,3 +48,27 @@ export const createCategory = async (
     ok: true,
   };
 };
+
+export const createCategoryDirect = async (name: string, parentId?: string) => {
+  await connectDB();
+  await CategoryModel.create({
+    name: name.trim(),
+    parentCategory: parentId ? new Types.ObjectId(parentId) : null,
+    products: [],
+  });
+  updateTag("categories");
+};
+
+export const updateCategoryName = async (id: string, name: string) => {
+  await connectDB();
+  await CategoryModel.findByIdAndUpdate(id, { name: name.trim() });
+  updateTag("categories");
+};
+
+export const deleteCategory = async (id: string) => {
+  await connectDB();
+  await CategoryModel.deleteMany({
+    $or: [{ _id: new Types.ObjectId(id) }, { parentCategory: new Types.ObjectId(id) }],
+  });
+  updateTag("categories");
+};

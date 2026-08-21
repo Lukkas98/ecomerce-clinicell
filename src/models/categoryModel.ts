@@ -85,21 +85,23 @@ export class Category {
       parentCategory: category.parentCategory
         ? this.transformCategoryToDTO(category.parentCategory)
         : null,
-      products: category.products.map((p: LeanProduct) => ({
-        _id: p._id.toString(),
-        name: p.name,
-        price: p.price,
-        description: p.description,
-        categories: p.categories.map((id) => id.toString()),
-        stock: p.stock,
-        outlet: p.outlet,
-        offert: p.offert,
-        images: p.images,
-        calculatedPrice: p.calculatedPrice,
-      })),
-      subcategories: category.subcategories.map((s: LeanCategory) =>
-        this.transformCategoryToDTO(s),
+      products: (Array.isArray(category.products) ? category.products : []).map(
+        (p: LeanProduct) => ({
+          _id: p._id.toString(),
+          name: p.name,
+          price: p.price,
+          description: p.description,
+          categories: (p.categories ?? []).map((id) => id.toString()),
+          stock: p.stock,
+          outlet: p.outlet,
+          offert: p.offert,
+          images: p.images,
+          calculatedPrice: p.calculatedPrice,
+        }),
       ),
+      subcategories: (
+        Array.isArray(category.subcategories) ? category.subcategories : []
+      ).map((s: LeanCategory) => this.transformCategoryToDTO(s)),
     };
   }
 }
