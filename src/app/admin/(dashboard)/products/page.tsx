@@ -1,13 +1,29 @@
-import { getAllProducts } from "@/lib/data/products";
-import ProductsList from "./ProductsList";
+import { Suspense } from "react";
+import ProductsFilters from "./components/ProductsFilters";
+import ProductsContent from "./components/ProductsContent";
 
-export default async function ProductsPage() {
-  const products = await getAllProducts();
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
+function ProductsLoading() {
+  return (
+    <div className="dashboard-card p-8 text-center text-sm text-slate-500">
+      Cargando...
+    </div>
+  );
+}
+
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   return (
     <div className="dashboard-content">
       <h1 className="mb-5 text-2xl font-bold tracking-tight">Productos</h1>
-      <ProductsList products={products} />
+      <ProductsFilters />
+      <Suspense fallback={<ProductsLoading />}>
+        <ProductsContent searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

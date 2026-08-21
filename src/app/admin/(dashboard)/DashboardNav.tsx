@@ -76,7 +76,7 @@ export default function DashboardNav() {
         const active = pathname.startsWith(link.href);
         return (
           <Link
-            className={`dashboard-nav-link${active ? " active" : ""}${link.create ? " create" : ""}`}
+            className={`dashboard-nav-link ${active ? "active" : ""}${link.create ? "create" : ""}`}
             href={link.href as Route}
             key={link.href}
           >
