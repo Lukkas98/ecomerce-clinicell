@@ -56,6 +56,13 @@ export const getAllProducts = async (): Promise<ProductDTO[]> => {
   return products.map((product) => serializeProduct(product));
 };
 
+export const getProductById = async (id: string): Promise<ProductDTO | null> => {
+  await connectDB();
+  const product = await ProductModel.findById(id).lean();
+
+  return product ? serializeProduct(product) : null;
+};
+
 export const getFilteredProducts = async (
   filters: ProductSearchFilters,
   page: number,

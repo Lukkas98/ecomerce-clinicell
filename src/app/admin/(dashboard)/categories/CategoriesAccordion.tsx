@@ -42,22 +42,38 @@ export default function CategoriesAccordion({
               const type = document.getElementById("category-type");
               const parent = document.getElementById("category-parent");
               type?.addEventListener("change", () => {
-                if (parent) parent.style.display = (type as HTMLSelectElement).value === "child" ? "block" : "none";
+                if (parent)
+                  parent.style.display =
+                    (type as HTMLSelectElement).value === "child"
+                      ? "block"
+                      : "none";
               });
             },
             preConfirm: () => {
-              const name = (document.getElementById("category-name") as HTMLInputElement)?.value.trim();
+              const name = (
+                document.getElementById("category-name") as HTMLInputElement
+              )?.value.trim();
               if (!name) {
                 Swal.showValidationMessage("El nombre es obligatorio");
                 return false;
               }
-              const type = (document.getElementById("category-type") as HTMLSelectElement).value;
-              const parentId = (document.getElementById("category-parent") as HTMLSelectElement)?.value;
-              return { name, parentId: type === "child" ? parentId : undefined };
+              const type = (
+                document.getElementById("category-type") as HTMLSelectElement
+              ).value;
+              const parentId = (
+                document.getElementById("category-parent") as HTMLSelectElement
+              )?.value;
+              return {
+                name,
+                parentId: type === "child" ? parentId : undefined,
+              };
             },
           });
           if (result.isConfirmed) {
-            await createCategoryDirect(result.value.name, result.value.parentId);
+            await createCategoryDirect(
+              result.value.name,
+              result.value.parentId,
+            );
             router.refresh();
           }
         }}
@@ -66,7 +82,11 @@ export default function CategoriesAccordion({
         + Añadir categoría
       </button>
       {parentCategories.map((category) => (
-        <ParentCategory key={category._id} category={category} onRefresh={() => router.refresh()} />
+        <ParentCategory
+          key={category._id}
+          category={category}
+          onRefresh={() => router.refresh()}
+        />
       ))}
       {parentCategories.length === 0 ? (
         <div className="dashboard-card p-8 text-center text-sm text-slate-500">
@@ -77,7 +97,13 @@ export default function CategoriesAccordion({
   );
 }
 
-function ParentCategory({ category, onRefresh }: { category: CategoryDTO; onRefresh: () => void }) {
+function ParentCategory({
+  category,
+  onRefresh,
+}: {
+  category: CategoryDTO;
+  onRefresh: () => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -102,7 +128,11 @@ function ParentCategory({ category, onRefresh }: { category: CategoryDTO; onRefr
         <div className="border-t border-slate-100 bg-slate-50/60 p-3">
           <div className="space-y-2">
             {category.subcategories.map((subcategory) => (
-              <ChildCategory category={subcategory} key={subcategory._id} onRefresh={onRefresh} />
+              <ChildCategory
+                category={subcategory}
+                key={subcategory._id}
+                onRefresh={onRefresh}
+              />
             ))}
             {category.subcategories.length === 0 ? (
               <p className="px-2 py-3 text-sm text-slate-500">
@@ -116,7 +146,13 @@ function ParentCategory({ category, onRefresh }: { category: CategoryDTO; onRefr
   );
 }
 
-function ChildCategory({ category, onRefresh }: { category: CategoryDTO; onRefresh: () => void }) {
+function ChildCategory({
+  category,
+  onRefresh,
+}: {
+  category: CategoryDTO;
+  onRefresh: () => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -131,7 +167,8 @@ function ChildCategory({ category, onRefresh }: { category: CategoryDTO; onRefre
           <ChevronIcon isOpen={isOpen} />
           <span className="truncate text-sm font-bold">{category.name}</span>
           <span className="shrink-0 text-xs font-medium text-slate-400">
-            {category.products.length} producto{category.products.length === 1 ? "" : "s"}
+            {category.products.length} producto
+            {category.products.length === 1 ? "" : "s"}
           </span>
         </button>
         <CategoryActions category={category} onRefresh={onRefresh} />
@@ -146,7 +183,9 @@ function ChildCategory({ category, onRefresh }: { category: CategoryDTO; onRefre
               ))}
             </div>
           ) : (
-            <p className="py-3 text-sm text-slate-500">No hay productos en esta categoría.</p>
+            <p className="py-3 text-sm text-slate-500">
+              No hay productos en esta categoría.
+            </p>
           )}
         </div>
       ) : null}
@@ -178,14 +217,20 @@ function ProductRow({ product }: { product: ProductDTO }) {
           </span>
         ) : null}
         <span className="text-sm font-bold text-slate-700">
-          ${product.calculatedPrice.toLocaleString("es-AR")}
+          ${product.calculatedPrice}
         </span>
       </span>
     </button>
   );
 }
 
-function CategoryActions({ category, onRefresh }: { category: CategoryDTO; onRefresh: () => void }) {
+function CategoryActions({
+  category,
+  onRefresh,
+}: {
+  category: CategoryDTO;
+  onRefresh: () => void;
+}) {
   return (
     <div className="flex shrink-0 items-center gap-1">
       <button
@@ -201,7 +246,8 @@ function CategoryActions({ category, onRefresh }: { category: CategoryDTO; onRef
             showCancelButton: true,
             confirmButtonText: "Guardar",
             cancelButtonText: "Cancelar",
-            inputValidator: (value) => (!value.trim() ? "El nombre es obligatorio" : undefined),
+            inputValidator: (value) =>
+              !value.trim() ? "El nombre es obligatorio" : undefined,
           });
           if (result.isConfirmed) {
             await updateCategoryName(category._id, result.value);
@@ -249,15 +295,53 @@ function ChevronIcon({ isOpen }: { isOpen: boolean }) {
       viewBox="0 0 24 24"
       width="18"
     >
-      <path d="m9 6 6 6-6 6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      <path
+        d="m9 6 6 6-6 6"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
     </svg>
   );
 }
 
 function EditIcon() {
-  return <svg aria-hidden="true" fill="none" height="17" viewBox="0 0 24 24" width="17"><path d="m4 16-.8 4.8L8 20l11.5-11.5a2.8 2.8 0 0 0-4-4L4 16Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.8" /><path d="m13.5 6.5 4 4" stroke="currentColor" strokeWidth="1.8" /></svg>;
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="17"
+      viewBox="0 0 24 24"
+      width="17"
+    >
+      <path
+        d="m4 16-.8 4.8L8 20l11.5-11.5a2.8 2.8 0 0 0-4-4L4 16Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <path d="m13.5 6.5 4 4" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
 }
 
 function TrashIcon() {
-  return <svg aria-hidden="true" fill="none" height="17" viewBox="0 0 24 24" width="17"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" /></svg>;
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="17"
+      viewBox="0 0 24 24"
+      width="17"
+    >
+      <path
+        d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
 }

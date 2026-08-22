@@ -1,4 +1,6 @@
 import type { ProductDTO } from "@/lib/types/products";
+import Link from "next/link";
+import type { Route } from "next";
 
 export default function ProductsGrid({ products }: { products: ProductDTO[] }) {
   return (
@@ -60,13 +62,13 @@ export default function ProductsGrid({ products }: { products: ProductDTO[] }) {
               {product.stock > 0 ? `${product.stock} en stock` : "Sin stock"}
             </span>
             <div className="flex gap-1">
-              <button
+              <Link
                 aria-label={`Editar ${product.name}`}
                 className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-blue-50 hover:text-blue-600"
-                type="button"
+                href={`/admin/edit?id=${product._id}` as Route}
               >
                 <EditIcon />
-              </button>
+              </Link>
               <button
                 aria-label={`Eliminar ${product.name}`}
                 className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
