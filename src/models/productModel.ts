@@ -18,9 +18,10 @@ class ProductImage {
   @prop() public publicId?: string;
 }
 
-class Outlet {
-  @prop({ default: false }) public isActive!: boolean;
-  @prop({ default: 0 }) public price!: number;
+class ProductDiscountInfo {
+  @prop({ default: false }) public offert!: boolean;
+  @prop({ default: false }) public outlet!: boolean;
+  @prop({ default: 0, min: 0 }) public DiscountPrice!: number;
 }
 
 export type FilterSort = "az" | "za" | "low-to-high" | "high-to-low";
@@ -64,29 +65,31 @@ const SORT_MAP: Record<FilterSort, PaginateSort> = {
     this.description =
       this.description.charAt(0).toUpperCase() + this.description.slice(1);
   }
-  if (this.isModified("outlet") || this.isModified("price")) {
-    this.outlet.price = this.outlet.isActive ? this.price * 0.75 : 0;
+  if (this.isModified("discount") || this.isModified("price")) {
+    if (this.discount.offert && this.discount.outlet) {
+      this.discount.outlet = false;
+    }
+    if (!this.discount.offert && !this.discount.outlet) {
+      this.discount.DiscountPrice = 0;
+    }
   }
 })
 export class Product {
   @prop({ required: true, trim: true }) public name!: string;
   @prop({ required: true, min: 0 }) public price!: number;
-  @prop({ required: true }) public description!: string;
+  @prop({ required: true, trim: true }) public description!: string;
 
   @prop({ ref: "Category", type: () => [Types.ObjectId], default: [] })
   public categories!: Ref<Category>[];
 
   @prop({ default: 0, min: 0 }) public stock!: number;
-  @prop({ _id: false, default: () => ({ isActive: false, price: 0 }) })
-  public outlet!: Outlet;
-  @prop({ default: 0 }) public offert!: number;
+  @prop({
+    _id: false,
+    default: () => ({ offert: false, outlet: false, DiscountPrice: 0 }),
+  })
+  public discount!: ProductDiscountInfo;
   @prop({ type: () => [ProductImage], default: [] })
   public images!: ProductImage[];
-
-  public get calculatedPrice() {
-    if (this.outlet.isActive) return this.outlet.price;
-    return this.offert > 0 ? this.offert : this.price;
-  }
 
   public static async superFilter(this: ProductModelType, opts: FilterOptions) {
     const { categoryId, search, filters = {}, page = 1, limit = 10 } = opts;
@@ -96,16 +99,22 @@ export class Product {
 
     if (categoryId) query.categories = new Types.ObjectId(String(categoryId));
     if (search) query.name = { $regex: search, $options: "i" };
-    if (typeof outlet === "boolean") query["outlet.isActive"] = outlet;
+    if (outlet) query["discount.outlet"] = outlet;
 
     const conditions: QueryFilter<Product>[] = [];
 
     if (stock?.includes("in-stock")) conditions.push({ stock: { $gt: 0 } });
     if (stock?.includes("out-of-stock")) conditions.push({ stock: 0 });
 
-    if (offert?.includes("with-offer")) conditions.push({ offert: { $gt: 0 } });
+    if (offert?.includes("with-offer"))
+      conditions.push({ "discount.offert": true });
     if (offert?.includes("without-offer")) {
-      conditions.push({ $or: [{ offert: 0 }, { offert: { $exists: false } }] });
+      conditions.push({
+        $or: [
+          { "discount.offert": false },
+          { "discount.offert": { $exists: false } },
+        ],
+      });
     }
 
     if (conditions.length > 0) query.$and = conditions;

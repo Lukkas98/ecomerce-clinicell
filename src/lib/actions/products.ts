@@ -3,7 +3,7 @@ import { updateTag } from "next/cache";
 import { ProductModel } from "@/models/productModel";
 import { CategoryModel } from "@/models/categoryModel";
 import connectDB from "../connectDB";
-import { ProductDTO, ProductImage } from "../types/products";
+import { ProductDTO, ProductDiscount, ProductImage } from "../types/products";
 import { Types } from "mongoose";
 
 type ProductDocument = Omit<ProductDTO, "categories"> & {
@@ -57,20 +57,42 @@ function parseImages(formData: FormData): ProductImage[] {
   );
 }
 
-function parseProductForm(formData: FormData): Omit<ProductDTO, "_id" | "calculatedPrice"> {
+function parseDiscount(formData: FormData): ProductDiscount {
+  const offert =
+    formData.get("discountOffert") === "on" ||
+    formData.get("discountOffert") === "true" ||
+    formData.get("discountOffert") === "1";
+  const outlet =
+    formData.get("discountOutlet") === "on" ||
+    formData.get("discountOutlet") === "true" ||
+    formData.get("discountOutlet") === "1";
+
+  const discount: ProductDiscount = {
+    offert,
+    outlet,
+    DiscountPrice: Number(formData.get("discountPrice") ?? 0),
+  };
+
+  if (discount.offert && discount.outlet) {
+    discount.outlet = false;
+  }
+
+  if (!discount.offert && !discount.outlet) {
+    discount.DiscountPrice = 0;
+  }
+
+  return discount;
+}
+
+function parseProductForm(formData: FormData): Omit<ProductDTO, "_id"> {
   const categories = formData.getAll("categories").map(String);
-  const outletActive = formData.get("outlet") === "on";
 
   return {
     name: String(formData.get("name") ?? "").trim(),
     description: String(formData.get("description") ?? "").trim(),
     price: Number(formData.get("price") ?? 0),
     stock: Number(formData.get("stock") ?? 0),
-    offert: outletActive ? 0 : Number(formData.get("offert") ?? 0),
-    outlet: {
-      isActive: outletActive,
-      price: 0,
-    },
+    discount: parseDiscount(formData),
     categories,
     images: parseImages(formData),
   };

@@ -1,8 +1,9 @@
-export function getCalculatedPrice(product: {
-  price: number;
-  offert: number;
-  outlet: { isActive: boolean; price: number };
-}) {
-  if (product.outlet.isActive) return product.outlet.price;
-  return product.offert > 0 ? product.offert : product.price;
+import type { ProductDTO } from "@/lib/types/products";
+
+export function getProductDisplayPrice(
+  product: Pick<ProductDTO, "price" | "discount">,
+) {
+  const hasDiscount = product.discount.offert || product.discount.outlet;
+  if (!hasDiscount) return product.price;
+  return product.discount.DiscountPrice;
 }

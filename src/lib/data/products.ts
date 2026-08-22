@@ -1,7 +1,7 @@
 import { ProductModel } from "@/models/productModel";
 import connectDB from "../connectDB";
 import { cacheTag } from "next/cache";
-import { getCalculatedPrice } from "../utils/products";
+import { getProductDisplayPrice } from "../utils/products";
 import { ProductDTO } from "../types/products";
 import type { FilterOptions } from "@/models/productModel";
 
@@ -9,13 +9,16 @@ export type ProductSearchFilters = Pick<FilterOptions, "search" | "filters">;
 
 type ProductRecord = {
   _id?: { toString(): string };
-  name: string;
-  price: number;
-  description: string;
+  name?: string;
+  price?: number;
+  description?: string;
   categories?: unknown[];
   stock?: number;
-  outlet?: { isActive: boolean; price: number };
-  offert?: number;
+  discount?: {
+    offert?: boolean;
+    outlet?: boolean;
+    DiscountPrice?: number;
+  };
   images?: ProductDTO["images"];
 };
 
@@ -24,24 +27,29 @@ function serializeProduct(product: ProductRecord): ProductDTO {
     throw new Error("Product query returned a product without an id");
   }
 
-  const outlet = product.outlet ?? { isActive: false, price: 0 };
-  const offert = product.offert ?? 0;
+  const discount = {
+    offert: Boolean(product.discount?.offert ?? false),
+    outlet: Boolean(product.discount?.outlet ?? false),
+    DiscountPrice: Number(product.discount?.DiscountPrice ?? 0),
+  };
+
+  if (discount.offert && discount.outlet) {
+    discount.outlet = false;
+  }
+
+  if (!discount.offert && !discount.outlet) {
+    discount.DiscountPrice = 0;
+  }
 
   return {
     _id: product._id.toString(),
-    name: product.name,
-    price: product.price,
-    description: product.description,
+    name: product.name ?? "",
+    price: product.price ?? 0,
+    description: product.description ?? "",
     categories: (product.categories ?? []).map(String),
-    outlet,
-    offert,
+    discount,
     images: product.images ?? [],
     stock: product.stock ?? 0,
-    calculatedPrice: getCalculatedPrice({
-      price: product.price,
-      offert,
-      outlet,
-    }),
   };
 }
 
@@ -56,7 +64,9 @@ export const getAllProducts = async (): Promise<ProductDTO[]> => {
   return products.map((product) => serializeProduct(product));
 };
 
-export const getProductById = async (id: string): Promise<ProductDTO | null> => {
+export const getProductById = async (
+  id: string,
+): Promise<ProductDTO | null> => {
   await connectDB();
   const product = await ProductModel.findById(id).lean();
 
@@ -80,3 +90,5 @@ export const getFilteredProducts = async (
     totalProducts: result.totalProducts,
   };
 };
+
+export { getProductDisplayPrice };

@@ -19,6 +19,11 @@ type LeanProduct = Omit<ProductDTO, "_id" | "categories"> & {
   categories?: Types.ObjectId[];
   name?: string;
   price?: number;
+  discount?: {
+    offert?: boolean;
+    outlet?: boolean;
+    DiscountPrice?: number;
+  };
 };
 
 type LeanCategory = {
@@ -127,18 +132,17 @@ export class Category {
               (id) => id.toString(),
             ),
             stock: actualProduct?.stock ?? p?.stock ?? 0,
-            outlet: actualProduct?.outlet ?? p?.outlet ?? { isActive: false, price: 0 },
-            offert: actualProduct?.offert ?? p?.offert ?? 0,
+            discount: {
+              offert: Boolean(actualProduct?.discount?.offert ?? false),
+              outlet: Boolean(actualProduct?.discount?.outlet ?? false),
+              DiscountPrice: Number(actualProduct?.discount?.DiscountPrice ?? 0),
+            },
             images: actualProduct?.images ?? p?.images ?? [],
-            calculatedPrice:
-              actualProduct?.calculatedPrice ??
-              p?.calculatedPrice ??
-              (actualProduct?.outlet?.isActive
-                ? actualProduct.outlet.price
-                : actualProduct?.offert && actualProduct.offert > 0
-                  ? actualProduct.offert
-                  : actualProduct?.price ?? 0),
           };
+
+          if (safeProduct.discount.offert && safeProduct.discount.outlet) {
+            safeProduct.discount.outlet = false;
+          }
 
           return {
             _id: safeProduct._id.toString(),
@@ -147,10 +151,8 @@ export class Category {
             description: safeProduct.description,
             categories: safeProduct.categories,
             stock: safeProduct.stock,
-            outlet: safeProduct.outlet,
-            offert: safeProduct.offert,
+            discount: safeProduct.discount,
             images: safeProduct.images,
-            calculatedPrice: safeProduct.calculatedPrice,
           };
         },
       ),

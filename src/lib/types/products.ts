@@ -5,9 +5,10 @@ export interface ProductImage {
   publicId?: string;
 }
 
-export interface ProductOutlet {
-  isActive: boolean;
-  price: number;
+export interface ProductDiscount {
+  offert: boolean;
+  outlet: boolean;
+  DiscountPrice: number;
 }
 
 export interface ProductDTO {
@@ -17,8 +18,6 @@ export interface ProductDTO {
   description: string;
   categories: CategoryDTO["_id"][];
   stock: number;
-  outlet: ProductOutlet;
-  offert: number;
+  discount: ProductDiscount;
   images: ProductImage[];
-  calculatedPrice: number;
 }

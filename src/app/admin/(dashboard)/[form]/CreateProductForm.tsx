@@ -71,13 +71,15 @@ export default function CreateProductForm({
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     product?.categories ?? [],
   );
+  const [discountOffert, setDiscountOffert] = useState(Boolean(product?.discount?.offert));
+  const [discountOutlet, setDiscountOutlet] = useState(Boolean(product?.discount?.outlet));
   const [state, setState] = useState(initialState);
   const [isPending, startTransition] = useTransition();
   const categoryOptions = getCategoryOptions(categories);
 
   function addImages(files: FileList | null) {
     if (!files) return;
-    const nextImages = Array.from(files).map((file) => ({
+    const nextImages: ImagePreview[] = Array.from(files).map((file) => ({
       file,
       previewUrl: URL.createObjectURL(file),
     }));
@@ -222,14 +224,50 @@ export default function CreateProductForm({
         </div>
       </fieldset>
 
-      <label className="block">
-        <span className="text-sm font-semibold">Precio de oferta (opcional)</span>
-        <input className="form-input" defaultValue={product?.offert || undefined} min="0" name="offert" step="0.01" type="number" />
-      </label>
+      <div className="grid gap-3 md:grid-cols-2">
+        <label className="flex items-center gap-2 text-sm font-semibold">
+          <input
+            checked={discountOffert}
+            className="h-4 w-4 accent-blue-600"
+            disabled={discountOutlet}
+            name="discountOffert"
+            onChange={(event) => {
+              const checked = event.target.checked;
+              setDiscountOffert(checked);
+              if (checked) setDiscountOutlet(false);
+            }}
+            type="checkbox"
+          />
+          Oferta activa
+        </label>
 
-      <label className="flex items-center gap-2 text-sm font-semibold">
-        <input defaultChecked={product?.outlet.isActive} name="outlet" type="checkbox" />
-        Producto en outlet
+        <label className="flex items-center gap-2 text-sm font-semibold">
+          <input
+            checked={discountOutlet}
+            className="h-4 w-4 accent-orange-600"
+            disabled={discountOffert}
+            name="discountOutlet"
+            onChange={(event) => {
+              const checked = event.target.checked;
+              setDiscountOutlet(checked);
+              if (checked) setDiscountOffert(false);
+            }}
+            type="checkbox"
+          />
+          Outlet activo
+        </label>
+      </div>
+
+      <label className="block">
+        <span className="text-sm font-semibold">Precio con descuento</span>
+        <input
+          className="form-input"
+          defaultValue={product?.discount?.DiscountPrice || undefined}
+          min="0"
+          name="discountPrice"
+          step="0.01"
+          type="number"
+        />
       </label>
 
       <div>

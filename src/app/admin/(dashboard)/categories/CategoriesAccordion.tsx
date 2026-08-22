@@ -194,8 +194,9 @@ function ChildCategory({
 }
 
 function ProductRow({ product }: { product: ProductDTO }) {
-  const hasOutlet = product.outlet.isActive;
-  const hasOffer = !hasOutlet && product.offert > 0;
+  const hasOutlet = product.discount.outlet;
+  const hasOffer = product.discount.offert && !hasOutlet;
+  const displayPrice = product.discount.DiscountPrice > 0 ? product.discount.DiscountPrice : product.price;
 
   return (
     <button
@@ -217,7 +218,7 @@ function ProductRow({ product }: { product: ProductDTO }) {
           </span>
         ) : null}
         <span className="text-sm font-bold text-slate-700">
-          ${product.calculatedPrice}
+          ${displayPrice}
         </span>
       </span>
     </button>
