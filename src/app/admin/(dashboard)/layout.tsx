@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import DashboardNav from "./DashboardNav";
 
 export default function DashboardLayout({
@@ -6,7 +7,9 @@ export default function DashboardLayout({
   return (
     <div className="dashboard-shell">
       <main>{children}</main>
-      <DashboardNav />
+      <Suspense>
+        <DashboardNav />
+      </Suspense>
     </div>
   );
 }
