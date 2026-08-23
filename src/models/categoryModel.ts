@@ -9,7 +9,6 @@ import {
   Severity,
 } from "@typegoose/typegoose";
 import mongoose, { Types } from "mongoose";
-import { ProductModel } from "./productModel";
 import type { Product } from "./productModel";
 import type { CategoryDTO } from "@/lib/types/categories";
 import type { ProductDTO } from "@/lib/types/products";
@@ -77,8 +76,9 @@ export class Category {
   public static async getCategoriesWithStringIds(
     this: CategoryModelType,
   ): Promise<CategoryDTO[]> {
+    const { ProductModel } = await import("./productModel");
+
     const categories = (await this.find({})
-      .populate("products")
       .populate("subcategories")
       .populate("parentCategory")
       .lean()) as LeanCategory[];
