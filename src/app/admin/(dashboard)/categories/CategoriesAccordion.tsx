@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import {
-  createCategoryDirect,
+  createCategory,
   deleteCategory,
   updateCategoryName,
 } from "@/lib/actions/categories";
@@ -70,10 +70,7 @@ export default function CategoriesAccordion({
             },
           });
           if (result.isConfirmed) {
-            await createCategoryDirect(
-              result.value.name,
-              result.value.parentId,
-            );
+            await createCategory(result.value.name, result.value.parentId);
             router.refresh();
           }
         }}
@@ -196,7 +193,10 @@ function ChildCategory({
 function ProductRow({ product }: { product: ProductDTO }) {
   const hasOutlet = product.discount.outlet;
   const hasOffer = product.discount.offert && !hasOutlet;
-  const displayPrice = product.discount.DiscountPrice > 0 ? product.discount.DiscountPrice : product.price;
+  const displayPrice =
+    product.discount.DiscountPrice > 0
+      ? product.discount.DiscountPrice
+      : product.price;
 
   return (
     <button
@@ -232,6 +232,11 @@ function CategoryActions({
   category: CategoryDTO;
   onRefresh: () => void;
 }) {
+  const isParent = !category.parentCategory;
+  const hasSubcategories = category.subcategories.length > 0;
+  const hasProducts = category.products.length > 0;
+  const canDelete = !isParent || (!hasSubcategories && !hasProducts);
+
   return (
     <div className="flex shrink-0 items-center gap-1">
       <button
@@ -261,18 +266,45 @@ function CategoryActions({
       </button>
       <button
         aria-label={`Eliminar categoría ${category.name}`}
-        className="flex h-9 w-9 items-center justify-center rounded-xl text-red-500 transition-colors hover:bg-red-50"
+        className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
+          canDelete
+            ? "text-red-500 hover:bg-red-50"
+            : "cursor-not-allowed text-slate-300"
+        }`}
+        disabled={!canDelete}
         onClick={async (event) => {
           event.stopPropagation();
+
+          if (!canDelete) {
+            const message = isParent
+              ? hasSubcategories
+                ? "La categoría principal no se puede borrar si tiene subcategorías. Primero elimina o mueves las subcategorías."
+                : "La categoría principal solo se puede borrar si está vacía."
+              : "No se puede borrar esta categoría.";
+
+            await Swal.fire({
+              title: "No se puede eliminar",
+              text: message,
+              icon: "info",
+              confirmButtonText: "Entendido",
+            });
+            return;
+          }
+
           const result = await Swal.fire({
-            title: "¿Eliminar categoría?",
-            text: `Se eliminará "${category.name}" y sus subcategorías.`,
+            title: isParent ? "¿Eliminar categoría principal?" : "¿Eliminar categoría?",
+            text: isParent
+              ? "La categoría se eliminará solo si está vacía."
+              : hasProducts
+                ? `Se quitará "${category.name}" de ${category.products.length} producto(s). Los productos no se borrarán.`
+                : `Se eliminará "${category.name}".`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Eliminar",
             cancelButtonText: "Cancelar",
             confirmButtonColor: "#dc2626",
           });
+
           if (result.isConfirmed) {
             await deleteCategory(category._id);
             onRefresh();

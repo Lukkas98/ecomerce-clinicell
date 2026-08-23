@@ -1,55 +1,11 @@
 "use server";
 import { CategoryModel } from "@/models/categoryModel";
+import { ProductModel } from "@/models/productModel";
 import { updateTag } from "next/cache";
-import { CategoryDTO } from "../types/categories";
 import { Types } from "mongoose";
 import connectDB from "../connectDB";
 
-type CategoryDocument = Omit<
-  CategoryDTO,
-  "_id" | "parentCategory" | "subcategories" | "products"
-> & {
-  parentCategory: Types.ObjectId | null;
-  products: Types.ObjectId[];
-};
-
-// Convert category data to save it in MongoDB
-const convertCategoryData = (data: CategoryDTO): CategoryDocument => ({
-  name: data.name,
-  parentCategory: data.parentCategory
-    ? new Types.ObjectId(data.parentCategory._id)
-    : null,
-  products: data.products.map((p) => new Types.ObjectId(p._id)),
-});
-
-export const createCategory = async (
-  prevState: { message: string; ok: boolean } | null,
-  formData: FormData,
-) => {
-  const name =
-    (formData.get("name")?.toString() ?? "Categoría harcodeada").trim() ||
-    "Categoría harcodeada";
-
-  const categoryData: CategoryDTO = {
-    _id: "",
-    name,
-    parentCategory: null,
-    products: [],
-    subcategories: [],
-  };
-
-  await connectDB();
-  const converted = convertCategoryData(categoryData);
-  await CategoryModel.create(converted);
-  updateTag("categories");
-
-  return {
-    message: `Categoría "${name}" creada correctamente.`,
-    ok: true,
-  };
-};
-
-export const createCategoryDirect = async (name: string, parentId?: string) => {
+export const createCategory = async (name: string, parentId?: string) => {
   await connectDB();
   await CategoryModel.create({
     name: name.trim(),
@@ -67,8 +23,55 @@ export const updateCategoryName = async (id: string, name: string) => {
 
 export const deleteCategory = async (id: string) => {
   await connectDB();
+  const categoryObjectId = new Types.ObjectId(id);
+
+  const category = await CategoryModel.findById(id)
+    .populate("subcategories")
+    .populate("products")
+    .lean();
+
+  if (!category) {
+    throw new Error("La categoría no existe.");
+  }
+
+  const hasSubcategories = Array.isArray(category.subcategories)
+    ? category.subcategories.length > 0
+    : false;
+
+  const hasProducts = Array.isArray(category.products)
+    ? category.products.length > 0
+    : false;
+
+  if (hasSubcategories || hasProducts) {
+    if (!category.parentCategory) {
+      throw new Error(
+        "La categoría principal no se puede eliminar si tiene subcategorías o productos.",
+      );
+    }
+    if (hasProducts) {
+      await ProductModel.updateMany(
+        { categories: categoryObjectId },
+        { $pull: { categories: categoryObjectId } },
+      );
+    }
+    await CategoryModel.findByIdAndDelete(id);
+    updateTag("categories");
+    updateTag("products");
+    return;
+  }
+
+  await ProductModel.updateMany(
+    { categories: categoryObjectId },
+    { $pull: { categories: categoryObjectId } },
+  );
+
   await CategoryModel.deleteMany({
-    $or: [{ _id: new Types.ObjectId(id) }, { parentCategory: new Types.ObjectId(id) }],
+    $or: [
+      { _id: categoryObjectId },
+      { parentCategory: categoryObjectId },
+    ],
   });
+
   updateTag("categories");
+  updateTag("products");
 };
