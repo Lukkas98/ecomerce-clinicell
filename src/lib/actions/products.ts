@@ -122,7 +122,8 @@ export async function updateProductFromForm(
   formData: FormData,
 ): Promise<CreateProductState> {
   const id = String(formData.get("productId") ?? "");
-  if (!id) return { ok: false, message: "Falta el identificador del producto." };
+  if (!id)
+    return { ok: false, message: "Falta el identificador del producto." };
 
   const data = parseProductForm(formData);
   await connectDB();
