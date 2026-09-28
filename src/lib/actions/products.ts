@@ -20,21 +20,21 @@ const convertProductData = (
   return converted;
 };
 
-export const updateProduct = async (id: string, data: Partial<ProductDTO>) => {
-  await connectDB();
-  const convertedData = convertProductData(data);
-  await ProductModel.findByIdAndUpdate(id, convertedData);
-  updateTag("products");
-  updateTag("categories");
-};
+// export const updateProduct = async (id: string, data: Partial<ProductDTO>) => {
+//   await connectDB();
+//   const convertedData = convertProductData(data);
+//   await ProductModel.findByIdAndUpdate(id, convertedData);
+//   updateTag("products");
+//   updateTag("categories");
+// };
 
-export const createProduct = async (data: ProductDTO) => {
-  await connectDB();
-  const convertedData = convertProductData(data);
-  await ProductModel.create(convertedData);
-  updateTag("products");
-  updateTag("categories");
-};
+// export const createProduct = async (data: ProductDTO) => {
+//   await connectDB();
+//   const convertedData = convertProductData(data);
+//   await ProductModel.create(convertedData);
+//   updateTag("products");
+//   updateTag("categories");
+// };
 
 export type CreateProductState = {
   ok: boolean;

@@ -83,22 +83,28 @@ export class Category {
       .populate("parentCategory")
       .lean()) as LeanCategory[];
 
-    const productIds = [...new Set(
-      categories.flatMap((category) =>
-        (Array.isArray(category.products) ? category.products : []).map((product) =>
-          product && typeof product === "object" && "_id" in product
-            ? String(product._id)
-            : null,
+    const productIds = [
+      ...new Set(
+        categories.flatMap((category) =>
+          (Array.isArray(category.products) ? category.products : []).map(
+            (product) =>
+              product && typeof product === "object" && "_id" in product
+                ? String(product._id)
+                : null,
+          ),
         ),
       ),
-    )].filter((id): id is string => Boolean(id));
+    ].filter((id): id is string => Boolean(id));
 
     const products = productIds.length
       ? await ProductModel.find({ _id: { $in: productIds } }).lean()
       : [];
 
     const productLookup = new Map(
-      (products as LeanProduct[]).map((product) => [product._id.toString(), product]),
+      (products as LeanProduct[]).map((product) => [
+        product._id.toString(),
+        product,
+      ]),
     );
 
     return categories.map((category) =>
@@ -120,7 +126,7 @@ export class Category {
         (p: LeanProduct) => {
           const actualProduct =
             p && typeof p === "object" && "_id" in p
-              ? productLookup.get(String(p._id)) ?? p
+              ? (productLookup.get(String(p._id)) ?? p)
               : p;
 
           const safeProduct = {
@@ -135,7 +141,9 @@ export class Category {
             discount: {
               offert: Boolean(actualProduct?.discount?.offert ?? false),
               outlet: Boolean(actualProduct?.discount?.outlet ?? false),
-              DiscountPrice: Number(actualProduct?.discount?.DiscountPrice ?? 0),
+              DiscountPrice: Number(
+                actualProduct?.discount?.DiscountPrice ?? 0,
+              ),
             },
             images: actualProduct?.images ?? p?.images ?? [],
           };
@@ -156,8 +164,9 @@ export class Category {
           };
         },
       ),
-      subcategories: (
-        Array.isArray(category.subcategories) ? category.subcategories : []
+      subcategories: (Array.isArray(category.subcategories)
+        ? category.subcategories
+        : []
       ).map((s: LeanCategory) => this.transformCategoryToDTO(s, productLookup)),
     };
   }
