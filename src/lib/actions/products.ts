@@ -165,7 +165,16 @@ export const deleteProduct = async (id: string) => {
   }
 
   await connectDB();
-  await ProductModel.findByIdAndDelete(id);
+  if (!Types.ObjectId.isValid(id)) {
+    throw new Error("El identificador del producto no es válido.");
+  }
+
+  const productId = new Types.ObjectId(id);
+  await ProductModel.findByIdAndDelete(productId);
+  await CategoryModel.updateMany(
+    { products: productId },
+    { $pull: { products: productId } },
+  );
   updateTag("products");
   updateTag("categories");
 };
