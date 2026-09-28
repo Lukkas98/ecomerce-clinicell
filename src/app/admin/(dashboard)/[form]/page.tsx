@@ -40,7 +40,12 @@ export default async function ProductFormPage({
           ? "Añade un nuevo producto a tu catálogo."
           : "Modifica los datos del producto."}
       </p>
-      <CreateProductForm product={product} categories={categories} mode={mode} />
+      <CreateProductForm
+        key={`${mode}-${product?._id ?? "new"}`}
+        product={product}
+        categories={categories}
+        mode={mode}
+      />
     </div>
   );
 }

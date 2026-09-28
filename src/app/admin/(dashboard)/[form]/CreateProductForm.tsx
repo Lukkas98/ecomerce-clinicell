@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   createProductFromForm,
@@ -9,49 +9,43 @@ import {
 } from "@/lib/actions/products";
 import type { CategoryDTO } from "@/lib/types/categories";
 import type { ProductDTO, ProductImage } from "@/lib/types/products";
+import {
+  validateProductField,
+  validateProductForm,
+  type ProductFormField,
+} from "./validator";
+import Categories from "./components/Categories";
+import ProductImages from "./components/ProductImages";
+import { notifyError, notifySuccess } from "@/lib/notify";
 
-const initialState: CreateProductState = { ok: false, message: "" };
-
-type ImagePreview = ProductImage & { file?: File; previewUrl?: string };
-
-type CategoryOption = {
-  category: CategoryDTO;
-  level: number;
-  parentName: string;
+const initialState: CreateProductState = {
+  ok: false,
+  message: "",
 };
 
-function flattenSubcategories(
-  categories: CategoryDTO[],
-  parentName: string,
-  level = 0,
-): CategoryOption[] {
-  return categories.flatMap((category) => [
-    { category, level, parentName },
-    ...flattenSubcategories(
-      category.subcategories ?? [],
-      parentName,
-      level + 1,
-    ),
-  ]);
-}
+type ImagePreview = ProductImage & {
+  file?: File;
+  previewUrl?: string;
+};
 
-function getCategoryOptions(categories: CategoryDTO[]) {
-  const options = categories
-    .filter((category) => !category.parentCategory)
-    .flatMap((parent) =>
-      flattenSubcategories(parent.subcategories ?? [], parent.name),
-    );
-
-  return Array.from(
-    new Map(options.map((option) => [option.category._id, option])).values(),
-  );
-}
+type ProductFormData = {
+  name: string;
+  description: string;
+  price: string;
+  stock: string;
+  categories: string[];
+  discountOffert: boolean;
+  discountOutlet: boolean;
+  discountPrice: string;
+};
 
 function fileToDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
+
     reader.onload = () => resolve(String(reader.result));
     reader.onerror = () => reject(new Error("No se pudo leer la imagen"));
+
     reader.readAsDataURL(file);
   });
 }
@@ -66,16 +60,68 @@ export default function CreateProductForm({
   mode: "create" | "edit";
 }) {
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement>(null);
+
+  const [formData, setFormData] = useState<ProductFormData>(() => ({
+    name: product?.name ?? "",
+    description: product?.description ?? "",
+    price: product?.price != null ? String(product.price) : "",
+    stock: product?.stock != null ? String(product.stock) : "",
+    categories: product?.categories ?? [],
+    discountOffert: Boolean(product?.discount?.offert),
+    discountOutlet: Boolean(product?.discount?.outlet),
+    discountPrice:
+      product?.discount?.DiscountPrice != null
+        ? String(product.discount.DiscountPrice)
+        : "",
+  }));
+
   const [images, setImages] = useState<ImagePreview[]>(product?.images ?? []);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    product?.categories ?? [],
-  );
-  const [discountOffert, setDiscountOffert] = useState(Boolean(product?.discount?.offert));
-  const [discountOutlet, setDiscountOutlet] = useState(Boolean(product?.discount?.outlet));
+
   const [state, setState] = useState(initialState);
   const [isPending, startTransition] = useTransition();
-  const categoryOptions = getCategoryOptions(categories);
+
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<ProductFormField, string>>
+  >({});
+
+  const showDiscountPrice = formData.discountOffert || formData.discountOutlet;
+
+  function isProductFormField(field: string): field is ProductFormField {
+    return field === "name" || field === "description" || field === "price";
+  }
+
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
+    const { name, value } = event.target;
+
+    setFormData((current) => ({
+      ...current,
+      [name]: value,
+    }));
+
+    if (isProductFormField(name)) {
+      validateField(name, value);
+    }
+  }
+
+  function validateField(field: ProductFormField, value: unknown) {
+    const error = validateProductField(field, value);
+    setFieldErrors((current) => ({
+      ...current,
+      [field]: error ?? undefined,
+    }));
+    return error;
+  }
+
+  function toggleCategory(categoryId: string) {
+    setFormData((current) => ({
+      ...current,
+      categories: current.categories.includes(categoryId)
+        ? current.categories.filter((id) => id !== categoryId)
+        : [...new Set([...current.categories, categoryId])],
+    }));
+  }
 
   function addImages(files: FileList | null) {
     if (!files) return;
@@ -87,28 +133,47 @@ export default function CreateProductForm({
   }
 
   function removeImage(index: number) {
-    setImages((current) => current.filter((_, imageIndex) => imageIndex !== index));
+    setImages((current) =>
+      current.filter((_, imageIndex) => imageIndex !== index),
+    );
   }
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(formDataFromBrowser: FormData) {
     try {
+      const validation = validateProductForm(formData);
+
+      if (!validation.ok) {
+        setFieldErrors(validation.errors);
+        return;
+      }
+      setFieldErrors({});
+
       const uploadedImages: ProductImage[] = [];
-      const productName = String(formData.get("name") ?? "").trim();
+
+      const productName = formData.name.trim();
+
       const categoryName =
-        categoryOptions.find((option) =>
-          selectedCategories.includes(option.category._id),
-        )?.category.name ?? "productos";
+        categories.find((category) =>
+          formData.categories.includes(category._id),
+        )?.name ?? "productos";
 
       for (const [index, image] of images.entries()) {
         if (!image.file) {
-          uploadedImages.push({ url: image.url, publicId: image.publicId });
+          uploadedImages.push({
+            url: image.url,
+            publicId: image.publicId,
+          });
+
           continue;
         }
 
         const base64Image = await fileToDataUrl(image.file);
+
         const response = await fetch("/api/upload", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             base64Image,
             index,
@@ -116,125 +181,198 @@ export default function CreateProductForm({
             category: categoryName,
           }),
         });
-        const result = (await response.json()) as ProductImage & { error?: string };
+
+        const result = (await response.json()) as ProductImage & {
+          error?: string;
+        };
+
         if (!response.ok || !result.url) {
           throw new Error(result.error ?? "No se pudo subir la imagen");
         }
-        uploadedImages.push({ url: result.url, publicId: result.publicId });
+
+        uploadedImages.push({
+          url: result.url,
+          publicId: result.publicId,
+        });
       }
 
-      formData.delete("categories");
-      [...new Set(selectedCategories)].forEach((categoryId) =>
-        formData.append("categories", categoryId),
+      /*
+       * Preparar FormData para la Server Action
+       */
+      formDataFromBrowser.set("name", formData.name);
+      formDataFromBrowser.set("description", formData.description);
+      formDataFromBrowser.set("price", formData.price);
+      formDataFromBrowser.set("stock", formData.stock);
+
+      formDataFromBrowser.delete("categories");
+
+      [...new Set(formData.categories)].forEach((categoryId) => {
+        formDataFromBrowser.append("categories", categoryId);
+      });
+
+      formDataFromBrowser.set(
+        "discountOffert",
+        String(formData.discountOffert),
       );
-      formData.set("images", JSON.stringify(uploadedImages));
-      if (product?._id) formData.set("productId", product._id);
+
+      formDataFromBrowser.set(
+        "discountOutlet",
+        String(formData.discountOutlet),
+      );
+
+      if (showDiscountPrice) {
+        formDataFromBrowser.set("discountPrice", formData.discountPrice);
+      } else {
+        formDataFromBrowser.delete("discountPrice");
+      }
+
+      formDataFromBrowser.set("images", JSON.stringify(uploadedImages));
+
+      if (product?._id) {
+        formDataFromBrowser.set("productId", product._id);
+      }
 
       startTransition(async () => {
         const result =
           mode === "create"
-            ? await createProductFromForm(initialState, formData)
-            : await updateProductFromForm(initialState, formData);
+            ? await createProductFromForm(initialState, formDataFromBrowser)
+            : await updateProductFromForm(initialState, formDataFromBrowser);
+
         setState(result);
-        if (result.ok) router.push("/admin/products");
+
+        if (result.ok) {
+          setFormData({
+            name: "",
+            description: "",
+            price: "",
+            stock: "",
+            categories: [],
+            discountOffert: false,
+            discountOutlet: false,
+            discountPrice: "",
+          });
+
+          setImages([]);
+          setFieldErrors({});
+          setState(initialState);
+
+          await notifySuccess(result.message || "Producto guardado");
+          router.replace("/admin/products");
+        } else {
+          await notifyError(result.message || "No se pudo guardar el producto");
+        }
       });
     } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo guardar el producto";
+
       setState({
         ok: false,
-        message: error instanceof Error ? error.message : "No se pudo guardar el producto",
+        message,
       });
+
+      await notifyError(message);
     }
   }
 
   return (
     <form action={handleSubmit} className="dashboard-card mt-6 space-y-5 p-5">
+      {/* Nombre */}
       <label className="block">
         <span className="text-sm font-semibold">Nombre</span>
-        <input className="form-input" defaultValue={product?.name} name="name" required />
+
+        <input
+          className="form-input"
+          name="name"
+          onChange={handleChange}
+          required
+          value={formData.name}
+        />
+
+        {fieldErrors.name ? (
+          <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>
+        ) : null}
       </label>
 
+      {/* Descripción */}
       <label className="block">
         <span className="text-sm font-semibold">Descripción</span>
+
         <textarea
           className="form-input min-h-24 resize-y"
-          defaultValue={product?.description}
           name="description"
+          onChange={handleChange}
           required
+          value={formData.description}
         />
+
+        {fieldErrors.description ? (
+          <p className="mt-1 text-xs text-red-600">{fieldErrors.description}</p>
+        ) : null}
       </label>
 
+      {/* Precio / Stock */}
       <div className="grid grid-cols-2 gap-3">
         <label className="block">
           <span className="text-sm font-semibold">Precio</span>
-          <input className="form-input" defaultValue={product?.price} min="0" name="price" required step="0.01" type="number" />
+
+          <input
+            className="form-input"
+            min="0"
+            name="price"
+            onChange={handleChange}
+            required
+            type="number"
+            value={formData.price}
+          />
+
+          {fieldErrors.price ? (
+            <p className="mt-1 text-xs text-red-600">{fieldErrors.price}</p>
+          ) : null}
         </label>
+
         <label className="block">
           <span className="text-sm font-semibold">Stock</span>
-          <input className="form-input" defaultValue={product?.stock} min="0" name="stock" required type="number" />
+
+          <input
+            className="form-input"
+            min="0"
+            name="stock"
+            onChange={handleChange}
+            required
+            type="number"
+            value={formData.stock}
+          />
+          {fieldErrors.stock ? (
+            <p className="mt-1 text-xs text-red-600">{fieldErrors.stock}</p>
+          ) : null}
         </label>
       </div>
 
-      <fieldset>
-        <legend className="text-sm font-semibold">Categorías</legend>
-        <p className="mt-1 text-xs text-slate-500">
-          Selecciona una o varias subcategorías.
-        </p>
-        <div className="mt-3 space-y-3">
-          {categoryOptions.length ? (
-            categoryOptions.map(({ category, level, parentName }) => {
-              const isSelected = selectedCategories.includes(category._id);
-              return (
-                <label
-                  className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 transition ${
-                    isSelected
-                      ? "border-blue-500 bg-blue-50 text-blue-900"
-                      : "border-slate-200 bg-white"
-                  }`}
-                  key={`subcategory-${category._id}`}
-                >
-                  <input
-                    checked={isSelected}
-                    className="h-5 w-5 accent-blue-600"
-                    onChange={() =>
-                      setSelectedCategories((current) =>
-                        isSelected
-                          ? current.filter((id) => id !== category._id)
-                          : [...new Set([...current, category._id])],
-                      )
-                    }
-                    type="checkbox"
-                  />
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm font-semibold">
-                      {"— ".repeat(Math.max(level - 1, 0))}
-                      {category.name}
-                    </span>
-                    <span className="block text-xs text-slate-500">
-                      {parentName}
-                    </span>
-                  </span>
-                </label>
-              );
-            })
-          ) : (
-            <p className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-500">
-              No hay subcategorías disponibles.
-            </p>
-          )}
-        </div>
-      </fieldset>
+      <Categories
+        categories={categories}
+        onToggleCategory={toggleCategory}
+        selectedCategoryIds={formData.categories}
+      />
 
+      {/* Descuentos */}
       <div className="grid gap-3 md:grid-cols-2">
         <label className="flex items-center gap-2 text-sm font-semibold">
           <input
-            checked={discountOffert}
+            checked={formData.discountOffert}
             className="h-4 w-4 accent-blue-600"
-            disabled={discountOutlet}
+            disabled={formData.discountOutlet}
             name="discountOffert"
             onChange={(event) => {
               const checked = event.target.checked;
-              setDiscountOffert(checked);
-              if (checked) setDiscountOutlet(false);
+
+              setFormData((current) => ({
+                ...current,
+                discountOffert: checked,
+                discountOutlet: checked ? false : current.discountOutlet,
+              }));
             }}
             type="checkbox"
           />
@@ -243,14 +381,18 @@ export default function CreateProductForm({
 
         <label className="flex items-center gap-2 text-sm font-semibold">
           <input
-            checked={discountOutlet}
+            checked={formData.discountOutlet}
             className="h-4 w-4 accent-orange-600"
-            disabled={discountOffert}
+            disabled={formData.discountOffert}
             name="discountOutlet"
             onChange={(event) => {
               const checked = event.target.checked;
-              setDiscountOutlet(checked);
-              if (checked) setDiscountOffert(false);
+
+              setFormData((current) => ({
+                ...current,
+                discountOutlet: checked,
+                discountOffert: checked ? false : current.discountOffert,
+              }));
             }}
             type="checkbox"
           />
@@ -258,54 +400,54 @@ export default function CreateProductForm({
         </label>
       </div>
 
-      <label className="block">
-        <span className="text-sm font-semibold">Precio con descuento</span>
-        <input
-          className="form-input"
-          defaultValue={product?.discount?.DiscountPrice || undefined}
-          min="0"
-          name="discountPrice"
-          step="0.01"
-          type="number"
-        />
-      </label>
+      {/* Precio descuento */}
+      {showDiscountPrice ? (
+        <label className="block">
+          <span className="text-sm font-semibold">Precio con descuento</span>
 
-      <div>
-        <span className="text-sm font-semibold">Imágenes</span>
-        <input
-          ref={inputRef}
-          accept="image/*"
-          className="form-input"
-          multiple
-          onChange={(event) => {
-            addImages(event.target.files);
-            event.target.value = "";
-          }}
-          type="file"
-        />
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          {images.map((image, index) => (
-            <div className="relative aspect-square overflow-hidden rounded-xl bg-slate-100" key={`${image.url ?? image.previewUrl}-${index}`}>
-              <img alt="" className="h-full w-full object-cover" src={image.previewUrl ?? image.url} />
-              <button
-                aria-label="Quitar imagen"
-                className="absolute right-1 top-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white"
-                onClick={() => removeImage(index)}
-                type="button"
-              >
-                ×
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+          <input
+            className="form-input"
+            min="0"
+            name="discountPrice"
+            onChange={handleChange}
+            step="0.01"
+            type="number"
+            value={formData.discountPrice}
+          />
+          {fieldErrors.discountPrice ? (
+            <p className="mt-1 text-xs text-red-600">
+              {fieldErrors.discountPrice}
+            </p>
+          ) : null}
+        </label>
+      ) : null}
 
-      <button className="w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white disabled:opacity-60" disabled={isPending} type="submit">
-        {isPending ? "Guardando..." : mode === "create" ? "Guardar producto" : "Guardar cambios"}
+      <ProductImages
+        images={images}
+        onAddImages={addImages}
+        onRemoveImage={removeImage}
+      />
+
+      <button
+        className="w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white disabled:opacity-60"
+        disabled={isPending}
+        type="submit"
+      >
+        {isPending
+          ? "Guardando..."
+          : mode === "create"
+            ? "Guardar producto"
+            : "Guardar cambios"}
       </button>
 
       {state.message ? (
-        <p className={state.ok ? "text-sm text-emerald-600" : "text-sm text-red-600"}>{state.message}</p>
+        <p
+          className={
+            state.ok ? "text-sm text-emerald-600" : "text-sm text-red-600"
+          }
+        >
+          {state.message}
+        </p>
       ) : null}
     </form>
   );
