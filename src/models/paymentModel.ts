@@ -8,23 +8,30 @@ import {
   DocumentType,
 } from "@typegoose/typegoose";
 
+export const PAYMENT_EXPIRATION_SECONDS = 1209600;
+
+@modelOptions({ schemaOptions: { _id: false } })
+class PaymentItem {
+  @prop({ required: true })
+  public name!: string;
+
+  @prop({ required: true })
+  public price!: number;
+
+  @prop({ required: true })
+  public units!: number;
+}
+
 @index(
   { approvedAt: 1 },
-  { expireAfterSeconds: 1209600, partialFilterExpression: { approved: true } },
+  {
+    expireAfterSeconds: PAYMENT_EXPIRATION_SECONDS,
+    partialFilterExpression: { approved: true },
+  },
 )
 @modelOptions({ schemaOptions: { timestamps: true, collection: "payments" } })
 export class Payment {
-  @prop({
-    type: () => [
-      {
-        name: { type: String, required: true },
-        price: { type: Number, required: true },
-        units: { type: Number, required: true },
-      },
-    ],
-    required: true,
-    _id: false,
-  })
+  @prop({ type: () => [PaymentItem], required: true })
   public items!: { name: string; price: number; units: number }[];
 
   @prop({ required: true })
@@ -35,6 +42,9 @@ export class Payment {
 
   @prop()
   public approvedAt?: Date;
+
+  public createdAt!: Date;
+  public updatedAt!: Date;
 }
 
 export type PaymentDocument = DocumentType<Payment>;
