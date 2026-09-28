@@ -3,9 +3,14 @@ import { CategoryModel } from "@/models/categoryModel";
 import { ProductModel } from "@/models/productModel";
 import { updateTag } from "next/cache";
 import { Types } from "mongoose";
+import { verifySession } from "../auth";
 import connectDB from "../connectDB";
 
 export const createCategory = async (name: string, parentId?: string) => {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   await connectDB();
   await CategoryModel.create({
     name: name.trim(),
@@ -16,12 +21,20 @@ export const createCategory = async (name: string, parentId?: string) => {
 };
 
 export const updateCategoryName = async (id: string, name: string) => {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   await connectDB();
   await CategoryModel.findByIdAndUpdate(id, { name: name.trim() });
   updateTag("categories");
 };
 
 export const deleteCategory = async (id: string) => {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   await connectDB();
   const categoryObjectId = new Types.ObjectId(id);
 

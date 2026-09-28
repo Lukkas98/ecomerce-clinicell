@@ -3,6 +3,7 @@
 import { PaymentModel } from "@/models/paymentModel";
 import { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
+import { verifySession } from "../auth";
 import connectDB from "../connectDB";
 
 const paymentsPath = "/admin/payments";
@@ -16,6 +17,10 @@ function validatePaymentId(id: string) {
 }
 
 export async function approvePayment(id: string) {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   const paymentId = validatePaymentId(id);
   await connectDB();
 
@@ -35,6 +40,10 @@ export async function approvePayment(id: string) {
 }
 
 export async function deletePendingPayment(id: string) {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   const paymentId = validatePaymentId(id);
   await connectDB();
 

@@ -5,6 +5,7 @@ import { CategoryModel } from "@/models/categoryModel";
 import connectDB from "../connectDB";
 import { ProductDTO, ProductDiscount, ProductImage } from "../types/products";
 import { Types } from "mongoose";
+import { verifySession } from "../auth";
 
 type ProductDocument = Omit<ProductDTO, "categories"> & {
   categories: Types.ObjectId[];
@@ -102,6 +103,10 @@ export async function createProductFromForm(
   _previousState: CreateProductState,
   formData: FormData,
 ): Promise<CreateProductState> {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   const data = parseProductForm(formData);
 
   await connectDB();
@@ -121,6 +126,10 @@ export async function updateProductFromForm(
   _previousState: CreateProductState,
   formData: FormData,
 ): Promise<CreateProductState> {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   const id = String(formData.get("productId") ?? "");
   if (!id)
     return { ok: false, message: "Falta el identificador del producto." };
@@ -151,6 +160,10 @@ export async function updateProductFromForm(
 }
 
 export const deleteProduct = async (id: string) => {
+  if (!(await verifySession())) {
+    throw new Error("No eres administrador.");
+  }
+
   await connectDB();
   await ProductModel.findByIdAndDelete(id);
   updateTag("products");
