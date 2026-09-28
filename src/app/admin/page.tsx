@@ -1,13 +1,5 @@
-import Link from "next/link";
+import LoginAdmin from "./LoginAdmin";
 
-export default function Login() {
-  return (
-    <>
-      <form action="">
-        <input type="text" placeholder="admin" />
-        <input type="password" name="" id="" />
-      </form>
-      <Link href={"/admin/products"}>Loguear</Link>
-    </>
-  );
+export default function AdminLoginPage() {
+  return <LoginAdmin />;
 }
