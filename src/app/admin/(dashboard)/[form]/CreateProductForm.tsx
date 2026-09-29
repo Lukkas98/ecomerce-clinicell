@@ -373,6 +373,10 @@ export default function CreateProductForm({
                 discountOffert: checked,
                 discountOutlet: checked ? false : current.discountOutlet,
               }));
+              setFieldErrors((current) => ({
+                ...current,
+                discountPrice: undefined,
+              }));
             }}
             type="checkbox"
           />
@@ -392,6 +396,10 @@ export default function CreateProductForm({
                 ...current,
                 discountOutlet: checked,
                 discountOffert: checked ? false : current.discountOffert,
+              }));
+              setFieldErrors((current) => ({
+                ...current,
+                discountPrice: undefined,
               }));
             }}
             type="checkbox"

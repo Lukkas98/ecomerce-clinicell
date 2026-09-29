@@ -27,10 +27,14 @@ export const productSchema = z
 
     discountOutlet: z.boolean().optional(),
 
-    discountPrice: z.coerce
-      .number()
-      .positive("El precio de descuento debe ser mayor a 0")
-      .optional(),
+    discountPrice: z.preprocess(
+      (value) =>
+        typeof value === "string" && value.trim() === "" ? undefined : value,
+      z.coerce
+        .number()
+        .positive("El precio de descuento debe ser mayor a 0")
+        .optional(),
+    ),
   })
   .superRefine((data, ctx) => {
     // Oferta y outlet no pueden estar activos al mismo tiempo
