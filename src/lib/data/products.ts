@@ -76,18 +76,28 @@ export const getProductById = async (
 export const getFilteredProducts = async (
   filters: ProductSearchFilters,
   page: number,
-): Promise<{ products: ProductDTO[]; totalProducts: number }> => {
+  limit: number = 10,
+): Promise<{
+  products: ProductDTO[];
+  totalProducts: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+}> => {
   await connectDB();
 
   const result = await ProductModel.superFilter({
     ...filters,
     page,
-    limit: 15,
+    limit,
   });
 
   return {
     products: result.products.map((product) => serializeProduct(product)),
     totalProducts: result.totalProducts,
+    totalPages: result.totalPages,
+    page,
+    limit,
   };
 };
 

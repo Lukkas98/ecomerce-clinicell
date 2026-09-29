@@ -25,6 +25,7 @@ export default function ProductsFilters() {
       if (value) params.set(name, value);
       else params.delete(name);
     });
+    params.delete("page");
 
     startTransition(() => {
       router.replace(`${pathname}?${params.toString()}` as Route, { scroll: false });
